@@ -48,7 +48,17 @@ func GetSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	// FIXME: handle signup POST
+	if err := r.ParseForm(); err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+
+	println(email, password)
+
 	// get email from POST data
 	// search from database by email
 	// 		if does not exists, create new user
