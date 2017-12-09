@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,6 +9,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/julienschmidt/httprouter"
 	"github.com/satori/go.uuid"
+	"github.com/tanel/wardrobe-manager-app/db"
 	"github.com/tanel/wardrobe-manager-app/model"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -70,8 +70,8 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var user model.User
 	user.Email = r.FormValue("email")
 
-	err := db.QueryRow("SELECT id, password_hash FROM users WHERE email = $1", user.Email).Scan(&user.ID, &user.PasswordHash)
-	if err != nil && err != sql.ErrNoRows {
+	err := db.SelectUserByEmail(user.Email, &user)
+	if err != nil {
 		log.Println(err)
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return
@@ -89,7 +89,7 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 		user.PasswordHash = string(b)
 
-		_, err = db.Exec("INSERT INTO users(id, email, password_hash) VALUES($1, $2, $3)", user.ID, user.Email, user.PasswordHash)
+		err = db.InsertUser(user)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "Database error", http.StatusInternalServerError)

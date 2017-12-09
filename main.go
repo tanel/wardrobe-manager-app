@@ -1,13 +1,16 @@
 package main
 
 import (
-	"database/sql"
+	"log"
+
 	_ "github.com/lib/pq"
+	"github.com/tanel/wardrobe-manager-app/db"
 )
 
-var db *sql.DB
-
 func main() {
-	ConnectDB()
+	if err := db.Connect(); err != nil {
+		log.Fatal(err)
+	}
+
 	Serve(":8080")
 }
