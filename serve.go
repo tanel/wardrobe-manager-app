@@ -7,11 +7,17 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"github.com/gorilla/sessions"
 	"github.com/julienschmidt/httprouter"
 	"github.com/satori/go.uuid"
 	"github.com/tanel/wardrobe-manager-app/model"
 	"golang.org/x/crypto/bcrypt"
 )
+
+const sessionName = "wardrobe-app-session"
+
+// FIXME: get secret from environment
+var store = sessions.NewCookieStore([]byte("C93B74DA-4D85-418C-B513-3BEDE6BFCECC"))
 
 func Serve(port string) {
 	router := httprouter.New()
@@ -97,7 +103,24 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		}
 	}
 
-	// create session
+	// Get a session. Get() always returns a session, even if empty.
+	session, err := store.Get(r, sessionName)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Session password", http.StatusInternalServerError)
+		return
+	}
+
+	// Set some session values.
+	session.Values["user_id"] = user.ID
+
+	err = session.Save(r, w)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Session password", http.StatusInternalServerError)
+		return
+	}
+
 	// redirect
 }
 
