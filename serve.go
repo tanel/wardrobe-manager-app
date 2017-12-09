@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/gorilla/sessions"
 	"github.com/julienschmidt/httprouter"
 	"github.com/satori/go.uuid"
 	"github.com/tanel/wardrobe-manager-app/db"
@@ -14,18 +13,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-const sessionName = "wardrobe-app-session"
-
-// FIXME: get secret from environment
-var store = sessions.NewCookieStore([]byte("C93B74DA-4D85-418C-B513-3BEDE6BFCECC"))
-
 func Serve(port string) {
 	router := httprouter.New()
 
 	router.GET("/signup", GetSignup)
 	router.POST("/signup", PostSignup)
 	router.GET("/wardrobe", GetWardrobe)
-	router.GET("/logout", GetSignup)
+	router.GET("/logout", GetLogout)
 	router.GET("/", GetIndex)
 
 	// Serve static files from the ./public directory
@@ -37,6 +31,18 @@ func Serve(port string) {
 }
 
 func GetSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	userID, err := sessionUserID(r)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "session error", http.StatusInternalServerError)
+		return
+	}
+
+	if userID != nil {
+		http.Redirect(w, r, "/wardrobe", http.StatusSeeOther)
+		return
+	}
+
 	path := filepath.Join("templates", "*")
 	list, err := filepath.Glob(path)
 	if err != nil {
@@ -105,19 +111,7 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		}
 	}
 
-	// Get a session. Get() always returns a session, even if empty.
-	session, err := store.Get(r, sessionName)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "Session error", http.StatusInternalServerError)
-		return
-	}
-
-	// Set some session values.
-	session.Values["user_id"] = user.ID
-
-	err = session.Save(r, w)
-	if err != nil {
+	if err := setSessionUserID(w, r, user.ID); err != nil {
 		log.Println(err)
 		http.Error(w, "Session error", http.StatusInternalServerError)
 		return
@@ -127,6 +121,18 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	userID, err := sessionUserID(r)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "session error", http.StatusInternalServerError)
+		return
+	}
+
+	if userID != nil {
+		http.Redirect(w, r, "/wardrobe", http.StatusSeeOther)
+		return
+	}
+
 	path := filepath.Join("templates", "*")
 	list, err := filepath.Glob(path)
 	if err != nil {
@@ -150,19 +156,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func GetLogout(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	// Get a session. Get() always returns a session, even if empty.
-	session, err := store.Get(r, sessionName)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "Session error", http.StatusInternalServerError)
-		return
-	}
-
-	// Set some session values.
-	session.Values["user_id"] = nil
-
-	err = session.Save(r, w)
-	if err != nil {
+	if err := setSessionUserID(w, r, ""); err != nil {
 		log.Println(err)
 		http.Error(w, "Session error", http.StatusInternalServerError)
 		return
