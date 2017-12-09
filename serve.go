@@ -57,9 +57,6 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	email := r.FormValue("email")
 	password := r.FormValue("password")
 
-	println(email, password)
-
-	// get email from POST data
 	// search from database by email
 	// 		if does not exists, create new user
 	// 		if exists, compare password
