@@ -66,7 +66,7 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	err := db.QueryRow("SELECT id, password_hash FROM users WHERE email = $1", user.Email).Scan(&user.ID, &user.PasswordHash)
 	if err != nil && err != sql.ErrNoRows {
 		log.Println(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Database error", http.StatusInternalServerError)
 		return
 	}
 
@@ -76,7 +76,7 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		b, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 		if err != nil {
 			log.Println(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, "Password error", http.StatusInternalServerError)
 			return
 		}
 
@@ -85,14 +85,14 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		_, err = db.Exec("INSERT INTO users(id, email, password_hash) VALUES($1, $2, $3)", user.ID, user.Email, user.PasswordHash)
 		if err != nil {
 			log.Println(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, "Database error", http.StatusInternalServerError)
 			return
 		}
 	} else {
 		err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password))
 		if err != nil {
 			log.Println(err)
-			http.Error(w, err.Error(), http.StatusUnauthorized)
+			http.Error(w, "Invalid password", http.StatusUnauthorized)
 			return
 		}
 	}
@@ -106,20 +106,20 @@ func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	list, err := filepath.Glob(path)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Template error", http.StatusInternalServerError)
 		return
 	}
 
 	t, err := template.New("index").ParseFiles(list...)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Template error", http.StatusInternalServerError)
 		return
 	}
 
 	if err := t.Execute(w, nil); err != nil {
 		log.Println(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Template error", http.StatusInternalServerError)
 		return
 	}
 }
