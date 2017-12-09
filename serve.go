@@ -24,6 +24,7 @@ func Serve(port string) {
 
 	router.GET("/signup", GetSignup)
 	router.POST("/signup", PostSignup)
+	router.GET("/wardrobe", GetWardrobe)
 	router.GET("/logout", GetSignup)
 	router.GET("/", GetIndex)
 
@@ -40,20 +41,20 @@ func GetSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	list, err := filepath.Glob(path)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "template error", http.StatusInternalServerError)
 		return
 	}
 
 	t, err := template.New("signup").ParseFiles(list...)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "template error", http.StatusInternalServerError)
 		return
 	}
 
 	if err := t.Execute(w, nil); err != nil {
 		log.Println(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "template error", http.StatusInternalServerError)
 		return
 	}
 }
@@ -61,7 +62,7 @@ func GetSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if err := r.ParseForm(); err != nil {
 		log.Println(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "form error", http.StatusInternalServerError)
 		return
 	}
 
@@ -168,4 +169,27 @@ func GetLogout(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func GetWardrobe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	path := filepath.Join("templates", "*")
+	list, err := filepath.Glob(path)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "template error", http.StatusInternalServerError)
+		return
+	}
+
+	t, err := template.New("wardrobe").ParseFiles(list...)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "template error", http.StatusInternalServerError)
+		return
+	}
+
+	if err := t.Execute(w, nil); err != nil {
+		log.Println(err)
+		http.Error(w, "template error", http.StatusInternalServerError)
+		return
+	}
 }
