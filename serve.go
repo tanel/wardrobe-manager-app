@@ -24,6 +24,7 @@ func Serve(port string) {
 
 	router.GET("/signup", GetSignup)
 	router.POST("/signup", PostSignup)
+	router.GET("/logout", GetSignup)
 	router.GET("/", GetIndex)
 
 	// Serve static files from the ./public directory
@@ -107,7 +108,7 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	session, err := store.Get(r, sessionName)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Session password", http.StatusInternalServerError)
+		http.Error(w, "Session error", http.StatusInternalServerError)
 		return
 	}
 
@@ -117,11 +118,11 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	err = session.Save(r, w)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Session password", http.StatusInternalServerError)
+		http.Error(w, "Session error", http.StatusInternalServerError)
 		return
 	}
 
-	// redirect
+	http.Redirect(w, r, "/wardrobe", http.StatusSeeOther)
 }
 
 func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -145,4 +146,26 @@ func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		http.Error(w, "Template error", http.StatusInternalServerError)
 		return
 	}
+}
+
+func GetLogout(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	// Get a session. Get() always returns a session, even if empty.
+	session, err := store.Get(r, sessionName)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Session error", http.StatusInternalServerError)
+		return
+	}
+
+	// Set some session values.
+	session.Values["user_id"] = nil
+
+	err = session.Save(r, w)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Session error", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
