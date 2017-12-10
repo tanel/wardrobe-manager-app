@@ -1,4 +1,4 @@
-package main
+package http
 
 type Page struct {
 	UserID *string

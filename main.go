@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/tanel/wardrobe-manager-app/db"
+	"github.com/tanel/wardrobe-manager-app/http"
 )
 
 func main() {
@@ -12,5 +13,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	Serve(":8080")
+	http.Serve(":8080")
 }

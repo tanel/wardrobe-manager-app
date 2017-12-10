@@ -1,4 +1,4 @@
-package main
+package http
 
 import (
 	"log"
@@ -9,28 +9,12 @@ import (
 	"github.com/satori/go.uuid"
 	"github.com/tanel/wardrobe-manager-app/db"
 	"github.com/tanel/wardrobe-manager-app/model"
+	"github.com/tanel/wardrobe-manager-app/session"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Serve(port string) {
-	router := httprouter.New()
-
-	router.GET("/signup", GetSignup)
-	router.POST("/signup", PostSignup)
-	router.GET("/wardrobe", GetWardrobe)
-	router.GET("/logout", GetLogout)
-	router.GET("/", GetIndex)
-
-	// Serve static files from the ./public directory
-	router.NotFound = http.FileServer(http.Dir("public"))
-
-	log.Println("Server starting at http://localhost" + port)
-
-	log.Fatal(http.ListenAndServe(port, router))
-}
-
 func GetSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	userID, err := sessionUserID(r)
+	userID, err := session.UserID(r)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "session error", http.StatusInternalServerError)
@@ -103,64 +87,11 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		}
 	}
 
-	if err := setSessionUserID(w, r, user.ID); err != nil {
+	if err := session.SetUserID(w, r, user.ID); err != nil {
 		log.Println(err)
 		http.Error(w, "Session error", http.StatusInternalServerError)
 		return
 	}
 
 	http.Redirect(w, r, "/wardrobe", http.StatusSeeOther)
-}
-
-func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	userID, err := sessionUserID(r)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
-		return
-	}
-
-	if userID != nil {
-		http.Redirect(w, r, "/wardrobe", http.StatusSeeOther)
-		return
-	}
-
-	if err := Render(w, "index", Page{}); err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
-}
-
-func GetLogout(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	if err := setSessionUserID(w, r, ""); err != nil {
-		log.Println(err)
-		http.Error(w, "Session error", http.StatusInternalServerError)
-		return
-	}
-
-	http.Redirect(w, r, "/", http.StatusSeeOther)
-}
-
-func GetWardrobe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	userID, err := sessionUserID(r)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
-		return
-	}
-
-	if userID == nil {
-		http.Redirect(w, r, "/signup", http.StatusSeeOther)
-		return
-	}
-
-	page := Page{
-		UserID: userID,
-	}
-	if err := Render(w, "wardrobe", page); err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
 }

@@ -40,13 +40,16 @@
           <li class="nav-item">
             <a class="nav-link" href="/signup">Signup/Signin</a>
           </li>
+          {{if .UserID}}
           <li class="nav-item">
             <a class="nav-link" href="/logout">Logout</a>
           </li>
+          {{end}}
         </ul>
       </div>
     </nav>
 
     <div class="container">
+      USER ID {{.UserID}}
 
 {{end}}
