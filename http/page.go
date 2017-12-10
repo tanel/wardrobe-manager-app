@@ -1,5 +1,5 @@
 package http
 
 type Page struct {
-	UserID *string
+	UserID string
 }

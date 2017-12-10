@@ -1,5 +1,5 @@
 {{define "index"}}
-	{{template "header"}}
+	{{template "header" .}}
 	<div class="text-center jumbotron">
 		<h1>Organize your wardrobe the easy way.</h1>
 		<hr/>
@@ -7,5 +7,5 @@
 	      <a class="btn btn-primary btn-lg" href="/signup" role="button">Start!</a>
 	    </p>		
 	</div>
-	{{template "footer"}}
+	{{template "footer" .}}
 {{end}}

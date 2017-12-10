@@ -22,7 +22,7 @@ func GetWardrobe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	page := Page{
-		UserID: userID,
+		UserID: *userID,
 	}
 	if err := Render(w, "wardrobe", page); err != nil {
 		log.Println(err)
