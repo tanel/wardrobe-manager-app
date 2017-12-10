@@ -38,10 +38,14 @@
       <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
+            {{if not .UserID}}
             <a class="nav-link" href="/signup">Signup/Signin</a>
+            {{end}}
           </li>
           <li class="nav-item">
+            {{if .UserID}}
             <a class="nav-link" href="/logout">Logout</a>
+            {{end}}
           </li>
         </ul>
       </div>

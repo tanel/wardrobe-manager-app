@@ -125,7 +125,10 @@ func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	if err := Render(w, "index", nil); err != nil {
+	page := Page{
+		UserID: userID,
+	}
+	if err := Render(w, "index", page); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
 		return
@@ -143,7 +146,22 @@ func GetLogout(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func GetWardrobe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	if err := Render(w, "wardrobe", nil); err != nil {
+	userID, err := sessionUserID(r)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "session error", http.StatusInternalServerError)
+		return
+	}
+
+	if userID == nil {
+		http.Redirect(w, r, "/signup", http.StatusSeeOther)
+		return
+	}
+
+	page := Page{
+		UserID: userID,
+	}
+	if err := Render(w, "wardrobe", page); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
 		return
