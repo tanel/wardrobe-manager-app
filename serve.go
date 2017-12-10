@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"strings"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/satori/go.uuid"
@@ -72,10 +73,18 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	password := r.FormValue("password")
-
 	var user model.User
-	user.Email = r.FormValue("email")
+	user.Email = strings.TrimSpace(r.FormValue("email"))
+	if user.Email == "" {
+		http.Error(w, "please enter an e-mail", http.StatusBadRequest)
+		return
+	}
+
+	password := strings.TrimSpace(r.FormValue("password"))
+	if password == "" {
+		http.Error(w, "please enter a password", http.StatusBadRequest)
+		return
+	}
 
 	err := db.SelectUserByEmail(user.Email, &user)
 	if err != nil {
