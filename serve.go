@@ -1,10 +1,8 @@
 package main
 
 import (
-	"html/template"
 	"log"
 	"net/http"
-	"path/filepath"
 	"strings"
 
 	"github.com/julienschmidt/httprouter"
@@ -44,22 +42,7 @@ func GetSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	path := filepath.Join("templates", "*")
-	list, err := filepath.Glob(path)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
-
-	t, err := template.New("signup").ParseFiles(list...)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
-
-	if err := t.Execute(w, nil); err != nil {
+	if err := Render(w, "signup", nil); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
 		return
@@ -142,24 +125,9 @@ func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	path := filepath.Join("templates", "*")
-	list, err := filepath.Glob(path)
-	if err != nil {
+	if err := Render(w, "index", nil); err != nil {
 		log.Println(err)
-		http.Error(w, "Template error", http.StatusInternalServerError)
-		return
-	}
-
-	t, err := template.New("index").ParseFiles(list...)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "Template error", http.StatusInternalServerError)
-		return
-	}
-
-	if err := t.Execute(w, nil); err != nil {
-		log.Println(err)
-		http.Error(w, "Template error", http.StatusInternalServerError)
+		http.Error(w, "template error", http.StatusInternalServerError)
 		return
 	}
 }
@@ -175,22 +143,7 @@ func GetLogout(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func GetWardrobe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	path := filepath.Join("templates", "*")
-	list, err := filepath.Glob(path)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
-
-	t, err := template.New("wardrobe").ParseFiles(list...)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
-
-	if err := t.Execute(w, nil); err != nil {
+	if err := Render(w, "wardrobe", nil); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
 		return
