@@ -125,10 +125,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	page := Page{
-		UserID: userID,
-	}
-	if err := Render(w, "index", page); err != nil {
+	if err := Render(w, "index", Page{}); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
 		return
