@@ -6,3 +6,8 @@
 button {
 	cursor: pointer;
 }
+
+footer {
+	margin-top:100px;
+	margin-left:20px;
+}
