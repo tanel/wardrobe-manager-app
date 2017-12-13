@@ -22,7 +22,7 @@ func GetSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	if userID != nil {
-		http.Redirect(w, r, "/wardrobe", http.StatusSeeOther)
+		http.Redirect(w, r, frontpage, http.StatusSeeOther)
 		return
 	}
 
@@ -53,8 +53,7 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	err := db.SelectUserByEmail(user.Email, &user)
-	if err != nil {
+	if err := db.SelectUserByEmail(user.Email, &user); err != nil {
 		log.Println(err)
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return
@@ -72,15 +71,13 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 		user.PasswordHash = string(b)
 
-		err = db.InsertUser(user)
-		if err != nil {
+		if err := db.InsertUser(user); err != nil {
 			log.Println(err)
 			http.Error(w, "Database error", http.StatusInternalServerError)
 			return
 		}
 	} else {
-		err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password))
-		if err != nil {
+		if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password)); err != nil {
 			log.Println(err)
 			http.Error(w, "Invalid password", http.StatusUnauthorized)
 			return
@@ -93,5 +90,5 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	http.Redirect(w, r, "/wardrobe", http.StatusSeeOther)
+	http.Redirect(w, r, frontpage, http.StatusSeeOther)
 }

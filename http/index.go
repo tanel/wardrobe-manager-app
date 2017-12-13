@@ -17,7 +17,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	if userID != nil {
-		http.Redirect(w, r, "/wardrobe", http.StatusSeeOther)
+		http.Redirect(w, r, frontpage, http.StatusSeeOther)
 		return
 	}
 

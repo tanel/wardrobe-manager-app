@@ -1,0 +1,10 @@
+{{define "items"}}
+	{{template "header" .}}
+
+	{{if not .Items}}
+	<h1>Welcome!</h1>
+	<p>Start by adding clothes from your wardrobe: <a href="/items/new">Add an item</a></p>
+	{{end}}
+
+	{{template "footer" .}}
+{{end}}
