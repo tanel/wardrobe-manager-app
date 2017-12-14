@@ -17,6 +17,8 @@ func InsertItem(item model.Item) error {
 			price,
 			currency,
 			category,
+			season,
+			format
 		) VALUES(
 			$1,
 			$2,
@@ -26,7 +28,9 @@ func InsertItem(item model.Item) error {
 			$6,
 			$7,
 			$8,
-			$9
+			$9,
+			$10,
+			$11
 		)
 	`,
 		item.ID,
@@ -38,6 +42,8 @@ func InsertItem(item model.Item) error {
 		item.Price,
 		item.Currency,
 		item.Category,
+		item.Season,
+		item.Formal,
 	)
 	if err != nil {
 		return errors.Annotate(err, "inserting item failed")

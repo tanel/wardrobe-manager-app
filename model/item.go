@@ -11,4 +11,6 @@ type Item struct {
 	Price       float64
 	Currency    string
 	Category    string
+	Season      string
+	Formal      bool
 }
