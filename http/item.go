@@ -3,11 +3,8 @@ package http
 import (
 	"log"
 	"net/http"
-	"strconv"
-	"strings"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/satori/go.uuid"
 	"github.com/tanel/wardrobe-manager-app/db"
 	"github.com/tanel/wardrobe-manager-app/model"
 	"github.com/tanel/wardrobe-manager-app/session"
@@ -26,11 +23,18 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
+	items, err := db.SelectItemsByUserID(*userID)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "database error", http.StatusInternalServerError)
+		return
+	}
+
 	page := ItemsPage{
 		Page: Page{
 			UserID: *userID,
 		},
-		Items: nil,
+		Items: items,
 	}
 	if err := Render(w, "items", page); err != nil {
 		log.Println(err)
@@ -65,40 +69,33 @@ func GetItemsNew(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func PostItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	userID, err := session.UserID(r)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "session error", http.StatusInternalServerError)
+		return
+	}
+
+	if userID == nil {
+		http.Redirect(w, r, "/signup", http.StatusSeeOther)
+		return
+	}
+
 	if err := r.ParseForm(); err != nil {
 		log.Println(err)
 		http.Error(w, "form error", http.StatusInternalServerError)
 		return
 	}
 
-	var item model.Item
-
-	item.ID = uuid.NewV4().String()
-
-	item.Name = strings.TrimSpace(r.FormValue("name"))
-	if item.Name == "" {
-		http.Error(w, "please enter a name", http.StatusBadRequest)
+	item, err := model.NewItemForm(r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	item.Description = strings.TrimSpace(r.FormValue("description"))
-	item.Color = strings.TrimSpace(r.FormValue("color"))
-	item.Size = strings.TrimSpace(r.FormValue("size"))
-	item.Brand = strings.TrimSpace(r.FormValue("brand"))
-	item.Category = strings.TrimSpace(r.FormValue("category"))
-	item.Currency = strings.TrimSpace(r.FormValue("currency"))
+	item.UserID = *userID
 
-	s := strings.TrimSpace(r.FormValue("price"))
-	if s != "" {
-		var err error
-		item.Price, err = strconv.ParseFloat(s, 64)
-		if err != nil {
-			http.Error(w, "please enter a valid price or leave it blank", http.StatusBadRequest)
-			return
-		}
-	}
-
-	if err := db.InsertItem(item); err != nil {
+	if err := db.InsertItem(*item); err != nil {
 		log.Println(err)
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return

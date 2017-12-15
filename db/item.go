@@ -9,6 +9,7 @@ func InsertItem(item model.Item) error {
 	_, err := db.Exec(`
 		INSERT INTO items(
 			id,
+			user_id,
 			name,
 			description,
 			color,
@@ -18,7 +19,7 @@ func InsertItem(item model.Item) error {
 			currency,
 			category,
 			season,
-			format
+			formal
 		) VALUES(
 			$1,
 			$2,
@@ -30,10 +31,12 @@ func InsertItem(item model.Item) error {
 			$8,
 			$9,
 			$10,
-			$11
+			$11,
+			$12
 		)
 	`,
 		item.ID,
+		item.UserID,
 		item.Name,
 		item.Description,
 		item.Color,
@@ -50,4 +53,60 @@ func InsertItem(item model.Item) error {
 	}
 
 	return nil
+}
+
+func SelectItemsByUserID(userID string) ([]model.Item, error) {
+	rows, err := db.Query(`
+		SELECT
+			id,
+			user_id,
+			name,
+			description,
+			color,
+			size,
+			brand,
+			price,
+			currency,
+			category,
+			season,
+			formal
+		FROM
+			items
+		WHERE
+			user_id = $1
+		ORDER BY
+			name
+	`,
+		userID,
+	)
+	if err != nil {
+		return nil, errors.Annotate(err, "selecting items by user ID failed")
+	}
+
+	defer rows.Close()
+
+	var items []model.Item
+	for rows.Next() {
+		var item model.Item
+		if err := rows.Scan(
+			&item.ID,
+			&item.UserID,
+			&item.Name,
+			&item.Description,
+			&item.Color,
+			&item.Size,
+			&item.Brand,
+			&item.Price,
+			&item.Currency,
+			&item.Category,
+			&item.Season,
+			&item.Formal,
+		); err != nil {
+			return nil, errors.Annotate(err, "scanning items failed")
+		}
+
+		items = append(items, item)
+	}
+
+	return items, nil
 }
