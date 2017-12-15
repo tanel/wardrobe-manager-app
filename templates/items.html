@@ -3,7 +3,11 @@
 
 	{{if not .Items}}
 	<h1>Welcome!</h1>
-	<p>Start by adding clothes from your wardrobe: <a href="/items/new">Add an item</a></p>
+	<p>Start by adding clothes from your wardrobe: <a href="/new">Add an item</a></p>
+	{{end}}
+
+	{{if .Items}}
+	<p><a href="/new">Add an item</a></p>
 	{{end}}
 
 	<table class="table table-hover table-bordered">
@@ -16,7 +20,7 @@
 	    <tbody>
 	      {{range .Items}}
 	      <tr>
-	        <th scope="row">{{.Name}}</th>
+	        <th scope="row"><a href="/items/{{.ID}}">{{.Name}}</a></th>
 	        <td>{{.Description}}</td>
 	      </tr>
 	      {{end}}

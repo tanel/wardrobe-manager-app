@@ -1,6 +1,8 @@
 package db
 
 import (
+	"database/sql"
+
 	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-manager-app/model"
 )
@@ -53,6 +55,52 @@ func InsertItem(item model.Item) error {
 	}
 
 	return nil
+}
+
+func SelectItemByID(userID, itemID string) (*model.Item, error) {
+	var item model.Item
+	err := db.QueryRow(`
+		SELECT
+			id,
+			user_id,
+			name,
+			description,
+			color,
+			size,
+			brand,
+			price,
+			currency,
+			category,
+			season,
+			formal
+		FROM
+			items
+		WHERE
+			id = $1
+		AND
+			user_id = $2
+	`,
+		itemID,
+		userID,
+	).Scan(
+		&item.ID,
+		&item.UserID,
+		&item.Name,
+		&item.Description,
+		&item.Color,
+		&item.Size,
+		&item.Brand,
+		&item.Price,
+		&item.Currency,
+		&item.Category,
+		&item.Season,
+		&item.Formal,
+	)
+	if err != nil && err != sql.ErrNoRows {
+		return nil, errors.Annotate(err, "selecting item by ID failed")
+	}
+
+	return &item, nil
 }
 
 func SelectItemsByUserID(userID string) ([]model.Item, error) {

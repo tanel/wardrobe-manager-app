@@ -12,10 +12,15 @@ func NewRouter() *httprouter.Router {
 
 	router.GET("/signup", GetSignup)
 	router.POST("/signup", PostSignup)
+
+	router.GET("/items/:id", GetItem)
+	router.POST("/items/:id", PostItem)
 	router.GET("/items", GetItems)
-	router.GET("/items/new", GetItemsNew)
-	router.POST("/items/new", PostItem)
+	router.GET("/new", GetItemsNew)
+	router.POST("/new", PostItemsNew)
+
 	router.GET("/logout", GetLogout)
+
 	router.GET("/", GetIndex)
 
 	// Serve static files from the ./public directory
