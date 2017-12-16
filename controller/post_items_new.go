@@ -31,7 +31,7 @@ func PostItemsNew(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 
 	item.UserID = *userID
 
-	if err := service.SaveItem(item); err != nil {
+	if err := service.SaveItem(item, *userID); err != nil {
 		log.Println(err)
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return
