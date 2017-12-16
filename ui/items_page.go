@@ -1,4 +1,4 @@
-package http
+package ui
 
 import (
 	"github.com/tanel/wardrobe-manager-app/model"

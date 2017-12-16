@@ -1,4 +1,4 @@
-package http
+package controller
 
 import (
 	"log"
@@ -8,6 +8,7 @@ import (
 	"github.com/tanel/wardrobe-manager-app/db"
 	"github.com/tanel/wardrobe-manager-app/model"
 	"github.com/tanel/wardrobe-manager-app/session"
+	"github.com/tanel/wardrobe-manager-app/ui"
 )
 
 func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -30,8 +31,8 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	page := ItemsPage{
-		Page: Page{
+	page := ui.ItemsPage{
+		Page: ui.Page{
 			UserID: *userID,
 		},
 		Items: items,
@@ -56,8 +57,8 @@ func GetItemsNew(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	page := ItemPage{
-		Page: Page{
+	page := ui.ItemPage{
+		Page: ui.Page{
 			UserID: *userID,
 		},
 	}
@@ -124,8 +125,8 @@ func GetItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	page := ItemPage{
-		Page: Page{
+	page := ui.ItemPage{
+		Page: ui.Page{
 			UserID: *userID,
 		},
 		Item: *item,

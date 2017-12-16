@@ -1,4 +1,4 @@
-package http
+package controller
 
 import (
 	"log"
@@ -6,6 +6,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-manager-app/session"
+	"github.com/tanel/wardrobe-manager-app/ui"
 )
 
 func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -21,7 +22,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	if err := Render(w, "index", Page{}); err != nil {
+	if err := Render(w, "index", ui.Page{}); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
 		return
