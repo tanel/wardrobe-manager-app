@@ -19,7 +19,7 @@ func GetItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	if userID == nil {
-		http.Redirect(w, r, "/signup", http.StatusSeeOther)
+		http.Redirect(w, r, loginPage, http.StatusSeeOther)
 		return
 	}
 

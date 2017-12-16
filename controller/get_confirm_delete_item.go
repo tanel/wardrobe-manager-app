@@ -10,7 +10,7 @@ import (
 	"github.com/tanel/wardrobe-manager-app/ui"
 )
 
-func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func GetConfirmDeleteItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	userID, err := session.UserID(r)
 	if err != nil {
 		log.Println(err)
@@ -23,20 +23,15 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	items, err := db.SelectItemsByUserID(*userID)
+	item, err := db.SelectItemByID(*userID, ps.ByName("id"))
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
 		return
 	}
 
-	page := ui.ItemsPage{
-		Page: ui.Page{
-			UserID: *userID,
-		},
-		Items: items,
-	}
-	if err := Render(w, "items", page); err != nil {
+	page := ui.NewItemPage(*userID, *item)
+	if err := Render(w, "confirm-delete-item", page); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
 		return

@@ -1,0 +1,12 @@
+{{define "confirm-delete-item"}}
+	{{template "header" .}}
+
+	<h1>Are you sure?</h1>
+	<form action="/delete-item/{{.Item.ID}}" method="POST">
+		<button type="button" class="btn btn-success"> 
+			<a href="/items/{{.Item.ID}}" style="color:inherit">Cancel</a>
+		</button>  
+		<button type="submit" class="btn btn-danger">Delete</button>
+	</form>
+	{{template "footer" .}}	
+{{end}}

@@ -1,5 +1,6 @@
 package controller
 
 const (
-	frontpage = "/items"
+	frontPage = "/items"
+	loginPage = "/signup"
 )

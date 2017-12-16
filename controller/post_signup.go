@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/satori/go.uuid"
@@ -41,6 +42,7 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	if user.ID == "" {
 		user.ID = uuid.NewV4().String()
+		user.CreatedAt = time.Now()
 
 		b, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 		if err != nil {
@@ -70,5 +72,5 @@ func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	http.Redirect(w, r, frontpage, http.StatusSeeOther)
+	http.Redirect(w, r, frontPage, http.StatusSeeOther)
 }

@@ -1,13 +1,10 @@
 package model
 
-import (
-	"time"
-)
+import ()
 
 type ItemImage struct {
-	ID        string
-	ItemID    string
-	UserID    string
-	CreatedAt time.Time
-	Body      []byte
+	Base
+	ItemID string
+	UserID string
+	Body   []byte
 }

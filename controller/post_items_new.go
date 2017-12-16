@@ -19,7 +19,7 @@ func PostItemsNew(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 	}
 
 	if userID == nil {
-		http.Redirect(w, r, "/signup", http.StatusSeeOther)
+		http.Redirect(w, r, loginPage, http.StatusSeeOther)
 		return
 	}
 
@@ -37,5 +37,5 @@ func PostItemsNew(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 		return
 	}
 
-	http.Redirect(w, r, frontpage, http.StatusSeeOther)
+	http.Redirect(w, r, frontPage, http.StatusSeeOther)
 }

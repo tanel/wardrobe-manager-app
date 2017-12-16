@@ -17,7 +17,7 @@ func GetSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	if userID != nil {
-		http.Redirect(w, r, frontpage, http.StatusSeeOther)
+		http.Redirect(w, r, frontPage, http.StatusSeeOther)
 		return
 	}
 

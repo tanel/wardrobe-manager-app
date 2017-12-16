@@ -14,7 +14,7 @@ import (
 
 // Item represents a wardrobe item
 type Item struct {
-	ID          string
+	Base
 	UserID      string
 	Name        string
 	Description string
@@ -26,7 +26,6 @@ type Item struct {
 	Category    string
 	Season      string
 	Formal      bool
-	CreatedAt   time.Time
 
 	Images []ItemImage
 }

@@ -144,6 +144,8 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 			items
 		WHERE
 			user_id = $1
+		AND
+			deleted_at IS NULL
 		ORDER BY
 			name
 	`,
@@ -218,6 +220,27 @@ func UpdateItem(item model.Item) error {
 	)
 	if err != nil {
 		return errors.Annotate(err, "updating item failed")
+	}
+
+	return nil
+}
+
+func DeleteItem(itemID, userID string) error {
+	_, err := db.Exec(`
+		UPDATE
+			items
+		SET
+			deleted_at = current_timestamp
+		WHERE
+			id = $1
+		AND
+			user_id = $2
+	`,
+		itemID,
+		userID,
+	)
+	if err != nil {
+		return errors.Annotate(err, "deleting item failed")
 	}
 
 	return nil
