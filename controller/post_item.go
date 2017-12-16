@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tanel/wardrobe-manager-app/db"
 	"github.com/tanel/wardrobe-manager-app/model"
+	"github.com/tanel/wardrobe-manager-app/service"
 	"github.com/tanel/wardrobe-manager-app/session"
 )
 
@@ -31,7 +31,7 @@ func PostItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	item.ID = ps.ByName("id")
 
-	if err := db.UpdateItem(*item); err != nil {
+	if err := service.SaveItem(item); err != nil {
 		log.Println(err)
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return

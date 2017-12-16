@@ -1,12 +1,12 @@
 package model
 
 import (
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/juju/errors"
-	"github.com/satori/go.uuid"
 )
 
 // Item represents a wardrobe item
@@ -23,18 +23,16 @@ type Item struct {
 	Category    string
 	Season      string
 	Formal      bool
+
+	Images []ItemImage
 }
 
-const maxMemory = 5 * 1024 * 1024
-
 func NewItemForm(r *http.Request) (*Item, error) {
-	if err := r.ParseMultipartForm(maxMemory); err != nil {
+	if err := r.ParseMultipartForm(maxUploadSize); err != nil {
 		return nil, errors.Annotate(err, "parsing multipart form failed")
 	}
 
 	var item Item
-
-	item.ID = uuid.NewV4().String()
 
 	item.Name = strings.TrimSpace(r.FormValue("name"))
 	if item.Name == "" {
@@ -58,6 +56,24 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	item.Category = strings.TrimSpace(r.FormValue("category"))
 	item.Currency = strings.TrimSpace(r.FormValue("currency"))
 	item.Season = strings.TrimSpace(r.FormValue("season"))
+
+	file, _, err := r.FormFile("image")
+	if err != nil && err != http.ErrMissingFile {
+		return nil, errors.Annotate(err, "getting form file failed")
+	}
+
+	if file != nil {
+		defer file.Close()
+
+		b, err := ioutil.ReadAll(file)
+		if err != nil {
+			return nil, errors.Annotate(err, "reading form file failed")
+		}
+
+		item.Images = append(item.Images, ItemImage{
+			Body: b,
+		})
+	}
 
 	return &item, nil
 }
