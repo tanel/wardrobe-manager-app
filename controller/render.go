@@ -9,7 +9,7 @@ import (
 )
 
 func Render(w http.ResponseWriter, templateName string, data interface{}) error {
-	path := filepath.Join("templates", "*")
+	path := filepath.Join("template", "*.html")
 	list, err := filepath.Glob(path)
 	if err != nil {
 		return errors.Annotate(err, "globbing templates failed")
