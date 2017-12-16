@@ -30,12 +30,7 @@ func GetItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	page := ui.ItemPage{
-		Page: ui.Page{
-			UserID: *userID,
-		},
-		Item: *item,
-	}
+	page := ui.NewItemPage(*userID, *item)
 	if err := Render(w, "item", page); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
