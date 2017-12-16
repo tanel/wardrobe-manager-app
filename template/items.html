@@ -10,6 +10,7 @@
 	<p><a href="/new">Add an item</a></p>
 	{{end}}
 
+	{{if .Items}}
 	<table class="table table-hover table-bordered">
 	    <thead>
 	      <tr>
@@ -26,6 +27,7 @@
 	      {{end}}
 	    </tbody>
 	  </table>
+	{{end}}
 
 	{{template "footer" .}}
 {{end}}

@@ -20,6 +20,8 @@ func New() *httprouter.Router {
 	router.GET("/new", controller.GetItemsNew)
 	router.POST("/new", controller.PostItemsNew)
 
+	router.GET("/images/:id", controller.GetImage)
+
 	router.GET("/logout", controller.GetLogout)
 
 	router.GET("/", controller.GetIndex)

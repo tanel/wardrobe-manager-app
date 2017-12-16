@@ -21,7 +21,8 @@ func InsertItem(item model.Item) error {
 			currency,
 			category,
 			season,
-			formal
+			formal,
+			created_at
 		) VALUES(
 			$1,
 			$2,
@@ -34,7 +35,8 @@ func InsertItem(item model.Item) error {
 			$9,
 			$10,
 			$11,
-			$12
+			$12,
+			$13
 		)
 	`,
 		item.ID,
@@ -49,12 +51,29 @@ func InsertItem(item model.Item) error {
 		item.Category,
 		item.Season,
 		item.Formal,
+		item.CreatedAt,
 	)
 	if err != nil {
 		return errors.Annotate(err, "inserting item failed")
 	}
 
 	return nil
+}
+
+func SelectItemWithImagesByID(userID, itemID string) (*model.Item, error) {
+	item, err := SelectItemByID(userID, itemID)
+	if err != nil {
+		return nil, errors.Annotate(err, "selecting item failed")
+	}
+
+	itemImages, err := SelectItemImagesByItemID(itemID)
+	if err != nil {
+		return nil, errors.Annotate(err, "selecting item images failed")
+	}
+
+	item.Images = itemImages
+
+	return item, nil
 }
 
 func SelectItemByID(userID, itemID string) (*model.Item, error) {
@@ -72,7 +91,8 @@ func SelectItemByID(userID, itemID string) (*model.Item, error) {
 			currency,
 			category,
 			season,
-			formal
+			formal,
+			created_at
 		FROM
 			items
 		WHERE
@@ -95,6 +115,7 @@ func SelectItemByID(userID, itemID string) (*model.Item, error) {
 		&item.Category,
 		&item.Season,
 		&item.Formal,
+		&item.CreatedAt,
 	)
 	if err != nil && err != sql.ErrNoRows {
 		return nil, errors.Annotate(err, "selecting item by ID failed")
@@ -117,7 +138,8 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 			currency,
 			category,
 			season,
-			formal
+			formal,
+			created_at
 		FROM
 			items
 		WHERE
@@ -149,6 +171,7 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 			&item.Category,
 			&item.Season,
 			&item.Formal,
+			&item.CreatedAt,
 		); err != nil {
 			return nil, errors.Annotate(err, "scanning items failed")
 		}

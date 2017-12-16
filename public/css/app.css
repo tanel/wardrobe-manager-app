@@ -11,3 +11,7 @@ footer {
 	margin-top:100px;
 	margin-left:20px;
 }
+
+.images img {
+	width:200px;
+}

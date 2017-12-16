@@ -25,11 +25,12 @@ func SaveItem(item *model.Item, userID string) error {
 		itemImage.ID = uuid.NewV4().String()
 		itemImage.ItemID = item.ID
 		itemImage.CreatedAt = time.Now()
+		itemImage.UserID = userID
 		if err := db.InsertItemImage(itemImage); err != nil {
 			return errors.Annotate(err, "saving image failed")
 		}
 
-		if err := itemImage.Save(userID); err != nil {
+		if err := itemImage.Save(); err != nil {
 			return errors.Annotate(err, "saving image file failed")
 		}
 	}

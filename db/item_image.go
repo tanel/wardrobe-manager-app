@@ -10,15 +10,18 @@ func InsertItemImage(itemImage model.ItemImage) error {
 		INSERT INTO item_images(
 			id,
 			item_id,
+			user_id,
 			created_at
 		) VALUES(
 			$1,
 			$2,
-			$3
+			$3,
+			$4
 		)
 	`,
 		itemImage.ID,
 		itemImage.ItemID,
+		itemImage.UserID,
 		itemImage.CreatedAt,
 	)
 	if err != nil {
@@ -33,6 +36,7 @@ func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
 		SELECT
 			id,
 			item_id,
+			user_id,
 			created_at
 		FROM
 			item_images
@@ -55,6 +59,7 @@ func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
 		if err := rows.Scan(
 			&itemImage.ID,
 			&itemImage.ItemID,
+			&itemImage.UserID,
 			&itemImage.CreatedAt,
 		); err != nil {
 			return nil, errors.Annotate(err, "scanning item images failed")
@@ -64,4 +69,34 @@ func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
 	}
 
 	return itemImages, nil
+}
+
+func SelectItemImageByID(itemImageID, userID string) (*model.ItemImage, error) {
+	var itemImage model.ItemImage
+	if err := db.QueryRow(`
+		SELECT
+			id,
+			item_id,
+			user_id,
+			created_at
+		FROM
+			item_images
+		WHERE
+			id = $1
+		AND
+			user_id = $2
+		LIMIT 1
+	`,
+		itemImageID,
+		userID,
+	).Scan(
+		&itemImage.ID,
+		&itemImage.ItemID,
+		&itemImage.UserID,
+		&itemImage.CreatedAt,
+	); err != nil {
+		return nil, errors.Annotate(err, "scanning item image failed")
+	}
+
+	return &itemImage, nil
 }

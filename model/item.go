@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/juju/errors"
 )
@@ -25,6 +26,7 @@ type Item struct {
 	Category    string
 	Season      string
 	Formal      bool
+	CreatedAt   time.Time
 
 	Images []ItemImage
 }
@@ -58,6 +60,7 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	item.Category = strings.TrimSpace(r.FormValue("category"))
 	item.Currency = strings.TrimSpace(r.FormValue("currency"))
 	item.Season = strings.TrimSpace(r.FormValue("season"))
+	item.CreatedAt = time.Now()
 
 	file, _, err := r.FormFile("image")
 	if err != nil && err != http.ErrMissingFile {
@@ -80,25 +83,37 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	return &item, nil
 }
 
-func (itemImage ItemImage) DirectoryPath(userID string) string {
-	return filepath.Join("uploads", userID, "images")
+func (itemImage ItemImage) DirectoryPath() string {
+	return filepath.Join("uploads", itemImage.UserID, "images")
 }
 
-func (itemImage ItemImage) FilePath(userID string) string {
-	directoryPath := itemImage.DirectoryPath(userID)
+func (itemImage ItemImage) FilePath() string {
+	directoryPath := itemImage.DirectoryPath()
 	return filepath.Join(directoryPath, itemImage.ID)
 }
 
-func (itemImage ItemImage) Save(userID string) error {
-	directoryPath := itemImage.DirectoryPath(userID)
+func (itemImage ItemImage) Save() error {
+	directoryPath := itemImage.DirectoryPath()
 	if err := os.MkdirAll(directoryPath, 0777); err != nil && !strings.Contains(err.Error(), "file exists") {
 		return errors.Annotate(err, "creating image directory failed")
 	}
 
-	filePath := itemImage.FilePath(userID)
+	filePath := itemImage.FilePath()
 	if err := ioutil.WriteFile(filePath, itemImage.Body, 0644); err != nil {
 		return errors.Annotate(err, "writing image failed")
 	}
+
+	return nil
+}
+
+func (itemImage *ItemImage) Load() error {
+	filePath := itemImage.FilePath()
+	b, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return errors.Annotate(err, "writing image failed")
+	}
+
+	itemImage.Body = b
 
 	return nil
 }
