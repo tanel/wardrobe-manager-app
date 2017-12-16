@@ -11,10 +11,11 @@
   <div class="form-group">
     <label for="color">Color</label>
     <select class="form-control" id="color" name="color">
+      <option value="">(no color selected)</option>
   		<option>Add new color</option>
-  		<option>-------------</option>
+  		<option value="">-------------</option>
       {{range .Colors}}
-  		<option>{{.}}</option>
+  		<option{{if eq $.Item.Color .}} selected{{end}}>{{.}}</option>
       {{end}}
     </select>
   </div>
@@ -35,10 +36,11 @@
   <div class="form-group">
     <label for="category">Category</label>
     <select class="form-control" id="category" name="category">
+      <option value="">(no category selected)</option>
   		<option>Add new category</option>
-  		<option>-------------</option>
+  		<option value="">-------------</option>
       {{range .Categories}}
-      <option>{{.}}</option>
+      <option{{if eq $.Item.Category .}} selected{{end}}>{{.}}</option>
       {{end}}
     </select>
   </div>
