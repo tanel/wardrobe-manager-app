@@ -162,9 +162,9 @@ func PostItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	item.UserID = *userID
+	item.ID = ps.ByName("id")
 
-	if err := db.InsertItem(*item); err != nil {
+	if err := db.UpdateItem(*item); err != nil {
 		log.Println(err)
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return

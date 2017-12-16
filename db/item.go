@@ -158,3 +158,44 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 
 	return items, nil
 }
+
+func UpdateItem(item model.Item) error {
+	if item.ID == "" {
+		return errors.New("item is missing ID")
+	}
+
+	_, err := db.Exec(`
+		UPDATE
+			items
+		SET
+			name = $1,
+			description = $2,
+			color = $3,
+			size = $4,
+			brand = $5,
+			price = $6,
+			currency = $7,
+			category = $8,
+			season = $9,
+			formal = $10
+		WHERE
+			id = $11
+	`,
+		item.Name,
+		item.Description,
+		item.Color,
+		item.Size,
+		item.Brand,
+		item.Price,
+		item.Currency,
+		item.Category,
+		item.Season,
+		item.Formal,
+		item.ID,
+	)
+	if err != nil {
+		return errors.Annotate(err, "updating item failed")
+	}
+
+	return nil
+}
