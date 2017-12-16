@@ -3,6 +3,8 @@ package model
 import (
 	"io/ioutil"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 
@@ -76,4 +78,27 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	}
 
 	return &item, nil
+}
+
+func (itemImage ItemImage) DirectoryPath(userID string) string {
+	return filepath.Join("uploads", userID, "images")
+}
+
+func (itemImage ItemImage) FilePath(userID string) string {
+	directoryPath := itemImage.DirectoryPath(userID)
+	return filepath.Join(directoryPath, itemImage.ID)
+}
+
+func (itemImage ItemImage) Save(userID string) error {
+	directoryPath := itemImage.DirectoryPath(userID)
+	if err := os.MkdirAll(directoryPath, 0777); err != nil && !strings.Contains(err.Error(), "file exists") {
+		return errors.Annotate(err, "creating image directory failed")
+	}
+
+	filePath := itemImage.FilePath(userID)
+	if err := ioutil.WriteFile(filePath, itemImage.Body, 0644); err != nil {
+		return errors.Annotate(err, "writing image failed")
+	}
+
+	return nil
 }

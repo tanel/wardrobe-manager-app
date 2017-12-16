@@ -1,10 +1,6 @@
 package service
 
 import (
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/juju/errors"
@@ -33,14 +29,8 @@ func SaveItem(item *model.Item, userID string) error {
 			return errors.Annotate(err, "saving image failed")
 		}
 
-		directoryPath := filepath.Join("uploads", userID, "images")
-		if err := os.MkdirAll(directoryPath, 0777); err != nil && !strings.Contains(err.Error(), "file exists") {
-			return errors.Annotate(err, "creating image directory failed")
-		}
-
-		filePath := filepath.Join(directoryPath, itemImage.ID)
-		if err := ioutil.WriteFile(filePath, itemImage.Body, 0644); err != nil {
-			return errors.Annotate(err, "writing image failed")
+		if err := itemImage.Save(userID); err != nil {
+			return errors.Annotate(err, "saving image file failed")
 		}
 	}
 
