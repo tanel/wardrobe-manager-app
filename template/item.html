@@ -1,6 +1,6 @@
 {{define "item"}}
 	{{template "header" .}}
-	<form action="/items/{{.Item.ID}}" method="POST">
+	<form enctype="multipart/form-data" action="/items/{{.Item.ID}}" method="POST">
 		{{template "edit-item" .}}
 	</form>
 	{{template "footer" .}}

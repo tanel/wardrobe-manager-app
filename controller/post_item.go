@@ -23,12 +23,6 @@ func PostItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	if err := r.ParseForm(); err != nil {
-		log.Println(err)
-		http.Error(w, "form error", http.StatusInternalServerError)
-		return
-	}
-
 	item, err := model.NewItemForm(r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

@@ -25,7 +25,13 @@ type Item struct {
 	Formal      bool
 }
 
+const maxMemory = 5 * 1024 * 1024
+
 func NewItemForm(r *http.Request) (*Item, error) {
+	if err := r.ParseMultipartForm(maxMemory); err != nil {
+		return nil, errors.Annotate(err, "parsing multipart form failed")
+	}
+
 	var item Item
 
 	item.ID = uuid.NewV4().String()
