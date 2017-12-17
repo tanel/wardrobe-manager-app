@@ -10,22 +10,24 @@
 	<p><a href="/new">Add an item</a></p>
 	{{end}}
 
+	
+
 	{{if .Items}}
-	<ul class="items-images">
-	    {{range .Items}}
-	    <li>
-			{{if .ImageID}}
+	  <div class="row items-images">
+	  	{{range .Items}}
+	    <div class="col-sm-2">
+	      	{{if .ImageID}}
 				<a target="_blank" href="/images/{{.ImageID}}"><img src="/images/{{.ImageID}}"/></a>
 			{{end}}
 			<strong>{{.Brand}}</strong>
 			<br/>
 	        <a href="/items/{{.ID}}">{{.Name}}</a>
-	        {{.Description}}
-	      </li>
-	      {{end}}
-	</ul>
-	</table>
+		    {{.Description}}
+	    </div>
+	    {{end}}
+	  </div>
 	{{end}}
 
 	{{template "footer" .}}
 {{end}}
+
