@@ -36,7 +36,7 @@ func GetImage(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	if err := itemImage.Load(); err != nil {
+	if err := itemImage.LoadImages(); err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
 		return

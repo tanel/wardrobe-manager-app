@@ -11,22 +11,20 @@
 	{{end}}
 
 	{{if .Items}}
-	<table class="table table-hover table-bordered">
-	    <thead>
-	      <tr>
-	        <th scope="col">Name</th>
-	        <th scope="col">Description</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-	      {{range .Items}}
-	      <tr>
-	        <th scope="row"><a href="/items/{{.ID}}">{{.Name}}</a></th>
-	        <td>{{.Description}}</td>
-	      </tr>
+	<ul class="items-images">
+	    {{range .Items}}
+	    <li>
+			{{if .ImageID}}
+				<a target="_blank" href="/images/{{.ImageID}}"><img src="/images/{{.ImageID}}"/></a>
+			{{end}}
+			<strong>{{.Brand}}</strong>
+			<br/>
+	        <a href="/items/{{.ID}}">{{.Name}}</a>
+	        {{.Description}}
+	      </li>
 	      {{end}}
-	    </tbody>
-	  </table>
+	</ul>
+	</table>
 	{{end}}
 
 	{{template "footer" .}}

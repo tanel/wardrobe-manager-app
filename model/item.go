@@ -27,7 +27,8 @@ type Item struct {
 	Season      string
 	Formal      bool
 
-	Images []ItemImage
+	Images  []ItemImage
+	ImageID *string
 }
 
 func NewItemForm(r *http.Request) (*Item, error) {
@@ -91,7 +92,7 @@ func (itemImage ItemImage) FilePath() string {
 	return filepath.Join(directoryPath, itemImage.ID)
 }
 
-func (itemImage ItemImage) Save() error {
+func (itemImage ItemImage) SaveImages() error {
 	directoryPath := itemImage.DirectoryPath()
 	if err := os.MkdirAll(directoryPath, 0777); err != nil && !strings.Contains(err.Error(), "file exists") {
 		return errors.Annotate(err, "creating image directory failed")
@@ -105,7 +106,7 @@ func (itemImage ItemImage) Save() error {
 	return nil
 }
 
-func (itemImage *ItemImage) Load() error {
+func (itemImage *ItemImage) LoadImages() error {
 	filePath := itemImage.FilePath()
 	b, err := ioutil.ReadFile(filePath)
 	if err != nil {

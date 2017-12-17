@@ -15,3 +15,11 @@ footer {
 .images img {
 	width:200px;
 }
+
+ul {
+  list-style-type: none;
+}
+
+.items-images img {
+	width:259px;
+}

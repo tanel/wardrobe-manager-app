@@ -30,7 +30,7 @@ func SaveItem(item *model.Item, userID string) error {
 			return errors.Annotate(err, "saving image failed")
 		}
 
-		if err := itemImage.Save(); err != nil {
+		if err := itemImage.SaveImages(); err != nil {
 			return errors.Annotate(err, "saving image file failed")
 		}
 	}
