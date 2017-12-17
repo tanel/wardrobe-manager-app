@@ -22,7 +22,11 @@ ul {
 
 .items-images img {
 	max-width:140px;
-	max-height: 160px;
+	max-height: 140px;
+}
+
+.items-images .col-sm-2 {
+	margin-bottom:20px;
 }
 
 .image-frame {

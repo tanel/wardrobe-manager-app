@@ -13,19 +13,19 @@
 	{{if .Categories}}
 		{{range .Categories}}
 			{{if .Items}}
-				{{.Description}}
+				<h1>{{.Description}}</h1>
 				<div class="row items-images">
 				{{range .Items}}
-				<div class="col-sm-2">
-					<div class="image-frame">
-					{{if .ImageID}}
-						<a href="/items/{{.ID}}">
-							<img src="/images/{{.ImageID}}"/>
-						</a>
-					{{end}}
+					<div class="col-sm-2">
+						<div class="image-frame">
+						{{if .ImageID}}
+							<a href="/items/{{.ID}}">
+								<img src="/images/{{.ImageID}}"/>
+							</a>
+						{{end}}
+						</div>
+						<a href="/items/{{.ID}}">{{.Name}}</a>
 					</div>
-					<a href="/items/{{.ID}}">{{.Name}}</a>
-				</div>
 				{{end}}
 				</div>
 			{{end}}
