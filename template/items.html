@@ -2,35 +2,35 @@
 	{{template "header" .}}
 
 	{{if not .Items}}
-	<h1>Welcome!</h1>
-	<p>Start by adding clothes from your wardrobe: <a class="btn btn-success" href="/new">Add an item</a></p>
+		<h1>Welcome!</h1>
+		<p>Start by adding clothes from your wardrobe: <a class="btn btn-success" href="/new">Add an item</a></p>
 	{{end}}
 
 	{{if .Items}}
-	<p><a class="btn btn-success" href="/new">Add an item</a></p>
+		<p><a class="btn btn-success" href="/new">Add an item</a></p>
 	{{end}}
-	
+
 	{{if .Categories}}
 		{{range .Categories}}
 			{{if .Items}}
 				{{.Description}}
-			  <div class="row items-images">
-			  	{{range .Items}}
-			    <div class="col-sm-2">
-			    	<div class="image-frame">
-				      	{{if .ImageID}}
-							<a href="/items/{{.ID}}">
-								<img src="/images/{{.ImageID}}"/>
-							</a>
-						{{end}}
+				<div class="row items-images">
+				{{range .Items}}
+				<div class="col-sm-2">
+					<div class="image-frame">
+					{{if .ImageID}}
+						<a href="/items/{{.ID}}">
+							<img src="/images/{{.ImageID}}"/>
+						</a>
+					{{end}}
 					</div>
-			        <a href="/items/{{.ID}}">{{.Name}}</a>
-			    </div>
-			    {{end}}
-			  </div>
+					<a href="/items/{{.ID}}">{{.Name}}</a>
+				</div>
+				{{end}}
+				</div>
 			{{end}}
 		{{end}}
 	{{end}}
+
 	{{template "footer" .}}
 {{end}}
-

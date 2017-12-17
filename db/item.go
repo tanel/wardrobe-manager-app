@@ -77,6 +77,9 @@ func SelectItemWithImagesByID(userID, itemID string) (*model.Item, error) {
 }
 
 func SelectItemByID(userID, itemID string) (*model.Item, error) {
+	var description, color, size, brand, currency, category sql.NullString
+	var price sql.NullFloat64
+
 	var item model.Item
 	err := db.QueryRow(`
 		SELECT
@@ -106,13 +109,13 @@ func SelectItemByID(userID, itemID string) (*model.Item, error) {
 		&item.ID,
 		&item.UserID,
 		&item.Name,
-		&item.Description,
-		&item.Color,
-		&item.Size,
-		&item.Brand,
-		&item.Price,
-		&item.Currency,
-		&item.Category,
+		&description,
+		&color,
+		&size,
+		&brand,
+		&price,
+		&currency,
+		&category,
 		&item.Season,
 		&item.Formal,
 		&item.CreatedAt,
@@ -120,6 +123,14 @@ func SelectItemByID(userID, itemID string) (*model.Item, error) {
 	if err != nil && err != sql.ErrNoRows {
 		return nil, errors.Annotate(err, "selecting item by ID failed")
 	}
+
+	item.Description = description.String
+	item.Color = color.String
+	item.Size = size.String
+	item.Brand = brand.String
+	item.Price = price.Float64
+	item.Currency = currency.String
+	item.Category = category.String
 
 	return &item, nil
 }
@@ -170,18 +181,21 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 
 	var items []model.Item
 	for rows.Next() {
+		var description, color, size, brand, currency, category sql.NullString
+		var price sql.NullFloat64
+
 		var item model.Item
 		if err := rows.Scan(
 			&item.ID,
 			&item.UserID,
 			&item.Name,
-			&item.Description,
-			&item.Color,
-			&item.Size,
-			&item.Brand,
-			&item.Price,
-			&item.Currency,
-			&item.Category,
+			&description,
+			&color,
+			&size,
+			&brand,
+			&price,
+			&currency,
+			&category,
 			&item.Season,
 			&item.Formal,
 			&item.CreatedAt,
@@ -189,6 +203,14 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 		); err != nil {
 			return nil, errors.Annotate(err, "scanning items failed")
 		}
+
+		item.Description = description.String
+		item.Color = color.String
+		item.Size = size.String
+		item.Brand = brand.String
+		item.Price = price.Float64
+		item.Currency = currency.String
+		item.Category = category.String
 
 		items = append(items, item)
 	}
