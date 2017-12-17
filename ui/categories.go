@@ -9,6 +9,7 @@ var categories = []string{
 	"jeans",
 	"knitwear",
 	"outerwear",
+	"perfumes",
 	"shirts",
 	"socks",
 	"suits",
