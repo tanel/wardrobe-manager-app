@@ -17,3 +17,13 @@ migrate-up:
 
 migrate-down:
 	migrate -path migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" down 1
+
+testuser: testuser-up
+
+testuser-up:
+	migrate -path testdata/migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" up 1
+	mkdir -p uploads/18f25d1b-dd0a-4889-9610-d103164c2f2e/images
+	cp testdata/images/* uploads/18f25d1b-dd0a-4889-9610-d103164c2f2e/images
+
+testuser-down:
+	migrate -path testdata/migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" down 1

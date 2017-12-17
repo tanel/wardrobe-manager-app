@@ -29,3 +29,11 @@ Run migrations
 ## Start server
 
 	make run
+
+## Test data
+
+To add test user to database with mock data, run
+
+	make testuser
+
+It creates user "test@test.com" with password "123".
