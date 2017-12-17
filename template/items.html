@@ -3,15 +3,13 @@
 
 	{{if not .Items}}
 	<h1>Welcome!</h1>
-	<p>Start by adding clothes from your wardrobe: <a href="/new">Add an item</a></p>
+	<p>Start by adding clothes from your wardrobe: <a class="btn btn-success" href="/new">Add an item</a></p>
 	{{end}}
 
 	{{if .Items}}
-	<p><a href="/new">Add an item</a></p>
+	<p><a class="btn btn-success" href="/new">Add an item</a></p>
 	{{end}}
-
 	
-
 	{{if .Items}}
 	  <div class="row items-images">
 	  	{{range .Items}}
