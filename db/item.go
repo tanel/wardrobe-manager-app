@@ -169,7 +169,7 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 		AND
 			deleted_at IS NULL
 		ORDER BY
-			name
+			category, created_at, name
 	`,
 		userID,
 	)

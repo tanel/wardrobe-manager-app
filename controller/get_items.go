@@ -34,7 +34,7 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	categoryLookup := make(map[string]*model.Category)
 	for _, item := range items {
 		description := "Uncategorized"
-		if item.Category == "" {
+		if item.Category != "" {
 			description = item.Category
 		}
 
