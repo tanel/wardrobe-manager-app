@@ -17,13 +17,13 @@ type Item struct {
 	Base
 	UserID      string
 	Name        string
-	Description string
-	Color       string
-	Size        string
-	Brand       string
-	Price       float64
-	Currency    string
-	Category    string
+	Description *string
+	Color       *string
+	Size        *string
+	Brand       *string
+	Price       *float64
+	Currency    *string
+	Category    *string
 	Season      string
 	Formal      bool
 
@@ -50,16 +50,29 @@ func NewItemForm(r *http.Request) (*Item, error) {
 			return nil, errors.New("please enter a valid price or leave it blank")
 		}
 
-		item.Price = price
+		item.Price = &price
 	}
 
-	item.Description = strings.TrimSpace(r.FormValue("description"))
-	item.Color = strings.TrimSpace(r.FormValue("color"))
-	item.Size = strings.TrimSpace(r.FormValue("size"))
-	item.Brand = strings.TrimSpace(r.FormValue("brand"))
-	item.Category = strings.TrimSpace(r.FormValue("category"))
-	item.Currency = strings.TrimSpace(r.FormValue("currency"))
+	description := strings.TrimSpace(r.FormValue("description"))
+	item.Description = &description
+
+	color := strings.TrimSpace(r.FormValue("color"))
+	item.Color = &color
+
+	size := strings.TrimSpace(r.FormValue("size"))
+	item.Size = &size
+
+	brand := strings.TrimSpace(r.FormValue("brand"))
+	item.Brand = &brand
+
+	category := strings.TrimSpace(r.FormValue("category"))
+	item.Category = &category
+
+	currency := strings.TrimSpace(r.FormValue("currency"))
+	item.Currency = &currency
+
 	item.Season = strings.TrimSpace(r.FormValue("season"))
+
 	item.CreatedAt = time.Now()
 
 	file, _, err := r.FormFile("image")
