@@ -21,5 +21,10 @@ ul {
 }
 
 .items-images img {
-	width:140px;
+	max-width:140px;
+	max-height: 160px;
+}
+
+.image-frame {
+    height: 140px;
 }

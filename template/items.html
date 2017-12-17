@@ -16,9 +16,11 @@
 	  <div class="row items-images">
 	  	{{range .Items}}
 	    <div class="col-sm-2">
-	      	{{if .ImageID}}
-				<a target="_blank" href="/images/{{.ImageID}}"><img src="/images/{{.ImageID}}"/></a>
-			{{end}}
+	    	<div class="image-frame">
+		      	{{if .ImageID}}
+					<a target="_blank" href="/images/{{.ImageID}}"><img src="/images/{{.ImageID}}"/></a>
+				{{end}}
+			</div>
 			<strong>{{.Brand}}</strong>
 			<br/>
 	        <a href="/items/{{.ID}}">{{.Name}}</a>
