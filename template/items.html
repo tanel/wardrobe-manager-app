@@ -19,13 +19,12 @@
 			    <div class="col-sm-2">
 			    	<div class="image-frame">
 				      	{{if .ImageID}}
-							<a target="_blank" href="/images/{{.ImageID}}"><img src="/images/{{.ImageID}}"/></a>
+							<a href="/items/{{.ID}}">
+								<img src="/images/{{.ImageID}}"/>
+							</a>
 						{{end}}
 					</div>
-					<strong>{{.Brand}}</strong>
-					<br/>
 			        <a href="/items/{{.ID}}">{{.Name}}</a>
-				    {{.Description}}
 			    </div>
 			    {{end}}
 			  </div>

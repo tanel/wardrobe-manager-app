@@ -6,7 +6,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-manager-app/db"
-	//"github.com/tanel/wardrobe-manager-app/model"
+	"github.com/tanel/wardrobe-manager-app/model"
 	"github.com/tanel/wardrobe-manager-app/session"
 	"github.com/tanel/wardrobe-manager-app/ui"
 )
@@ -31,19 +31,36 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	/* sort group items by category
-		var categories model.Category
-		for _, item := range items{
-	        //if item.Category == ""
+	categoryLookup := make(map[string]*model.Category)
+	for _, item := range items {
+		description := "(no category)"
+		if item.Category == nil {
+			description = *item.Category
 		}
-	*/
+
+		category, exists := categoryLookup[description]
+		if !exists {
+			category = &model.Category{
+				Description: description,
+			}
+		}
+
+		category.Items = append(category.Items, item)
+
+		categoryLookup[description] = category
+	}
+
+	var categories []model.Category
+	for _, category := range categoryLookup {
+		categories = append(categories, *category)
+	}
 
 	page := ui.ItemsPage{
 		Page: ui.Page{
 			UserID: *userID,
 		},
-		Items: items,
-		//Categories: categories,
+		Items:      items,
+		Categories: categories,
 	}
 	if err := Render(w, "items", page); err != nil {
 		log.Println(err)
