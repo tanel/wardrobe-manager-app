@@ -1,3 +1,5 @@
+DATE=`date +%Y%m%d_%H%M%S`
+
 default: build
 
 build:
@@ -27,3 +29,8 @@ testuser-up:
 
 testuser-down:
 	migrate -path testdata/migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" down 1
+
+backup:
+	@mkdir -p backups
+	@pg_dump wardrobe > backups/$(DATE).sql
+	cp -r uploads backups/uploads
