@@ -163,6 +163,8 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 					item_images
 				WHERE
 					item_id = items.id
+				AND
+					deleted_at IS NULL
 				ORDER BY
 					created_at
 				LIMIT 1
