@@ -18,14 +18,6 @@
     <label for="image">Add new image</label>
     <input type="file" class="form-control-file" id="image" name="image">
   </div>
-   <div class="form-group">
-      <button type="submit" class="btn btn-primary">Save item</button>
-      {{if .Item.ID}}
-        <button type="button" class="btn btn-danger"> 
-          <a href="/confirm-delete-item/{{.Item.ID}}" style="color:inherit">Delete item</a>
-        </button>  
-      {{end}}
-  </div>
   <div class="form-group">
     <label for="category">Category</label>
     <select class="form-control" id="category" name="category">
@@ -36,6 +28,18 @@
       <option{{if eq $.Item.Category .}} selected{{end}}>{{.}}</option>
       {{end}}
     </select>
+  </div>
+  <div class="form-group">
+    <label for="brand">Brand</label>
+    <input type="text" class="form-control" id="brand" name="brand" aria-describedby="" value="{{.Item.Brand}}">
+  </div>
+   <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save item</button>
+      {{if .Item.ID}}
+        <button type="button" class="btn btn-danger">
+          <a href="/confirm-delete-item/{{.Item.ID}}" style="color:inherit">Delete item</a>
+        </button>
+      {{end}}
   </div>
   <div class="form-group">
     <label for="description">Description</label>
@@ -55,10 +59,6 @@
   <div class="form-group">
     <label for="size">Size</label>
     <input type="text" class="form-control" id="size" name="size" aria-describedby="" value="{{.Item.Size}}">
-  </div>
-  <div class="form-group">
-    <label for="brand">Brand</label>
-    <input type="text" class="form-control" id="brand" name="brand" aria-describedby="" value="{{.Item.Brand}}">
   </div>
   <div class="form-group">
     <label for="price">Price</label>

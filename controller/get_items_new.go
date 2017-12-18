@@ -23,7 +23,9 @@ func GetItemsNew(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	page := ui.NewItemPage(*userID, model.Item{})
+	page := ui.NewItemPage(*userID, model.Item{
+		Currency: "EUR",
+	})
 	if err := Render(w, "items-new", page); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
