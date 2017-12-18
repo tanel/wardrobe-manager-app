@@ -20,14 +20,7 @@
   </div>
   <div class="form-group">
     <label for="category">Category</label>
-    <select class="form-control" id="category" name="category">
-      <option value="">(no category selected)</option>
-      <option>Add new category</option>
-      <option value="">-------------</option>
-      {{range .Categories}}
-      <option{{if eq $.Item.Category .}} selected{{end}}>{{.}}</option>
-      {{end}}
-    </select>
+    <input type="text" class="form-control" id="category" name="category" aria-describedby="" value="{{.Item.Category}}">
   </div>
   <div class="form-group">
     <label for="brand">Brand</label>
@@ -38,10 +31,6 @@
     <input type="text" class="form-control" id="price" name="price" aria-describedby="" value="{{.Item.Price}}">
     <label for="currency">Currency</label>
     <input type="text" class="form-control" id="currency" name="currency" aria-describedby="" value="{{.Item.Currency}}">
-  </div>
-  <div class="form-group">
-    <label for="quantity">Quantity</label>
-    <input type="text" class="form-control" id="quantity" name="quantity" aria-describedby="" value="{{.Item.Quantity}}">
   </div>
    <div class="form-group">
       <button type="submit" class="btn btn-success">Save item</button>
@@ -57,14 +46,7 @@
   </div>
   <div class="form-group">
     <label for="color">Color</label>
-    <select class="form-control" id="color" name="color">
-      <option value="">(no color selected)</option>
-  		<option>Add new color</option>
-  		<option value="">-------------</option>
-      {{range .Colors}}
-  		<option{{if eq $.Item.Color .}} selected{{end}}>{{.}}</option>
-      {{end}}
-    </select>
+    <input type="text" class="form-control" id="color" name="color" aria-describedby="" value="{{.Item.Color}}">
   </div>
   <div class="form-group">
     <label for="size">Size</label>
@@ -84,6 +66,10 @@
        Formal
      </label>
    </div>
+  <div class="form-group">
+    <label for="quantity">Quantity</label>
+    <input type="text" class="form-control" id="quantity" name="quantity" aria-describedby="" value="{{.Item.Quantity}}">
+  </div>
    <div class="form-group">
       <button type="submit" class="btn btn-success">Save item</button>
       {{if .Item.ID}}
