@@ -36,7 +36,8 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		Page: ui.Page{
 			UserID: *userID,
 		},
-		Categories: categories,
+		Categories:       categories,
+		SelectedCategory: category,
 	}
 	if err := Render(w, "items", page); err != nil {
 		log.Println(err)

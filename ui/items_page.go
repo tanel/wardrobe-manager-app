@@ -6,5 +6,6 @@ import (
 
 type ItemsPage struct {
 	Page
-	Categories []model.Category
+	Categories       []model.Category
+	SelectedCategory string
 }

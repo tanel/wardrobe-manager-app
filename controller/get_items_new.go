@@ -23,9 +23,12 @@ func GetItemsNew(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
+	category := r.URL.Query().Get("category")
+
 	page := ui.NewItemPage(*userID, model.Item{
 		Currency: "EUR",
 		Quantity: 1,
+		Category: category,
 	})
 	if err := Render(w, "items-new", page); err != nil {
 		log.Println(err)
