@@ -1,0 +1,1 @@
+alter table items add column quantity int not null default 1;

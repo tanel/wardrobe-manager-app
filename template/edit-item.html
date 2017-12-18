@@ -33,8 +33,18 @@
     <label for="brand">Brand</label>
     <input type="text" class="form-control" id="brand" name="brand" aria-describedby="" value="{{.Item.Brand}}">
   </div>
+  <div class="form-group">
+    <label for="price">Price per item</label>
+    <input type="text" class="form-control" id="price" name="price" aria-describedby="" value="{{.Item.Price}}">
+    <label for="currency">Currency</label>
+    <input type="text" class="form-control" id="currency" name="currency" aria-describedby="" value="{{.Item.Currency}}">
+  </div>
+  <div class="form-group">
+    <label for="quantity">Quantity</label>
+    <input type="text" class="form-control" id="quantity" name="quantity" aria-describedby="" value="{{.Item.Quantity}}">
+  </div>
    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Save item</button>
+      <button type="submit" class="btn btn-success">Save item</button>
       {{if .Item.ID}}
         <button type="button" class="btn btn-danger">
           <a href="/confirm-delete-item/{{.Item.ID}}" style="color:inherit">Delete item</a>
@@ -61,12 +71,6 @@
     <input type="text" class="form-control" id="size" name="size" aria-describedby="" value="{{.Item.Size}}">
   </div>
   <div class="form-group">
-    <label for="price">Price</label>
-    <input type="text" class="form-control" id="price" name="price" aria-describedby="" value="{{.Item.Price}}">
-    <label for="currency">Currency</label>
-    <input type="text" class="form-control" id="currency" name="currency" aria-describedby="" value="{{.Item.Currency}}">
-  </div>
-  <div class="form-group">
     <label for="season">Season</label>
     <select class="form-control" id="season" name="season">
 		<option value="all-year">All year</option>
@@ -81,7 +85,7 @@
      </label>
    </div>
    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Save item</button>
+      <button type="submit" class="btn btn-success">Save item</button>
       {{if .Item.ID}}
         <button type="button" class="btn btn-danger"> 
           <a href="/confirm-delete-item/{{.Item.ID}}" style="color:inherit">Delete item</a>

@@ -24,7 +24,7 @@
 							</a>
 						{{end}}
 						</div>
-						<a href="/items/{{.ID}}">{{.Name}}</a>
+						<a href="/items/{{.ID}}">{{.Name}}</a>{{if ne .Quantity 1}} ({{.Quantity}}){{end}}
 					</div>
 				{{end}}
 				</div>

@@ -22,6 +22,7 @@ func InsertItem(item model.Item) error {
 			category,
 			season,
 			formal,
+			quantity,
 			created_at
 		) VALUES(
 			$1,
@@ -36,7 +37,8 @@ func InsertItem(item model.Item) error {
 			$10,
 			$11,
 			$12,
-			$13
+			$13,
+			$14
 		)
 	`,
 		item.ID,
@@ -51,6 +53,7 @@ func InsertItem(item model.Item) error {
 		item.Category,
 		item.Season,
 		item.Formal,
+		item.Quantity,
 		item.CreatedAt,
 	)
 	if err != nil {
@@ -95,6 +98,7 @@ func SelectItemByID(itemID, userID string) (*model.Item, error) {
 			category,
 			season,
 			formal,
+			quantity,
 			created_at
 		FROM
 			items
@@ -118,6 +122,7 @@ func SelectItemByID(itemID, userID string) (*model.Item, error) {
 		&category,
 		&item.Season,
 		&item.Formal,
+		&item.Quantity,
 		&item.CreatedAt,
 	)
 	if err != nil && err != sql.ErrNoRows {
@@ -161,7 +166,8 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 				ORDER BY
 					created_at
 				LIMIT 1
-			) AS image_id
+			) AS image_id,
+			quantity
 		FROM
 			items
 		WHERE
@@ -200,6 +206,7 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 			&item.Formal,
 			&item.CreatedAt,
 			&item.ImageID,
+			&item.Quantity,
 		); err != nil {
 			return nil, errors.Annotate(err, "scanning items failed")
 		}
@@ -236,9 +243,10 @@ func UpdateItem(item model.Item) error {
 			currency = $7,
 			category = $8,
 			season = $9,
-			formal = $10
+			formal = $10,
+			quantity = $11
 		WHERE
-			id = $11
+			id = $12
 	`,
 		item.Name,
 		item.Description,
@@ -250,6 +258,7 @@ func UpdateItem(item model.Item) error {
 		item.Category,
 		item.Season,
 		item.Formal,
+		item.Quantity,
 		item.ID,
 	)
 	if err != nil {

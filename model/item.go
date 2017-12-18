@@ -24,6 +24,7 @@ type Item struct {
 	Category    string
 	Season      string
 	Formal      bool
+	Quantity    int
 
 	Images  []ItemImage
 	ImageID *string
@@ -41,8 +42,7 @@ func NewItemForm(r *http.Request) (*Item, error) {
 		return nil, errors.New("please enter a name")
 	}
 
-	s := strings.TrimSpace(r.FormValue("price"))
-	if s != "" {
+	if s := strings.TrimSpace(r.FormValue("price")); s != "" {
 		s = strings.Replace(s, ",", ".", -1)
 		price, err := strconv.ParseFloat(s, 64)
 		if err != nil {
@@ -50,6 +50,15 @@ func NewItemForm(r *http.Request) (*Item, error) {
 		}
 
 		item.Price = price
+	}
+
+	if s := strings.TrimSpace(r.FormValue("quantity")); s != "" {
+		quantity, err := strconv.Atoi(s)
+		if err != nil {
+			return nil, errors.New("please enter a valid quantity or leave it blank")
+		}
+
+		item.Quantity = quantity
 	}
 
 	item.Description = strings.TrimSpace(r.FormValue("description"))
