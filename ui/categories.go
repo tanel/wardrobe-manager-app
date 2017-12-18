@@ -2,6 +2,7 @@ package ui
 
 var categories = []string{
 	"accessories",
+	"bags",
 	"blazers",
 	"footwear",
 	"glasses",
