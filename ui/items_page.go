@@ -6,6 +6,5 @@ import (
 
 type ItemsPage struct {
 	Page
-	Items      []model.Item
 	Categories []model.Category
 }

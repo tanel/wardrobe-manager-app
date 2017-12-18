@@ -1,12 +1,12 @@
 {{define "items"}}
 	{{template "header" .}}
 
-	{{if not .Items}}
+	{{if not .Categories}}
 		<h1>Welcome!</h1>
 		<p>Start by adding clothes from your wardrobe: <a class="btn btn-success" href="/new">Add an item</a></p>
 	{{end}}
 
-	{{if .Items}}
+	{{if .Categories}}
 		<p><a class="btn btn-success" href="/new">Add an item</a></p>
 	{{end}}
 

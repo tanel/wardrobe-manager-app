@@ -37,3 +37,40 @@ func SaveItem(item *model.Item, userID string) error {
 
 	return nil
 }
+
+func GroupItemsByCategory(userID string) ([]model.Category, error) {
+	items, err := db.SelectItemsByUserID(userID)
+	if err != nil {
+		return nil, errors.Annotate(err, "selectin items by user ID failed")
+	}
+
+	var descriptions []string
+	categoryLookup := make(map[string]*model.Category)
+	for _, item := range items {
+		description := "Uncategorized"
+		if item.Category != "" {
+			description = item.Category
+		}
+
+		category, exists := categoryLookup[description]
+		if !exists {
+			category = &model.Category{
+				Description: description,
+			}
+
+			descriptions = append(descriptions, description)
+		}
+
+		category.Items = append(category.Items, item)
+
+		categoryLookup[description] = category
+	}
+
+	var categories []model.Category
+	for _, description := range descriptions {
+		category := categoryLookup[description]
+		categories = append(categories, *category)
+	}
+
+	return categories, nil
+}
