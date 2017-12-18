@@ -38,8 +38,8 @@ func SaveItem(item *model.Item, userID string) error {
 	return nil
 }
 
-func GroupItemsByCategory(userID string) ([]model.Category, error) {
-	items, err := db.SelectItemsByUserID(userID)
+func GroupItemsByCategory(userID string, category string) ([]model.Category, error) {
+	items, err := db.SelectItemsByUserID(userID, category)
 	if err != nil {
 		return nil, errors.Annotate(err, "selectin items by user ID failed")
 	}

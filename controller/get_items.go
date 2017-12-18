@@ -23,7 +23,9 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	categories, err := service.GroupItemsByCategory(*userID)
+	category := r.URL.Query().Get("category")
+
+	categories, err := service.GroupItemsByCategory(*userID, category)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)

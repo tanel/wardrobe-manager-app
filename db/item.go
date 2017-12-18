@@ -140,7 +140,7 @@ func SelectItemByID(itemID, userID string) (*model.Item, error) {
 	return &item, nil
 }
 
-func SelectItemsByUserID(userID string) ([]model.Item, error) {
+func SelectItemsByUserID(userID string, category string) ([]model.Item, error) {
 	rows, err := db.Query(`
 		SELECT
 			id,
@@ -176,10 +176,13 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 			user_id = $1
 		AND
 			deleted_at IS NULL
+		AND
+			(category = $2 OR $2 = '')
 		ORDER BY
 			COALESCE(category, ''), created_at, name
 	`,
 		userID,
+		category,
 	)
 	if err != nil {
 		return nil, errors.Annotate(err, "selecting items by user ID failed")
