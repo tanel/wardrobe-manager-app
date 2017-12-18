@@ -12,20 +12,17 @@ footer {
 	margin-left:20px;
 }
 
-.images img {
-	width:200px;
-}
-
 ul {
   list-style-type: none;
 }
 
-.items-images img {
-	max-width:140px;
+.images img {
 	max-height: 140px;
+	max-width:140px;
+	max-width:200px;
 }
 
-.items-images .col-sm-2 {
+.images .item-image {
 	margin-bottom:20px;
 }
 

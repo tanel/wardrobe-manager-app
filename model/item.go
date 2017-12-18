@@ -45,6 +45,7 @@ func NewItemForm(r *http.Request) (*Item, error) {
 
 	s := strings.TrimSpace(r.FormValue("price"))
 	if s != "" {
+		s = strings.Replace(s, ",", ".", -1)
 		price, err := strconv.ParseFloat(s, 64)
 		if err != nil {
 			return nil, errors.New("please enter a valid price or leave it blank")

@@ -14,9 +14,9 @@
 		{{range .Categories}}
 			{{if .Items}}
 				<h1>{{.Description}}</h1>
-				<div class="row items-images">
+				<div class="row images">
 				{{range .Items}}
-					<div class="col-sm-2">
+					<div class="item-image col-sm-2">
 						<div class="image-frame">
 						{{if .ImageID}}
 							<a href="/items/{{.ID}}">
