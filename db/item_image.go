@@ -42,6 +42,8 @@ func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
 			item_images
 		WHERE
 			item_id = $1
+		AND
+			deleted_at is null
 		ORDER BY
 			created_at
 	`,
@@ -99,4 +101,25 @@ func SelectItemImageByID(itemImageID, userID string) (*model.ItemImage, error) {
 	}
 
 	return &itemImage, nil
+}
+
+func DeleteItemImage(itemImageID, userID string) error {
+	_, err := db.Exec(`
+		UPDATE
+			item_images
+		SET
+			deleted_at = current_timestamp
+		WHERE
+			id = $1
+		AND
+			user_id = $2
+	`,
+		itemImageID,
+		userID,
+	)
+	if err != nil {
+		return errors.Annotate(err, "deleting item image failed")
+	}
+
+	return nil
 }

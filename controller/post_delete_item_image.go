@@ -7,10 +7,9 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-manager-app/db"
 	"github.com/tanel/wardrobe-manager-app/session"
-	"github.com/tanel/wardrobe-manager-app/ui"
 )
 
-func GetItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func PostDeleteItemImage(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	userID, err := session.UserID(r)
 	if err != nil {
 		log.Println(err)
@@ -23,17 +22,18 @@ func GetItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	item, err := db.SelectItemWithImagesByID(ps.ByName("id"), *userID)
+	itemImage, err := db.SelectItemImageByID(ps.ByName("id"), *userID)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "database error", http.StatusInternalServerError)
+		http.Error(w, "Database error", http.StatusInternalServerError)
 		return
 	}
 
-	page := ui.NewItemPage(*userID, *item)
-	if err := Render(w, "item", page); err != nil {
+	if err := db.DeleteItemImage(ps.ByName("id"), *userID); err != nil {
 		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
+		http.Error(w, "Database error", http.StatusInternalServerError)
 		return
 	}
+
+	http.Redirect(w, r, "/items/"+itemImage.ItemID, http.StatusSeeOther)
 }

@@ -4,19 +4,27 @@
     <label for="name">Name</label>
     <input type="text" class="form-control" id="name" name="name" aria-describedby="" autofocus="" value="{{.Item.Name}}">
   </div>
-  <div class="form-group">
-    <label for="image">Images</label>
-    <input type="file" class="form-control-file" id="image" name="image">
-  </div>
   <div class="row images">
     {{range .Item.Images}}
     <div class="item-image col-sm-2">
       <a target="_blank" href="/item-images/{{.ID}}"><img src="/item-images/{{.ID}}"/></a>
       <button type="button" class="btn btn-danger">
-        <a href="/confirm-delete-image/{{.ID}}" style="color:inherit">Delete image</a>
+        <a href="/confirm-delete-item-image/{{.ID}}" style="color:inherit">Delete image</a>
       </button>
     </div>
     {{end}}
+  </div>
+  <div class="form-group">
+    <label for="image">Add new image</label>
+    <input type="file" class="form-control-file" id="image" name="image">
+  </div>
+   <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save item</button>
+      {{if .Item.ID}}
+        <button type="button" class="btn btn-danger"> 
+          <a href="/confirm-delete-item/{{.Item.ID}}" style="color:inherit">Delete item</a>
+        </button>  
+      {{end}}
   </div>
   <div class="form-group">
     <label for="description">Description</label>
@@ -72,11 +80,13 @@
        Formal
      </label>
    </div>
-  <button type="submit" class="btn btn-primary">Save</button>
-  {{if .Item.ID}}
-  <button type="button" class="btn btn-danger"> 
-    <a href="/confirm-delete-item/{{.Item.ID}}" style="color:inherit">Delete</a>
-  </button>  
-  {{end}}
+   <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save item</button>
+      {{if .Item.ID}}
+        <button type="button" class="btn btn-danger"> 
+          <a href="/confirm-delete-item/{{.Item.ID}}" style="color:inherit">Delete item</a>
+        </button>  
+      {{end}}
+  </div>
 </fieldset>
 {{end}}

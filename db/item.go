@@ -60,8 +60,8 @@ func InsertItem(item model.Item) error {
 	return nil
 }
 
-func SelectItemWithImagesByID(userID, itemID string) (*model.Item, error) {
-	item, err := SelectItemByID(userID, itemID)
+func SelectItemWithImagesByID(itemID, userID string) (*model.Item, error) {
+	item, err := SelectItemByID(itemID, userID)
 	if err != nil {
 		return nil, errors.Annotate(err, "selecting item failed")
 	}
@@ -76,7 +76,7 @@ func SelectItemWithImagesByID(userID, itemID string) (*model.Item, error) {
 	return item, nil
 }
 
-func SelectItemByID(userID, itemID string) (*model.Item, error) {
+func SelectItemByID(itemID, userID string) (*model.Item, error) {
 	var description, color, size, brand, currency, category sql.NullString
 	var price sql.NullFloat64
 
