@@ -23,7 +23,7 @@ func GetConfirmDeleteItem(w http.ResponseWriter, r *http.Request, ps httprouter.
 		return
 	}
 
-	item, err := db.SelectItemByID(*userID, ps.ByName("id"))
+	item, err := db.SelectItemByID(ps.ByName("id"), *userID)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
