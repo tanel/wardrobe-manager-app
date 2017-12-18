@@ -62,6 +62,7 @@ func GroupItemsByCategory(userID string, category string) ([]model.Category, err
 		}
 
 		category.Items = append(category.Items, item)
+		category.ItemCount = category.ItemCount + 1
 
 		categoryLookup[description] = category
 	}

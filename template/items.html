@@ -19,7 +19,7 @@
 	{{if .Categories}}
 		{{range .Categories}}
 			{{if .Items}}
-				<h1><a href="/items?category={{.Description}}">{{.Description}}</a></h1>
+				<h1><a href="/items?category={{.Description}}">{{.Description}} ({{.ItemCount}})</a></h1>
 				<div class="row images">
 				{{range .Items}}
 					<div class="item-image col-sm-2">
