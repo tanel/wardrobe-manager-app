@@ -27,6 +27,10 @@
     <input type="text" class="form-control" id="brand" name="brand" aria-describedby="" value="{{.Item.Brand}}">
   </div>
   <div class="form-group">
+    <label for="color">Color</label>
+    <input type="text" class="form-control" id="color" name="color" aria-describedby="" value="{{.Item.Color}}">
+  </div>
+  <div class="form-group">
     <label for="price">Price per item</label>
     <input type="text" class="form-control" id="price" name="price" aria-describedby="" value="{{.Item.Price}}">
     <label for="currency">Currency</label>
@@ -43,10 +47,6 @@
   <div class="form-group">
     <label for="description">Description</label>
     <textarea class="form-control" id="description" name="description" rows="3">{{.Item.Description}}</textarea>
-  </div>
-  <div class="form-group">
-    <label for="color">Color</label>
-    <input type="text" class="form-control" id="color" name="color" aria-describedby="" value="{{.Item.Color}}">
   </div>
   <div class="form-group">
     <label for="size">Size</label>
