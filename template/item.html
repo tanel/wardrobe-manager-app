@@ -1,5 +1,10 @@
 {{define "item"}}
 	{{template "header" .}}
+	<ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="/items">Items</a></li>
+	    <li class="breadcrumb-item"><a href="/items?category={{.Item.Category}}">{{.Item.Category}}</a></li>
+	    <li class="breadcrumb-item active">{{.Item.Name}}</li>
+	</ol>
 	<form enctype="multipart/form-data" action="/items/{{.Item.ID}}" method="POST">
 		{{template "edit-item" .}}
 	</form>
