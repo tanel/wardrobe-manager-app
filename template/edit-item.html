@@ -11,7 +11,7 @@
   <div class="row images">
     {{range .Item.Images}}
     <div class="item-image col-sm-2">
-      <a target="_blank" href="/images/{{.ID}}"><img src="/images/{{.ID}}"/></a>
+      <a target="_blank" href="/item-images/{{.ID}}"><img src="/item-images/{{.ID}}"/></a>
       <button type="button" class="btn btn-danger">
         <a href="/confirm-delete-image/{{.ID}}" style="color:inherit">Delete image</a>
       </button>

@@ -22,8 +22,8 @@ testuser: testuser-up
 
 testuser-up:
 	migrate -path testdata/migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" up 1
-	mkdir -p uploads/18f25d1b-dd0a-4889-9610-d103164c2f2e/images
-	cp testdata/images/* uploads/18f25d1b-dd0a-4889-9610-d103164c2f2e/images
+	mkdir -p uploads/18f25d1b-dd0a-4889-9610-d103164c2f2e/item-images
+	cp testdata/item-images/* uploads/18f25d1b-dd0a-4889-9610-d103164c2f2e/item-images
 
 testuser-down:
 	migrate -path testdata/migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" down 1

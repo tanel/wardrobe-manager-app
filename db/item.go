@@ -169,7 +169,7 @@ func SelectItemsByUserID(userID string) ([]model.Item, error) {
 		AND
 			deleted_at IS NULL
 		ORDER BY
-			category, created_at, name
+			COALESCE(category, ''), created_at, name
 	`,
 		userID,
 	)
