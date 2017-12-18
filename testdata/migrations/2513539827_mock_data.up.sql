@@ -1,5 +1,5 @@
 insert into users(id, email, password_hash, created_at)
-	values('18f25d1b-dd0a-4889-9610-d103164c2f2e', 'test@test.com', '$2a$10$lFM6vwGt5SxdIU6z/Ns/zOl6Yz9aBnyyyq8/XJxG/P2p5y9JYyQ6m', current_timestamp);
+	values('18f25d1b-dd0a-4889-9610-d103164c2f2e', 'test@test.com', '$2a$10$lFM6vwGt5SxdIU6z/Ns/zOl6Yz9aBnyyyq8/XJxG/P2p5y9JYyQ6m', current_timestamp);/* password is 123 */
 
 insert into items(id, user_id, name, category, created_at)
 	values('9D4D02A2-2B1C-40B8-9C52-0B75904AE944', '18f25d1b-dd0a-4889-9610-d103164c2f2e', 'blazer', 'blazers', current_timestamp);
