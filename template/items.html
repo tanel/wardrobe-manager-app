@@ -30,7 +30,7 @@
 							</a>
 						{{end}}
 						</div>
-						<a href="/items/{{.ID}}">{{.Name}}</a>{{if ne .Quantity 1}} ({{.Quantity}}){{end}}
+						<a href="/items/{{.ID}}">{{.Name}}{{if ne .Quantity 1}} ({{.Quantity}}){{end}}{{if .Color}} - {{.Color}}{{end}}</a>
 					</div>
 				{{end}}
 				</div>
