@@ -38,15 +38,6 @@ func SaveItem(item *model.Item, userID string) error {
 	return nil
 }
 
-func CountItems(categories []model.Category) int64 {
-	var result int64
-	for _, category := range categories {
-		result = result + category.ItemCount
-	}
-
-	return result
-}
-
 func GroupItemsByCategory(userID string, category string) ([]model.Category, error) {
 	items, err := db.SelectItemsByUserID(userID, category)
 	if err != nil {
