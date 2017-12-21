@@ -44,12 +44,15 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
+	itemCount := service.CountItems(categories)
+
 	page := ui.ItemsPage{
 		Page: ui.Page{
 			UserID: *userID,
 		},
 		Categories:       categories,
 		SelectedCategory: *category,
+		ItemCount:        itemCount,
 	}
 	if err := Render(w, "items", page); err != nil {
 		log.Println(err)

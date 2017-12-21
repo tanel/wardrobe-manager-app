@@ -7,5 +7,6 @@ import (
 type ItemsPage struct {
 	Page
 	Categories       []model.Category
+	ItemCount        int64
 	SelectedCategory string
 }
