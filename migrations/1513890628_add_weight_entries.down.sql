@@ -1,0 +1,1 @@
+drop table weight_entries;
