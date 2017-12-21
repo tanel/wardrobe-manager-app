@@ -1,7 +1,7 @@
 var app = {};
 
 app.handleStar = function () {
-	var star = $(".star"),
+	var star = $(".star-clickable"),
 		input = $("#star");
 	star.click(function (evt) {
 		if (star.hasClass('fa-star-o')) {

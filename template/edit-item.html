@@ -1,9 +1,9 @@
 {{define "edit-item"}}
 <fieldset>
   {{if .Item.Starred}}
-    <i class="fa fa-star star"></i>
+    <i class="fa fa-star star-clickable"></i>
     {{else}}
-    <i class="fa fa-star-o star"></i>
+    <i class="fa fa-star-o star-clickable"></i>
   {{end}}
   <input type="hidden" id="star" name="star" value="{{.Item.Starred}}">
   <div class="form-group">

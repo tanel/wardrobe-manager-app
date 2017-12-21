@@ -31,6 +31,9 @@
 						{{end}}
 						</div>
 						<a href="/items/{{.ID}}">{{.Name}}{{if ne .Quantity 1}} ({{.Quantity}}){{end}}{{if .Color}} - {{.Color}}{{end}}</a>
+						{{if .Starred}}
+							<i class="fa fa-star"></i>
+						{{end}}
 					</div>
 				{{end}}
 				</div>

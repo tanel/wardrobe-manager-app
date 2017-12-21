@@ -45,6 +45,6 @@ ul {
     height: 140px;
 }
 
-.star {
+.star-clickable {
 	cursor:pointer;
 }
