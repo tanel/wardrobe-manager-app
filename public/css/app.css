@@ -44,3 +44,7 @@ ul {
 .image-frame {
     height: 140px;
 }
+
+.star {
+	cursor:pointer;
+}

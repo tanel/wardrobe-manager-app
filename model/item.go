@@ -25,6 +25,7 @@ type Item struct {
 	Season      string
 	Formal      bool
 	Quantity    int
+	Starred     bool
 
 	Images  []ItemImage
 	ImageID *string
@@ -69,6 +70,13 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	item.Currency = strings.TrimSpace(r.FormValue("currency"))
 	item.Season = strings.TrimSpace(r.FormValue("season"))
 	item.CreatedAt = time.Now()
+
+	starred, err := strconv.ParseBool(r.FormValue("star"))
+	if err != nil {
+		return nil, errors.Annotate(err, "parsing star failed")
+	}
+
+	item.Starred = starred
 
 	file, _, err := r.FormFile("image")
 	if err != nil && err != http.ErrMissingFile {
