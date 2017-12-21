@@ -160,7 +160,6 @@ func SelectItemsByUserID(userID string, category string) ([]model.Item, error) {
 			category,
 			season,
 			formal,
-			starred,
 			created_at,
 			(
 				SELECT
@@ -175,7 +174,8 @@ func SelectItemsByUserID(userID string, category string) ([]model.Item, error) {
 					created_at
 				LIMIT 1
 			) AS image_id,
-			quantity
+			quantity,
+			starred
 		FROM
 			items
 		WHERE
@@ -217,8 +217,8 @@ func SelectItemsByUserID(userID string, category string) ([]model.Item, error) {
 			&item.Formal,
 			&item.CreatedAt,
 			&item.ImageID,
-			&item.Starred,
 			&item.Quantity,
+			&item.Starred,
 		); err != nil {
 			return nil, errors.Annotate(err, "scanning items failed")
 		}

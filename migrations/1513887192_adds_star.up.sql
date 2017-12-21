@@ -1,0 +1,1 @@
+ALTER table items ADD column starred boolean NOT NULL DEFAULT false;
