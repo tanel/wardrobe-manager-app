@@ -32,8 +32,8 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	if err := session.SetCategory(w, r, *category); err != nil {
-		log.Println(err)
+	if sessionErr := session.SetCategory(w, r, *category); sessionErr != nil {
+		log.Println(sessionErr)
 		http.Error(w, "cookie error", http.StatusInternalServerError)
 		return
 	}
