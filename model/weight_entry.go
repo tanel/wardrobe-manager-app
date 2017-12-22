@@ -2,11 +2,10 @@ package model
 
 import (
 	"net/http"
-	"strconv"
-	"strings"
 	"time"
 
 	"github.com/juju/errors"
+	"github.com/tanel/wardrobe-manager-app/form"
 )
 
 // WeightEntry represents a weight measurement
@@ -22,17 +21,13 @@ func NewWeightEntryForm(r *http.Request) (*WeightEntry, error) {
 		return nil, errors.Annotate(err, "parsing form failed")
 	}
 
-	var weightEntry WeightEntry
-
-	s := strings.TrimSpace(r.FormValue("weight"))
-	s = strings.Replace(s, ",", ".", -1)
-	value, err := strconv.ParseFloat(s, 64)
+	weight, err := form.Float(r, "weight")
 	if err != nil {
 		return nil, errors.New("please enter a valid weight")
 	}
 
-	weightEntry.Value = value
-
+	var weightEntry WeightEntry
+	weightEntry.Value = weight
 	weightEntry.CreatedAt = time.Now()
 
 	return &weightEntry, nil
