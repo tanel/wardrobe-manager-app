@@ -26,6 +26,9 @@ func New() *httprouter.Router {
 	router.GET("/confirm-delete-item-image/:id", controller.GetConfirmDeleteItemImage)
 	router.POST("/delete-item-image/:id", controller.PostDeleteItemImage)
 
+	router.GET("/weight", controller.GetWeightEntries)
+	router.POST("/new-weight", controller.PostNewWeight)
+
 	router.GET("/logout", controller.GetLogout)
 
 	router.GET("/", controller.GetIndex)
