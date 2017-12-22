@@ -16,7 +16,7 @@ type WeightEntry struct {
 	Value  float64
 }
 
-// WeightEntryForm returns an item with values parsed from HTTP form
+// NewWeightEntryForm returns an item with values parsed from HTTP form
 func NewWeightEntryForm(r *http.Request) (*WeightEntry, error) {
 	if err := r.ParseForm(); err != nil {
 		return nil, errors.Annotate(err, "parsing form failed")

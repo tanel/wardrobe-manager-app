@@ -5,11 +5,13 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/satori/go.uuid"
 	"github.com/tanel/wardrobe-manager-app/db"
 	"github.com/tanel/wardrobe-manager-app/model"
 	"github.com/tanel/wardrobe-manager-app/session"
 )
 
+// PostNewWeight saves a new weight into database
 func PostNewWeight(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	userID, err := session.UserID(r)
 	if err != nil {
@@ -29,6 +31,7 @@ func PostNewWeight(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 		return
 	}
 
+	weightEntry.ID = uuid.NewV4().String()
 	weightEntry.UserID = *userID
 
 	if err := db.InsertWeight(*weightEntry); err != nil {
@@ -37,5 +40,5 @@ func PostNewWeight(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 		return
 	}
 
-	http.Redirect(w, r, frontPage, http.StatusSeeOther)
+	http.Redirect(w, r, "/weight", http.StatusSeeOther)
 }
