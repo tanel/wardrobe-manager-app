@@ -35,5 +35,13 @@ backup:
 	@pg_dump wardrobe > backups/$(DATE).sql
 	cp -r uploads backups/uploads
 
-lint:
+lint: lint-go lint-js lint-css
+
+lint-go:
 	gometalinter ./... --config=.gometalinter
+
+lint-js:
+	jshint public/js/app.js
+
+lint-css:
+	csslint public/css/app.css
