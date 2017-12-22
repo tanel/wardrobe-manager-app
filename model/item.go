@@ -32,6 +32,68 @@ type Item struct {
 	ImageID *string
 }
 
+func formFloat(r *http.Request, name string) (float64, error) {
+	s := strings.TrimSpace(r.FormValue(name))
+	if s == "" {
+		return 0, nil
+	}
+
+	s = strings.Replace(s, ",", ".", -1)
+	floatValue, err := strconv.ParseFloat(s, 64)
+	if err != nil {
+		return 0, errors.Annotate(err, "parsing float failed")
+	}
+
+	return floatValue, nil
+}
+
+func formInt(r *http.Request, name string) (int, error) {
+	s := strings.TrimSpace(r.FormValue(name))
+	if s == "" {
+		return 0, nil
+	}
+
+	intValue, err := strconv.Atoi(s)
+	if err != nil {
+		return 0, errors.Annotate(err, "parsing integer failed")
+	}
+
+	return intValue, nil
+}
+
+func formBool(r *http.Request, name string) (bool, error) {
+	boolValue, err := strconv.ParseBool(r.FormValue(name))
+	if err != nil {
+		return false, errors.Annotate(err, "parsing bool failed")
+	}
+
+	return boolValue, nil
+}
+
+func formFile(r *http.Request, name string) ([]byte, error) {
+	file, _, err := r.FormFile(name)
+	if err != nil && err != http.ErrMissingFile {
+		return nil, errors.Annotate(err, "getting form file failed")
+	}
+
+	if file == nil {
+		return nil, nil
+	}
+
+	defer func() {
+		if closeErr := file.Close(); closeErr != nil {
+			log.Println(errors.Annotate(closeErr, "closing file failed"))
+		}
+	}()
+
+	b, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, errors.Annotate(err, "reading form file failed")
+	}
+
+	return b, nil
+}
+
 // NewItemForm returns an item with values parsed from HTTP form
 func NewItemForm(r *http.Request) (*Item, error) {
 	if err := r.ParseMultipartForm(maxUploadSize); err != nil {
@@ -45,23 +107,19 @@ func NewItemForm(r *http.Request) (*Item, error) {
 		return nil, errors.New("please enter a name")
 	}
 
-	if s := strings.TrimSpace(r.FormValue("price")); s != "" {
-		s = strings.Replace(s, ",", ".", -1)
-		price, err := strconv.ParseFloat(s, 64)
-		if err != nil {
-			return nil, errors.New("please enter a valid price or leave it blank")
-		}
-
-		item.Price = price
+	price, err := formFloat(r, "price")
+	if err != nil {
+		return nil, errors.Annotate(err, "parsing price failed")
 	}
 
-	if s := strings.TrimSpace(r.FormValue("quantity")); s != "" {
-		quantity, err := strconv.Atoi(s)
-		if err != nil {
-			return nil, errors.New("please enter a valid quantity or leave it blank")
-		}
+	quantity, err := formInt(r, "quantity")
+	if err != nil {
+		return nil, errors.Annotate(err, "parsing quantity failed")
+	}
 
-		item.Quantity = quantity
+	starred, err := formBool(r, "star")
+	if err != nil {
+		return nil, errors.Annotate(err, "parsing star failed")
 	}
 
 	item.Description = strings.TrimSpace(r.FormValue("description"))
@@ -71,36 +129,19 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	item.Category = strings.TrimSpace(r.FormValue("category"))
 	item.Currency = strings.TrimSpace(r.FormValue("currency"))
 	item.Season = strings.TrimSpace(r.FormValue("season"))
+	item.Price = price
+	item.Quantity = quantity
+	item.Starred = starred
 	item.CreatedAt = time.Now()
 
-	starred, err := strconv.ParseBool(r.FormValue("star"))
+	b, err := formFile(r, "image")
 	if err != nil {
-		return nil, errors.Annotate(err, "parsing star failed")
+		return nil, errors.Annotate(err, "parsing image failed")
 	}
 
-	item.Starred = starred
-
-	file, _, err := r.FormFile("image")
-	if err != nil && err != http.ErrMissingFile {
-		return nil, errors.Annotate(err, "getting form file failed")
-	}
-
-	if file != nil {
-		defer func() {
-			if err := file.Close(); err != nil {
-				log.Println(errors.Annotate(err, "closing file failed"))
-			}
-		}()
-
-		b, err := ioutil.ReadAll(file)
-		if err != nil {
-			return nil, errors.Annotate(err, "reading form file failed")
-		}
-
-		item.Images = append(item.Images, ItemImage{
-			Body: b,
-		})
-	}
+	item.Images = append(item.Images, ItemImage{
+		Body: b,
+	})
 
 	return &item, nil
 }
