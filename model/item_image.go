@@ -9,6 +9,7 @@ import (
 	"github.com/juju/errors"
 )
 
+// ItemImage represents an image of an item
 type ItemImage struct {
 	Base
 	ItemID string
@@ -16,18 +17,21 @@ type ItemImage struct {
 	Body   []byte
 }
 
+// DirectoryPath returns upload path
 func (itemImage ItemImage) DirectoryPath() string {
 	return filepath.Join("uploads", itemImage.UserID, "item-images")
 }
 
+// FilePath returns the full path of the image file
 func (itemImage ItemImage) FilePath() string {
 	directoryPath := itemImage.DirectoryPath()
 	return filepath.Join(directoryPath, itemImage.ID)
 }
 
-func (itemImage ItemImage) SaveImages() error {
+// Save saves image to disk
+func (itemImage ItemImage) Save() error {
 	directoryPath := itemImage.DirectoryPath()
-	if err := os.MkdirAll(directoryPath, 0777); err != nil && !strings.Contains(err.Error(), "file exists") {
+	if err := os.MkdirAll(directoryPath, 0700); err != nil && !strings.Contains(err.Error(), "file exists") {
 		return errors.Annotate(err, "creating image directory failed")
 	}
 
@@ -39,7 +43,8 @@ func (itemImage ItemImage) SaveImages() error {
 	return nil
 }
 
-func (itemImage *ItemImage) LoadImages() error {
+// Load loads image from disk
+func (itemImage *ItemImage) Load() error {
 	filePath := itemImage.FilePath()
 	b, err := ioutil.ReadFile(filePath)
 	if err != nil {

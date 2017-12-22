@@ -2,13 +2,14 @@ package controller
 
 import (
 	"html/template"
-	"net/http"
+	"io"
 	"path/filepath"
 
 	"github.com/juju/errors"
 )
 
-func Render(w http.ResponseWriter, templateName string, data interface{}) error {
+// Render renders a template with given data
+func Render(w io.Writer, templateName string, data interface{}) error {
 	path := filepath.Join("template", "*.html")
 	list, err := filepath.Glob(path)
 	if err != nil {

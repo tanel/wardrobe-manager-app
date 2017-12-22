@@ -9,17 +9,19 @@ import (
 
 const sessionName = "wardrobe-app-session"
 
-// FIXME: get secret from environment
 var store = sessions.NewCookieStore([]byte("C93B74DA-4D85-418C-B513-3BEDE6BFCECC"))
 
+// UserID returns user ID from session
 func UserID(r *http.Request) (*string, error) {
 	return Value(r, "user_id")
 }
 
+// Category returns selected category from sessiom
 func Category(r *http.Request) (*string, error) {
 	return Value(r, "category")
 }
 
+// Value returns reads a value from session by key
 func Value(r *http.Request, key string) (*string, error) {
 	// Get a session. Get() always returns a session, even if empty.
 	session, err := store.Get(r, sessionName)
@@ -35,14 +37,17 @@ func Value(r *http.Request, key string) (*string, error) {
 	return nil, nil
 }
 
+// SetUserID sets user ID in session
 func SetUserID(w http.ResponseWriter, r *http.Request, userID string) error {
 	return SetValue(w, r, "user_id", userID)
 }
 
+// SetCategory sets category in session
 func SetCategory(w http.ResponseWriter, r *http.Request, category string) error {
 	return SetValue(w, r, "category", category)
 }
 
+// SetValue sets a value in session
 func SetValue(w http.ResponseWriter, r *http.Request, key string, value string) error {
 	session, err := store.Get(r, sessionName)
 	if err != nil {

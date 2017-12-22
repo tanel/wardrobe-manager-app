@@ -4,11 +4,13 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/juju/errors"
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-manager-app/db"
 	"github.com/tanel/wardrobe-manager-app/session"
 )
 
+// GetItemImage renders iamge
 func GetItemImage(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	userID, err := session.UserID(r)
 	if err != nil {
@@ -36,11 +38,13 @@ func GetItemImage(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 		return
 	}
 
-	if err := itemImage.LoadImages(); err != nil {
+	if err := itemImage.Load(); err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
 		return
 	}
 
-	w.Write(itemImage.Body)
+	if _, err := w.Write(itemImage.Body); err != nil {
+		log.Println(errors.Annotate(err, "writing image as response failed"))
+	}
 }

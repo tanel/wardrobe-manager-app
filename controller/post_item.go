@@ -10,6 +10,7 @@ import (
 	"github.com/tanel/wardrobe-manager-app/session"
 )
 
+// PostItem updates an item
 func PostItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	userID, err := session.UserID(r)
 	if err != nil {

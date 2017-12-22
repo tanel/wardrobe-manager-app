@@ -9,6 +9,7 @@ import (
 	"github.com/tanel/wardrobe-manager-app/model"
 )
 
+// SaveItem saves item to database, including images
 func SaveItem(item *model.Item, userID string) error {
 	if item.ID == "" {
 		item.ID = uuid.NewV4().String()
@@ -30,7 +31,7 @@ func SaveItem(item *model.Item, userID string) error {
 			return errors.Annotate(err, "saving image failed")
 		}
 
-		if err := itemImage.SaveImages(); err != nil {
+		if err := itemImage.Save(); err != nil {
 			return errors.Annotate(err, "saving image file failed")
 		}
 	}
@@ -38,6 +39,7 @@ func SaveItem(item *model.Item, userID string) error {
 	return nil
 }
 
+// GroupItemsByCategory groups items into categories
 func GroupItemsByCategory(userID string, category string) ([]model.Category, error) {
 	items, err := db.SelectItemsByUserID(userID, category)
 	if err != nil {

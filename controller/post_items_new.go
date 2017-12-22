@@ -10,6 +10,7 @@ import (
 	"github.com/tanel/wardrobe-manager-app/session"
 )
 
+// PostItemsNew creates a new item
 func PostItemsNew(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	userID, err := session.UserID(r)
 	if err != nil {

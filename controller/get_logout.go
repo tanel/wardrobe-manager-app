@@ -8,6 +8,7 @@ import (
 	"github.com/tanel/wardrobe-manager-app/session"
 )
 
+// GetLogout logs user out
 func GetLogout(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if err := session.SetUserID(w, r, ""); err != nil {
 		log.Println(err)

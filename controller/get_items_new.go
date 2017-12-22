@@ -10,6 +10,7 @@ import (
 	"github.com/tanel/wardrobe-manager-app/ui"
 )
 
+// GetItemsNew renders new item page
 func GetItemsNew(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	userID, err := session.UserID(r)
 	if err != nil {

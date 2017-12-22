@@ -7,6 +7,7 @@ import (
 	"github.com/tanel/wardrobe-manager-app/model"
 )
 
+// SelectUserByEmail selects user from database by email
 func SelectUserByEmail(email string, user *model.User) error {
 	if err := db.QueryRow(`
 		SELECT
@@ -29,6 +30,7 @@ func SelectUserByEmail(email string, user *model.User) error {
 	return nil
 }
 
+// InsertUser inserts user into database
 func InsertUser(user model.User) error {
 	if _, err := db.Exec(`
 		INSERT INTO users(

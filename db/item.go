@@ -2,11 +2,13 @@ package db
 
 import (
 	"database/sql"
+	"log"
 
 	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-manager-app/model"
 )
 
+// InsertItem inserts an item into database
 func InsertItem(item model.Item) error {
 	_, err := db.Exec(`
 		INSERT INTO items(
@@ -66,6 +68,7 @@ func InsertItem(item model.Item) error {
 	return nil
 }
 
+// SelectItemWithImagesByID selects item by ID, including its images
 func SelectItemWithImagesByID(itemID, userID string) (*model.Item, error) {
 	item, err := SelectItemByID(itemID, userID)
 	if err != nil {
@@ -82,6 +85,7 @@ func SelectItemWithImagesByID(itemID, userID string) (*model.Item, error) {
 	return item, nil
 }
 
+// SelectItemByID selects an item by ID
 func SelectItemByID(itemID, userID string) (*model.Item, error) {
 	var description, color, size, brand, currency, category sql.NullString
 	var price sql.NullFloat64
@@ -145,6 +149,7 @@ func SelectItemByID(itemID, userID string) (*model.Item, error) {
 	return &item, nil
 }
 
+// SelectItemsByUserID selects items by user ID and category
 func SelectItemsByUserID(userID string, category string) ([]model.Item, error) {
 	rows, err := db.Query(`
 		SELECT
@@ -194,7 +199,11 @@ func SelectItemsByUserID(userID string, category string) ([]model.Item, error) {
 		return nil, errors.Annotate(err, "selecting items by user ID failed")
 	}
 
-	defer rows.Close()
+	defer func() {
+		if err := rows.Close(); err != nil {
+			log.Println(errors.Annotate(err, "closing rows failed"))
+		}
+	}()
 
 	var items []model.Item
 	for rows.Next() {
@@ -237,6 +246,7 @@ func SelectItemsByUserID(userID string, category string) ([]model.Item, error) {
 	return items, nil
 }
 
+// UpdateItem updates item in database
 func UpdateItem(item model.Item) error {
 	if item.ID == "" {
 		return errors.New("item is missing ID")
@@ -282,6 +292,7 @@ func UpdateItem(item model.Item) error {
 	return nil
 }
 
+// DeleteItem deletes an item
 func DeleteItem(itemID, userID string) error {
 	_, err := db.Exec(`
 		UPDATE

@@ -2,6 +2,7 @@ package model
 
 import (
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -31,6 +32,7 @@ type Item struct {
 	ImageID *string
 }
 
+// NewItemForm returns an item with values parsed from HTTP form
 func NewItemForm(r *http.Request) (*Item, error) {
 	if err := r.ParseMultipartForm(maxUploadSize); err != nil {
 		return nil, errors.Annotate(err, "parsing multipart form failed")
@@ -84,7 +86,11 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	}
 
 	if file != nil {
-		defer file.Close()
+		defer func() {
+			if err := file.Close(); err != nil {
+				log.Println(errors.Annotate(err, "closing file failed"))
+			}
+		}()
 
 		b, err := ioutil.ReadAll(file)
 		if err != nil {

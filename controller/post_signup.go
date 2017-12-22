@@ -14,6 +14,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// PostSignup creates a new user account
 func PostSignup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if err := r.ParseForm(); err != nil {
 		log.Println(err)

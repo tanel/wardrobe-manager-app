@@ -34,3 +34,6 @@ backup:
 	@mkdir -p backups
 	@pg_dump wardrobe > backups/$(DATE).sql
 	cp -r uploads backups/uploads
+
+lint:
+	gometalinter ./... --config=.gometalinter

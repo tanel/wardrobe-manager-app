@@ -1,10 +1,13 @@
 package db
 
 import (
+	"log"
+
 	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-manager-app/model"
 )
 
+// InsertItemImage inserts image into database
 func InsertItemImage(itemImage model.ItemImage) error {
 	_, err := db.Exec(`
 		INSERT INTO item_images(
@@ -31,6 +34,7 @@ func InsertItemImage(itemImage model.ItemImage) error {
 	return nil
 }
 
+// SelectItemImagesByItemID selects images by item ID
 func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
 	rows, err := db.Query(`
 		SELECT
@@ -53,7 +57,11 @@ func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
 		return nil, errors.Annotate(err, "selecting item images by item ID failed")
 	}
 
-	defer rows.Close()
+	defer func() {
+		if err := rows.Close(); err != nil {
+			log.Println(errors.Annotate(err, "closing rows failed"))
+		}
+	}()
 
 	var itemImages []model.ItemImage
 	for rows.Next() {
@@ -73,6 +81,7 @@ func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
 	return itemImages, nil
 }
 
+// SelectItemImageByID selects an image by ID
 func SelectItemImageByID(itemImageID, userID string) (*model.ItemImage, error) {
 	var itemImage model.ItemImage
 	if err := db.QueryRow(`
@@ -103,6 +112,7 @@ func SelectItemImageByID(itemImageID, userID string) (*model.ItemImage, error) {
 	return &itemImage, nil
 }
 
+// DeleteItemImage deletes an item in database
 func DeleteItemImage(itemImageID, userID string) error {
 	_, err := db.Exec(`
 		UPDATE
