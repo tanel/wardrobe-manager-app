@@ -15,7 +15,16 @@
 	{{end}}
 
 	{{if .Categories}}
-		<p><a class="btn btn-success" href="/new?category={{.SelectedCategory}}">Add an item</a></p>
+		{{if not .SelectedCategory}}
+		<p class="bs-component">
+			{{range .Categories}}
+			<a class="btn btn-link" href="/items?category={{.Description}}">{{.Description}} ({{.ItemCount}})</a>
+			{{end}}
+		</p>
+		{{end}}
+		<p>
+			<a class="btn btn-success" href="/new?category={{.SelectedCategory}}">Add an item</a>
+		</p>
 	{{end}}
 
 	{{if .Categories}}
