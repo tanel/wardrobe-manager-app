@@ -10,7 +10,7 @@
 		    <div class="row">
 		      <div class="col-sm-2">
 		        <label for="quantity">Weight</label>
-		        <input type="number" class="form-control" id="weight" name="weight" aria-describedby="" value="">
+		        <input type="number" class="form-control" id="weight" name="weight" aria-describedby="" value="" autofocus="">
 		      </div>
 		    </div>
 		  </div>
@@ -19,6 +19,17 @@
 		  </div>
 		</fieldset>
 	</form>
+
+	{{if .Weights}}
+	<table>
+	{{range .Weights}}
+	<tr>
+		<td>{{.CreatedAt}}</td>
+		<td>{{.Value}}</td>
+	</tr>
+	{{end}}
+	</table>
+	{{end}}
 
 	{{template "footer" .}}
 {{end}}

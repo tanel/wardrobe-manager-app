@@ -49,7 +49,7 @@ func SelectWeightsByUserID(userID string) ([]model.WeightEntry, error) {
 		AND
 			deleted_at IS NULL
 		ORDER BY
-			created_at
+			created_at DESC
 	`,
 		userID,
 	)
