@@ -5,7 +5,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tanel/wardrobe-manager-app/service"
+	"github.com/tanel/wardrobe-manager-app/db"
+	"github.com/tanel/wardrobe-manager-app/model"
 	"github.com/tanel/wardrobe-manager-app/session"
 )
 
@@ -22,13 +23,15 @@ func PostNewWeight(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 		return
 	}
 
-	weight, err := 0, nil
+	weightEntry, err := model.NewWeightEntryForm(r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	if err := service.SaveWeight(weight, *userID); err != nil {
+	weightEntry.UserID = *userID
+
+	if err := db.InsertWeight(*weightEntry); err != nil {
 		log.Println(err)
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return
