@@ -45,3 +45,9 @@ lint-js:
 
 lint-css:
 	csslint public/css/app.css
+
+thumbnails: 
+	go run cmd/thumbnails/thumbnails.go
+
+test:	
+	TEMPLATE_PATH=../template/*.html go test ./...
