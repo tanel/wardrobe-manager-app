@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"io"
 	"path/filepath"
+	"time"
 
 	"github.com/juju/errors"
 )
@@ -16,7 +17,11 @@ func Render(w io.Writer, templateName string, data interface{}) error {
 		return errors.Annotate(err, "globbing templates failed")
 	}
 
-	t, err := template.ParseFiles(list...)
+	funcMap := template.FuncMap{
+		"formatDate": formatDate,
+	}
+
+	t, err := template.New("").Funcs(funcMap).ParseFiles(list...)
 	if err != nil {
 		return errors.Annotate(err, "parsing templates failed")
 	}
@@ -26,4 +31,8 @@ func Render(w io.Writer, templateName string, data interface{}) error {
 	}
 
 	return nil
+}
+
+func formatDate(value time.Time) string {
+	return value.Format("Mon Jan 2 15:04")
 }
