@@ -4,10 +4,9 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/juju/errors"
-	"gopkg.in/h2non/bimg.v1"
+	"github.com/tanel/wardrobe-manager-app/image"
 )
 
 func main() {
@@ -41,32 +40,10 @@ func generateThumbnailsForUserFolder(userFolder string) error {
 	}
 
 	for _, path := range images {
-		if err := generateThumbnailsForImage(path, 140, 200); err != nil {
+		if err := image.GenerateThumbnailsForImage(path); err != nil {
 			return errors.Annotatef(err, "generating thumbnail for image %s failed", path)
 		}
 	}
-
-	return nil
-}
-
-func generateThumbnailsForImage(imagePath string, height uint, width uint) error {
-	if strings.Contains(imagePath, "-thumbnail") {
-		return nil
-	}
-
-	log.Println("generating thumbnail for", imagePath)
-
-	buffer, err := bimg.Read(imagePath)
-	if err != nil {
-		return errors.Annotate(err, "reading image failed")
-	}
-
-	newImage, err := bimg.NewImage(buffer).Resize(140, 200)
-	if err != nil {
-		return errors.Annotate(err, "creating new image failed")
-	}
-
-	bimg.Write(imagePath+"-thumbnail", newImage)
 
 	return nil
 }

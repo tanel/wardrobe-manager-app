@@ -6,6 +6,7 @@ import (
 	"github.com/juju/errors"
 	"github.com/satori/go.uuid"
 	"github.com/tanel/wardrobe-manager-app/db"
+	"github.com/tanel/wardrobe-manager-app/image"
 	"github.com/tanel/wardrobe-manager-app/model"
 )
 
@@ -33,6 +34,10 @@ func SaveItem(item *model.Item, userID string) error {
 
 		if err := itemImage.Save(); err != nil {
 			return errors.Annotate(err, "saving image file failed")
+		}
+
+		if err := image.GenerateThumbnailsForImage(itemImage.FilePath()); err != nil {
+			return errors.Annotatef(err, "generating thumbnail for image %s failed", itemImage.FilePath())
 		}
 	}
 
