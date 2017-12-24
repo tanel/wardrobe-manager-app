@@ -1,16 +1,19 @@
 {{define "edit-item"}}
 <fieldset>
-  {{if .Item.Starred}}
-    <i class="fa fa-star star-clickable"></i>
-    {{else}}
-    <i class="fa fa-star-o star-clickable"></i>
-  {{end}}
-  <input type="hidden" id="star" name="star" value="{{.Item.Starred}}">
   <div class="form-group">
     <div class="row">
       <div class="col-sm-4">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" name="name" aria-describedby="" autofocus="" value="{{.Item.Name}}">
+        <input type="text" class="form-control" id="name" name="name" aria-describedby="" autofocus="" value="{{.Item.Name}}" placeholder="Name" required>
+      </div>
+      <div class="col-sm-1">
+        <div title="Star an item to mark it as favourite">
+          {{if .Item.Starred}}
+            <i class="fa fa-star star-clickable"></i>
+            {{else}}
+            <i class="fa fa-star-o star-clickable"></i>
+          {{end}}
+        </div>
+        <input type="hidden" id="star" name="star" value="{{.Item.Starred}}">
       </div>
     </div>
   </div>
