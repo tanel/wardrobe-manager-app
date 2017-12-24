@@ -46,4 +46,5 @@ ul {
 
 .star-clickable {
 	cursor:pointer;
+	margin-bottom: 10px;
 }
