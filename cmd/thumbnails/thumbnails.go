@@ -1,15 +1,13 @@
 package main
 
 import (
-	"image"
-	"image/jpeg"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/juju/errors"
-	"github.com/nfnt/resize"
+	"gopkg.in/h2non/bimg.v1"
 )
 
 func main() {
@@ -58,31 +56,17 @@ func generateThumbnailsForImage(imagePath string, height uint, width uint) error
 
 	log.Println("generating thumbnail for", imagePath)
 
-	file, err := os.Open(imagePath)
+	buffer, err := bimg.Read(imagePath)
 	if err != nil {
-		log.Fatal(err)
+		return errors.Annotate(err, "reading image failed")
 	}
 
-	img, format, err := image.Decode(file)
+	newImage, err := bimg.NewImage(buffer).Resize(140, 200)
 	if err != nil {
-		return errors.Annotate(err, "decoding image failed")
+		return errors.Annotate(err, "creating new image failed")
 	}
-	file.Close()
 
-	log.Println(format)
-
-	// resize to width 1000 using Lanczos resampling
-	// and preserve aspect ratio
-	m := resize.Resize(width, 0, img, resize.Lanczos3)
-
-	out, err := os.Create(imagePath + "-thumbnail")
-	if err != nil {
-		return errors.Annotate(err, "creating thumbnail image failed")
-	}
-	defer out.Close()
-
-	// write new image to file
-	jpeg.Encode(out, m, nil)
+	bimg.Write(imagePath+"-thumbnail", newImage)
 
 	return nil
 }
