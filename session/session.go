@@ -1,7 +1,9 @@
 package session
 
 import (
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/sessions"
 	"github.com/juju/errors"
@@ -9,7 +11,17 @@ import (
 
 const sessionName = "wardrobe-app-session"
 
-var store = sessions.NewCookieStore([]byte("C93B74DA-4D85-418C-B513-3BEDE6BFCECC"))
+var store *sessions.CookieStore
+
+func init() {
+	sessionSecret := os.Getenv("SESSION_SECRET")
+	if sessionSecret == "" {
+		sessionSecret = "C93B74DA-4D85-418C-B513-3BEDE6BFCECC"
+		log.Println("Warning: SESSION_SECRET not set in env")
+	}
+
+	store = sessions.NewCookieStore([]byte(sessionSecret))
+}
 
 // UserID returns user ID from session
 func UserID(r *http.Request) (*string, error) {
