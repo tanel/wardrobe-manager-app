@@ -1,7 +1,7 @@
 {{define "weight-entries"}}
 	{{template "header" .}}
 	<ol class="breadcrumb">
-	    <li class="breadcrumb-item"><a href="/weight">Weight entries</a></li>
+	    <li class="breadcrumb-item">Weight entries</li>
 	</ol>
 
 	<form action="/new-weight" method="POST">
@@ -9,8 +9,7 @@
 		  <div class="form-group">
 		    <div class="row">
 		      <div class="col-sm-2">
-		        <label for="quantity">Weight</label>
-		        <input type="number" class="form-control" id="weight" name="weight" aria-describedby="" value="" autofocus="">
+		        <input type="number" class="form-control" id="weight" name="weight" aria-describedby="" value="" autofocus="" placeholder="Weight">
 		      </div>
 		    </div>
 		  </div>

@@ -34,36 +34,31 @@
   <div class="form-group">
     <div class="row">
       <div class="col-sm-4">
-        <label for="category">Category</label>
-        <input type="text" class="form-control" id="category" name="category" aria-describedby="" value="{{.Item.Category}}">
+        <input type="text" class="form-control" id="category" name="category" aria-describedby="" value="{{.Item.Category}}" placeholder="Category">
       </div>
     </div>
   </div>
   <div class="form-group">
     <div class="row">
       <div class="col-sm-4">
-        <label for="brand">Brand</label>
-        <input type="text" class="form-control" id="brand" name="brand" aria-describedby="" value="{{.Item.Brand}}">
+        <input type="text" class="form-control" id="brand" name="brand" aria-describedby="" value="{{.Item.Brand}}" placeholder="Brand">
       </div>
     </div>
   </div>
   <div class="form-group">
     <div class="row">
       <div class="col-sm-4">
-        <label for="color">Color</label>
-        <input type="text" class="form-control" id="color" name="color" aria-describedby="" value="{{.Item.Color}}">
+        <input type="text" class="form-control" id="color" name="color" aria-describedby="" value="{{.Item.Color}}" placeholder="Color">
       </div>
     </div>
   </div>
   <div class="form-group">
     <div class="row">
       <div class="col-sm-2">
-        <label for="price">Price per item</label>
-        <input type="text" class="form-control" id="price" name="price" aria-describedby="" value="{{.Item.Price}}">
+        <input type="text" class="form-control" id="price" name="price" aria-describedby="" {{if .Item.Price}}value="{{.Item.Price}}"{{end}} placeholder="Price">
       </div>
       <div class="col-sm-2">
-        <label for="currency">Currency</label>
-        <input type="text" class="form-control" id="currency" name="currency" aria-describedby="" value="{{.Item.Currency}}">
+        <input type="text" class="form-control" id="currency" name="currency" aria-describedby="" value="{{.Item.Currency}}" placeholder="Currency">
       </div>
     </div>
   </div>
@@ -76,14 +71,12 @@
       {{end}}
   </div>
   <div class="form-group">
-    <label for="description">Description</label>
-    <textarea class="form-control" id="description" name="description" rows="3">{{.Item.Description}}</textarea>
+    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description">{{.Item.Description}}</textarea>
   </div>
   <div class="form-group">
     <div class="row">
       <div class="col-sm-2">
-        <label for="size">Size</label>
-        <input type="text" class="form-control" id="size" name="size" aria-describedby="" value="{{.Item.Size}}">
+        <input type="text" class="form-control" id="size" name="size" aria-describedby="" value="{{.Item.Size}}" placeholder="Size">
       </div>
     </div>
   </div>
