@@ -23,8 +23,8 @@
 	<table>
 	{{range .Weights}}
 	<tr>
-		<td>{{.CreatedAt}}</td>
-		<td>{{.Value}}</td>
+		<td>{{formatDate .CreatedAt}}</td>
+		<td class="text-right">{{.Value}}</td>
 	</tr>
 	{{end}}
 	</table>
