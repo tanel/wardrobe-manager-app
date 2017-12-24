@@ -26,14 +26,33 @@ Run migrations
 
 	make migrate
 
-## Start server
-
-	make run
-
-## Test data
+## Test data (optional)
 
 To add test user to database with mock data, run
 
 	make testuser
 
 It creates user "test@test.com" with password "123".
+
+## Start server
+
+	make run
+
+## Migrations
+
+### Create a new migration
+
+	name=my_new_migration_name make migration
+
+### Apply all migrations
+
+	make migrate
+
+### Apply only one migration
+
+	make migrate-up
+
+### Dis-apply one migration
+
+	make migrate-down
+
