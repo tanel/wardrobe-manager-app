@@ -26,6 +26,10 @@ func NewWeightEntryForm(r *http.Request) (*WeightEntry, error) {
 		return nil, errors.New("please enter a valid weight")
 	}
 
+	if int(weight) == 0 {
+		return nil, errors.New("weight cannot be zero")
+	}
+
 	var weightEntry WeightEntry
 	weightEntry.Value = weight
 	weightEntry.CreatedAt = time.Now()
