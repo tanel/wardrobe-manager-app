@@ -23,6 +23,7 @@ func New() *httprouter.Router {
 	router.POST("/delete-item/:id", controller.PostDeleteItem)
 
 	router.GET("/item-images/:id", controller.GetItemImage)
+	router.GET("/thumbnails/:id", controller.GetItemImageThumbnail)
 	router.GET("/confirm-delete-item-image/:id", controller.GetConfirmDeleteItemImage)
 	router.POST("/delete-item-image/:id", controller.PostDeleteItemImage)
 

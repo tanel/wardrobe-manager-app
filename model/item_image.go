@@ -55,3 +55,16 @@ func (itemImage *ItemImage) Load() error {
 
 	return nil
 }
+
+// LoadThumbnail loads image from disk
+func (itemImage *ItemImage) LoadThumbnail() error {
+	filePath := itemImage.FilePath() + "-thumbnail"
+	b, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return errors.Annotate(err, "writing image failed")
+	}
+
+	itemImage.Body = b
+
+	return nil
+}
