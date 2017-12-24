@@ -3,6 +3,7 @@ package controller
 import (
 	"html/template"
 	"io"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -11,8 +12,12 @@ import (
 
 // Render renders a template with given data
 func Render(w io.Writer, templateName string, data interface{}) error {
-	path := filepath.Join("template", "*.html")
-	list, err := filepath.Glob(path)
+	templatePath := os.Getenv("TEMPLATE_PATH")
+	if templatePath == "" {
+		templatePath = filepath.Join("template", "*.html")
+	}
+
+	list, err := filepath.Glob(templatePath)
 	if err != nil {
 		return errors.Annotate(err, "globbing templates failed")
 	}
