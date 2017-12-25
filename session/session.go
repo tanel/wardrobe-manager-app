@@ -10,13 +10,14 @@ import (
 )
 
 const sessionName = "wardrobe-app-session"
+const unsecureCredentials = "C93B74DA-4D85-418C-B513-3BEDE6BFCECC"
 
 var store *sessions.CookieStore
 
 func init() {
 	sessionSecret := os.Getenv("SESSION_SECRET")
 	if sessionSecret == "" {
-		sessionSecret = "C93B74DA-4D85-418C-B513-3BEDE6BFCECC"
+		sessionSecret = unsecureCredentials
 		log.Println("Warning: SESSION_SECRET not set in env")
 	}
 
