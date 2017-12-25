@@ -31,7 +31,13 @@ func GetWeightEntries(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 		return
 	}
 
-	page := ui.NewWeightEntriesPage(*userID, weights)
+	page, err := ui.NewWeightEntriesPage(*userID, weights)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "page error", http.StatusInternalServerError)
+		return
+	}
+
 	if err := Render(w, "weight-entries", page); err != nil {
 		log.Println(err)
 		http.Error(w, "template error", http.StatusInternalServerError)
