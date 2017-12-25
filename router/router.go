@@ -32,6 +32,8 @@ func New() *httprouter.Router {
 	router.POST("/new-outfit", controller.PostNewOutfit)
 	router.GET("/outfits/:id", controller.GetOutfit)
 	router.POST("/outfits/:id", controller.PostOutfit)
+	router.GET("/confirm-delete-outfit/:id", controller.GetConfirmDeleteOutfit)
+	router.POST("/delete-outfit/:id", controller.PostDeleteOutfit)
 
 	router.GET("/weight", controller.GetWeightEntries)
 	router.POST("/new-weight", controller.PostNewWeight)

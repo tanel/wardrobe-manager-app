@@ -8,11 +8,11 @@
 		<a class="btn btn-success" href="/new-outfit">Add an outfit</a>
 	</p>
 
-	<ol>
+	<ul>
 	{{range .Outfits}}
-		<li>{{.Name}}</li>
+		<li><a href="/outfits/{{.ID}}">{{.Name}}</a></li>
 	{{end}}
-	<ol>
+	</ul>
 
 	{{template "footer" .}}
 {{end}}

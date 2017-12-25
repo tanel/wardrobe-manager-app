@@ -135,3 +135,25 @@ func SelectOutfitsByUserID(userID string) ([]model.Outfit, error) {
 
 	return result, nil
 }
+
+// DeleteOutfit delets an outfit in database
+func DeleteOutfit(outfitID, userID string) error {
+	_, err := db.Exec(`
+		UPDATE
+			outfits
+		SET
+			deleted_at = current_timestamp
+		WHERE
+			id = $1
+		AND
+			user_id = $2
+	`,
+		outfitID,
+		userID,
+	)
+	if err != nil {
+		return errors.Annotate(err, "deleting outfit failed")
+	}
+
+	return nil
+}
