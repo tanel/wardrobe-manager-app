@@ -1,9 +1,10 @@
 body {
- 	background: url(img/background-small.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
+	-webkit-background-size: cover;
 	background-size: 100% 100%;
+	font-family: 'Raleway', sans-serif;
+ 	background: url(img/background-small.jpg) no-repeat center center fixed;
 }
 
 a, a:hover {
