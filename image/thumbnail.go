@@ -8,6 +8,7 @@ import (
 	"gopkg.in/h2non/bimg.v1"
 )
 
+// GenerateThumbnailsForImage generates a thumbnail for a given image
 func GenerateThumbnailsForImage(imagePath string) error {
 	if strings.Contains(imagePath, "-thumbnail") {
 		return nil
