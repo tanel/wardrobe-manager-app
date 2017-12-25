@@ -1,0 +1,11 @@
+{{define "outfit"}}
+	{{template "header" .}}
+	<ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="/outfits">Outfits</a></li>
+	    <li class="breadcrumb-item active">{{.Outfit.Name}}</li>
+	</ol>
+	<form action="/outfits/{{.Outfit.ID}}" method="POST">
+		{{template "edit-outfit" .}}
+	</form>
+	{{template "footer" .}}
+{{end}}

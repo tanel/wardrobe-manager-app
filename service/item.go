@@ -48,7 +48,7 @@ func SaveItem(item *model.Item, userID string) error {
 func GroupItemsByCategory(userID string, category string) ([]model.Category, error) {
 	items, err := db.SelectItemsByUserID(userID, category)
 	if err != nil {
-		return nil, errors.Annotate(err, "selectin items by user ID failed")
+		return nil, errors.Annotate(err, "selecting items by user ID failed")
 	}
 
 	var descriptions []string
