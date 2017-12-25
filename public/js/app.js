@@ -45,10 +45,6 @@ app.renderWeightChart = function () {
                 scales: {
                     xAxes: [{
                         display: true,
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Dates'
-                        }
                     }],
                     yAxes: [{
                         display: true,
