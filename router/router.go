@@ -31,6 +31,8 @@ func New() *httprouter.Router {
 	router.POST("/new-weight", controller.PostNewWeight)
 	router.GET("/weights/:id", controller.GetWeight)
 	router.POST("/weights/:id", controller.PostWeight)
+	router.GET("/confirm-delete-weight/:id", controller.GetConfirmDeleteWeight)
+	router.POST("/delete-weight/:id", controller.PostDeleteWeight)
 
 	router.GET("/logout", controller.GetLogout)
 

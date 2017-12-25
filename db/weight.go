@@ -35,6 +35,28 @@ func InsertWeight(weightEntry model.WeightEntry) error {
 	return nil
 }
 
+// DeleteWeight deletes a weight from database
+func DeleteWeight(weightEntryID, userID string) error {
+	_, err := db.Exec(`
+		UPDATE
+			weight_entries
+		SET
+			deleted_at = current_timestamp
+		WHERE
+			id = $1
+		AND
+			user_id = $2
+	`,
+		weightEntryID,
+		userID,
+	)
+	if err != nil {
+		return errors.Annotate(err, "deleting weight failed")
+	}
+
+	return nil
+}
+
 // UpdateWeight updates a weight in database
 func UpdateWeight(weightEntry model.WeightEntry) error {
 	_, err := db.Exec(`

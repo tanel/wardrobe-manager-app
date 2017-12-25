@@ -1,0 +1,12 @@
+{{define "confirm-delete-weight"}}
+	{{template "header" .}}
+
+	<h1>Are you sure?</h1>
+	<form action="/delete-weight/{{.Weight.ID}}" method="POST">
+		<button type="button" class="btn btn-success"> 
+			<a href="/weights/{{.Weight.ID}}" style="color:inherit">Cancel</a>
+		</button>  
+		<button type="submit" class="btn btn-danger">Delete</button>
+	</form>
+	{{template "footer" .}}	
+{{end}}
