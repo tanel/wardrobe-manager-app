@@ -29,6 +29,8 @@ func New() *httprouter.Router {
 
 	router.GET("/weight", controller.GetWeightEntries)
 	router.POST("/new-weight", controller.PostNewWeight)
+	router.GET("/weights/:id", controller.GetWeight)
+	router.POST("/weights/:id", controller.PostWeight)
 
 	router.GET("/logout", controller.GetLogout)
 

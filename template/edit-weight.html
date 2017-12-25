@@ -1,0 +1,19 @@
+{{define "edit-weight"}}
+<fieldset>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-2">
+        <input type="text" class="form-control" id="weight" name="weight" aria-describedby="" value="{{.Weight.Value}}" required placeholder="Weight">
+      </div>
+    </div>
+  </div>
+   <div class="form-group">
+      <button type="submit" class="btn btn-success">Save weight</button>
+      {{if .Weight.ID}}
+        <button type="button" class="btn btn-danger">
+          <a href="/confirm-delete-weight/{{.Weight.ID}}" style="color:inherit">Delete weight</a>
+        </button>
+      {{end}}
+  </div>
+</fieldset>
+{{end}}

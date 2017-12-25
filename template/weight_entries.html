@@ -5,26 +5,15 @@
 	</ol>
 
 	<form action="/new-weight" method="POST">
-		<fieldset>
-		  <div class="form-group">
-		    <div class="row">
-		      <div class="col-sm-2">
-		        <input type="number" class="form-control" id="weight" name="weight" aria-describedby="" value="" autofocus="" placeholder="Weight">
-		      </div>
-		    </div>
-		  </div>
-		   <div class="form-group">
-		      <button type="submit" class="btn btn-success">Save weight</button>
-		  </div>
-		</fieldset>
+		{{template "edit-weight"}}
 	</form>
 
 	{{if .Weights}}
 	<table>
 	{{range .Weights}}
 	<tr>
-		<td>{{formatDate .CreatedAt}}</td>
-		<td class="text-right">{{.Value}}</td>
+		<td><a href="/weights/{{.ID}}">{{formatDate .CreatedAt}}</a></td>
+		<td class="text-right"><a href="/weights/{{.ID}}">{{.Value}}</a></td>
 	</tr>
 	{{end}}
 	</table>

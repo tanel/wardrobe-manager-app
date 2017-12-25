@@ -1,6 +1,7 @@
 package db
 
 import (
+	"database/sql"
 	"log"
 
 	"github.com/juju/errors"
@@ -32,6 +33,59 @@ func InsertWeight(weightEntry model.WeightEntry) error {
 	}
 
 	return nil
+}
+
+// UpdateWeight updates a weight in database
+func UpdateWeight(weightEntry model.WeightEntry) error {
+	_, err := db.Exec(`
+		UPDATE weight_entries
+		SET
+			value = $1
+		WHERE
+			id = $2
+		AND
+			user_id = $3
+	`,
+		weightEntry.Value,
+		weightEntry.ID,
+		weightEntry.UserID,
+	)
+	if err != nil {
+		return errors.Annotate(err, "updating weight failed")
+	}
+
+	return nil
+}
+
+// SelectWeightByID selects a weight entry by ID
+func SelectWeightByID(weightID, userID string) (*model.WeightEntry, error) {
+	var weight model.WeightEntry
+	err := db.QueryRow(`
+		SELECT
+			id,
+			user_id,
+			value,
+			created_at
+		FROM
+			weight_entries
+		WHERE
+			id = $1
+		AND
+			user_id = $2
+	`,
+		weightID,
+		userID,
+	).Scan(
+		&weight.ID,
+		&weight.UserID,
+		&weight.Value,
+		&weight.CreatedAt,
+	)
+	if err != nil && err != sql.ErrNoRows {
+		return nil, errors.Annotate(err, "selecting weight by ID failed")
+	}
+
+	return &weight, nil
 }
 
 // SelectWeightsByUserID selects weights by user ID
