@@ -26,7 +26,9 @@ func GenerateThumbnailsForImage(imagePath string) error {
 		return errors.Annotate(err, "creating new image failed")
 	}
 
-	bimg.Write(imagePath+"-thumbnail", newImage)
+	if err := bimg.Write(imagePath+"-thumbnail", newImage); err != nil {
+		log.Println(errors.Annotate(err, "writing image failed"))
+	}
 
 	return nil
 }
