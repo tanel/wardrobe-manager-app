@@ -26,7 +26,7 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	category, err := parseCategory(r)
+	category, err := parseFilter(r, "category")
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "cookie error", http.StatusInternalServerError)
@@ -76,30 +76,30 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 }
 
-func parseCategory(r *http.Request) (*string, error) {
-	categoryFromSession, err := session.Category(r)
+func parseFilter(r *http.Request, name string) (*string, error) {
+	filterFromSession, err := session.Value(r, name)
 	if err != nil {
-		return nil, errors.Annotate(err, "getting category from session failed")
+		return nil, errors.Annotatef(err, "getting filter %s from session failed", name)
 	}
 
-	categoryFromURL := r.URL.Query().Get("category")
-	hasCategoryParameter := false
+	filterFromURL := r.URL.Query().Get(name)
+	hasFilterParameter := false
 	for k := range r.URL.Query() {
-		if k == "category" {
-			hasCategoryParameter = true
+		if k == name {
+			hasFilterParameter = true
 			break
 		}
 	}
 
-	category := ""
+	filter := ""
 
-	if categoryFromSession != nil {
-		category = *categoryFromSession
+	if filterFromSession != nil {
+		filter = *filterFromSession
 	}
 
-	if hasCategoryParameter {
-		category = categoryFromURL
+	if hasFilterParameter {
+		filter = filterFromURL
 	}
 
-	return &category, nil
+	return &filter, nil
 }

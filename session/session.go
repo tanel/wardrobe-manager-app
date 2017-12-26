@@ -29,11 +29,6 @@ func UserID(r *http.Request) (*string, error) {
 	return Value(r, "user_id")
 }
 
-// Category returns selected category from sessiom
-func Category(r *http.Request) (*string, error) {
-	return Value(r, "category")
-}
-
 // Value returns reads a value from session by key
 func Value(r *http.Request, key string) (*string, error) {
 	// Get a session. Get() always returns a session, even if empty.
