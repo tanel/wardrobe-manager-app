@@ -149,8 +149,8 @@ func SelectItemByID(itemID, userID string) (*model.Item, error) {
 	return &item, nil
 }
 
-// SelectItemsByUserID selects items by user ID and category
-func SelectItemsByUserID(userID string, category string) ([]model.Item, error) {
+// SelectItemsByUserID selects items by user ID and category, brand, color
+func SelectItemsByUserID(userID string, category, brand, color string) ([]model.Item, error) {
 	rows, err := db.Query(`
 		SELECT
 			id,
@@ -189,11 +189,17 @@ func SelectItemsByUserID(userID string, category string) ([]model.Item, error) {
 			deleted_at IS NULL
 		AND
 			(category = $2 OR $2 = '')
+		AND
+			(($3 <> '' AND brand IS NOT NULL AND brand = $3) OR ($3 = ''))
+		AND
+			(($4 <> '' AND color IS NOT NULL AND color = $4) OR ($4 = ''))
 		ORDER BY
 			COALESCE(category, ''), created_at, name
 	`,
 		userID,
 		category,
+		brand,
+		color,
 	)
 	if err != nil {
 		return nil, errors.Annotate(err, "selecting items by user ID failed")
@@ -399,6 +405,51 @@ func SelectColorsByUserID(userID string) ([]string, error) {
 		}
 
 		result = append(result, color)
+	}
+
+	return result, nil
+}
+
+// SelectCategoriesByUserID selects categories by user ID
+func SelectCategoriesByUserID(userID string) ([]string, error) {
+	rows, err := db.Query(`
+		SELECT
+			DISTINCT category
+		FROM
+			items
+		WHERE
+			user_id = $1
+		AND
+			deleted_at IS NULL
+		AND
+			category IS NOT NULL
+		AND
+			category <> ''
+		ORDER BY
+			category
+	`,
+		userID,
+	)
+	if err != nil {
+		return nil, errors.Annotate(err, "selecting categories by user ID failed")
+	}
+
+	defer func() {
+		if err := rows.Close(); err != nil {
+			log.Println(errors.Annotate(err, "closing rows failed"))
+		}
+	}()
+
+	var result []string
+	for rows.Next() {
+		var category string
+		if err := rows.Scan(
+			&category,
+		); err != nil {
+			return nil, errors.Annotate(err, "scanning categories failed")
+		}
+
+		result = append(result, category)
 	}
 
 	return result, nil

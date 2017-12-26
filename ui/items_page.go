@@ -7,8 +7,11 @@ import (
 // ItemsPage represents an items page
 type ItemsPage struct {
 	Page
-	Categories       []model.Category
-	SelectedCategory string
+	ItemCategories   []model.Category
+	Categories       []string
 	Brands           []string
 	Colors           []string
+	SelectedCategory string
+	SelectedBrand    string
+	SelectedColor    string
 }

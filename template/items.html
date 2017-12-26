@@ -9,56 +9,50 @@
 	    {{end}}
 	</ol>
 
-	{{if not .Categories}}
-		<h1>Welcome!</h1>
-		<p>Start by adding clothes from your wardrobe: <a class="btn btn-success" href="/new">Add an item</a></p>
-	{{end}}
-
-	{{if .Categories}}
-		{{if not .SelectedCategory}}
-		<p class="bs-component">
+	<p>
+		<select class="select-category">
+			<option value="">All categories</option>
 			{{range .Categories}}
-			<a class="btn btn-link" href="/items?category={{.Description}}">{{.Description}}</a>
+			<option{{if eq . $.SelectedCategory}} selected{{end}}>{{.}}</option>>
 			{{end}}
-		</p>
-		{{end}}
-		<p class="bs-component">
+		</select>
+		<select class="select-brand">
+			<option value="">All brands</option>
 			{{range .Brands}}
-			<a class="btn btn-link" href="/items?brand={{.}}">{{.}}</a>
+			<option{{if eq . $.SelectedBrand}} selected{{end}}>{{.}}</option>>
 			{{end}}
-		</p>
-		<p class="bs-component">
+		</select>
+		<select class="select-color">
+			<option value="">All colors</option>
 			{{range .Colors}}
-			<a class="btn btn-link" href="/items?color={{.}}">{{.}}</a>
+			<option{{if eq . $.SelectedColor}} selected{{end}}>{{.}}</option>>
 			{{end}}
-		</p>
-		<p>
-			<a class="btn btn-success" href="/new?category={{.SelectedCategory}}">Add an item</a>
-		</p>
-	{{end}}
+		</select>
+	</p>
+	<p>
+		<a class="btn btn-success" href="/new?category={{.SelectedCategory}}">Add an item</a>
+	</p>
 
-	{{if .Categories}}
-		{{range .Categories}}
-			{{if .Items}}
-				<h1><a href="/items?category={{.Description}}">{{.Description}} ({{.ItemCount}})</a></h1>
-				<div class="row images">
-				{{range .Items}}
-					<div class="item-image col-sm-2">
-						<div class="image-frame">
-						{{if .ImageID}}
-							<a href="/items/{{.ID}}">
-								<img src="/thumbnails/{{.ImageID}}" alt="{{.Name}}"/>
-							</a>
-						{{end}}
-						</div>
-						<a href="/items/{{.ID}}">{{.Name}}{{if ne .Quantity 1}} ({{.Quantity}}){{end}}{{if .Color}} - {{.Color}}{{end}}</a>
-						{{if .Starred}}
-							<i class="fa fa-star"></i>
-						{{end}}
+	{{range .ItemCategories}}
+		{{if .Items}}
+			<h1><a href="/items?category={{.Description}}">{{.Description}} ({{.ItemCount}})</a></h1>
+			<div class="row images">
+			{{range .Items}}
+				<div class="item-image col-sm-2">
+					<div class="image-frame">
+					{{if .ImageID}}
+						<a href="/items/{{.ID}}">
+							<img src="/thumbnails/{{.ImageID}}" alt="{{.Name}}"/>
+						</a>
+					{{end}}
 					</div>
-				{{end}}
+					<a href="/items/{{.ID}}">{{.Name}}{{if ne .Quantity 1}} ({{.Quantity}}){{end}}{{if .Color}} - {{.Color}}{{end}}</a>
+					{{if .Starred}}
+						<i class="fa fa-star"></i>
+					{{end}}
 				</div>
 			{{end}}
+			</div>
 		{{end}}
 	{{end}}
 

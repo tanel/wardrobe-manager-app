@@ -62,8 +62,27 @@ app.renderWeightChart = function () {
 	var myChart = new Chart(ctx, config);
 };
 
+app.handleItemsFilterSelection = function () {
+    $('.select-category').change(app.itemsCategorySelected);
+    $('.select-brand').change(app.itemsBrandSelected);
+    $('.select-color').change(app.itemsColorSelected);
+};
+
+app.itemsCategorySelected = function () {
+    window.location.href = '/items?category=' + $('.select-category').val();
+};
+
+app.itemsBrandSelected = function () {
+    window.location.href = '/items?brand=' + $('.select-brand').val();
+};
+
+app.itemsColorSelected = function () {
+    window.location.href = '/items?color=' + $('.select-color').val();
+};
+
 // Page load
 $(function () {
 	app.handleStar();
 	app.renderWeightChart();
+    app.handleItemsFilterSelection();
 });

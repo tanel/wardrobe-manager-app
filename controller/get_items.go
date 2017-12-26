@@ -14,20 +14,35 @@ import (
 
 // GetItems renders items page
 func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
-	category, err := parseFilter(r, "category")
+	category, err := handleParam(w, r, "category")
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "cookie error", http.StatusInternalServerError)
 		return
 	}
 
-	if sessionErr := session.SetCategory(w, r, *category); sessionErr != nil {
-		log.Println(sessionErr)
+	brand, err := handleParam(w, r, "brand")
+	if err != nil {
+		log.Println(err)
 		http.Error(w, "cookie error", http.StatusInternalServerError)
 		return
 	}
 
-	categories, err := service.GroupItemsByCategory(userID, *category)
+	color, err := handleParam(w, r, "color")
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "cookie error", http.StatusInternalServerError)
+		return
+	}
+
+	itemCategories, err := service.GroupItemsByCategory(userID, category, brand, color)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "database error", http.StatusInternalServerError)
+		return
+	}
+
+	categories, err := db.SelectCategoriesByUserID(userID)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
@@ -52,10 +67,13 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, user
 		Page: ui.Page{
 			UserID: userID,
 		},
+		ItemCategories:   itemCategories,
 		Categories:       categories,
-		SelectedCategory: *category,
+		SelectedCategory: category,
 		Brands:           brands,
+		SelectedBrand:    brand,
 		Colors:           colors,
+		SelectedColor:    color,
 	}
 	if err := Render(w, "items", page); err != nil {
 		log.Println(err)
@@ -64,10 +82,10 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, user
 	}
 }
 
-func parseFilter(r *http.Request, name string) (*string, error) {
+func parseFilter(r *http.Request, name string) (string, error) {
 	filterFromSession, err := session.Value(r, name)
 	if err != nil {
-		return nil, errors.Annotatef(err, "getting filter %s from session failed", name)
+		return "", errors.Annotatef(err, "getting filter %s from session failed", name)
 	}
 
 	filterFromURL := r.URL.Query().Get(name)
@@ -89,5 +107,18 @@ func parseFilter(r *http.Request, name string) (*string, error) {
 		filter = filterFromURL
 	}
 
-	return &filter, nil
+	return filter, nil
+}
+
+func handleParam(w http.ResponseWriter, r *http.Request, name string) (string, error) {
+	value, err := parseFilter(r, name)
+	if err != nil {
+		return "", errors.Annotatef(err, "reading %s from cookie failed", name)
+	}
+
+	if sessionErr := session.SetValue(w, r, name, value); sessionErr != nil {
+		return "", errors.Annotatef(err, "setting %s in session failed", name)
+	}
+
+	return value, nil
 }

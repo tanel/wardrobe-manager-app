@@ -45,8 +45,8 @@ func SaveItem(item *model.Item, userID string) error {
 }
 
 // GroupItemsByCategory groups items into categories
-func GroupItemsByCategory(userID string, category string) ([]model.Category, error) {
-	items, err := db.SelectItemsByUserID(userID, category)
+func GroupItemsByCategory(userID string, category, brand, color string) ([]model.Category, error) {
+	items, err := db.SelectItemsByUserID(userID, category, brand, color)
 	if err != nil {
 		return nil, errors.Annotate(err, "selecting items by user ID failed")
 	}
