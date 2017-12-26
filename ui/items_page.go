@@ -9,4 +9,6 @@ type ItemsPage struct {
 	Page
 	Categories       []model.Category
 	SelectedCategory string
+	Brands           []string
+	Colors           []string
 }

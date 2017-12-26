@@ -22,6 +22,16 @@
 			{{end}}
 		</p>
 		{{end}}
+		<p class="bs-component">
+			{{range .Brands}}
+			<a class="btn btn-link" href="/items?brand={{.}}">{{.}}</a>
+			{{end}}
+		</p>
+		<p class="bs-component">
+			{{range .Colors}}
+			<a class="btn btn-link" href="/items?color={{.}}">{{.}}</a>
+			{{end}}
+		</p>
 		<p>
 			<a class="btn btn-success" href="/new?category={{.SelectedCategory}}">Add an item</a>
 		</p>

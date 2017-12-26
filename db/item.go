@@ -313,3 +313,93 @@ func DeleteItem(itemID, userID string) error {
 
 	return nil
 }
+
+// SelectBrandsByUserID selects brands by user ID
+func SelectBrandsByUserID(userID string) ([]string, error) {
+	rows, err := db.Query(`
+		SELECT
+			DISTINCT brand
+		FROM
+			items
+		WHERE
+			user_id = $1
+		AND
+			deleted_at IS NULL
+		AND
+			brand IS NOT NULL
+		AND
+			brand <> ''
+		ORDER BY
+			brand
+	`,
+		userID,
+	)
+	if err != nil {
+		return nil, errors.Annotate(err, "selecting brands by user ID failed")
+	}
+
+	defer func() {
+		if err := rows.Close(); err != nil {
+			log.Println(errors.Annotate(err, "closing rows failed"))
+		}
+	}()
+
+	var result []string
+	for rows.Next() {
+		var brand string
+		if err := rows.Scan(
+			&brand,
+		); err != nil {
+			return nil, errors.Annotate(err, "scanning brands failed")
+		}
+
+		result = append(result, brand)
+	}
+
+	return result, nil
+}
+
+// SelectColorsByUserID selects colors by user ID
+func SelectColorsByUserID(userID string) ([]string, error) {
+	rows, err := db.Query(`
+		SELECT
+			DISTINCT color
+		FROM
+			items
+		WHERE
+			user_id = $1
+		AND
+			deleted_at IS NULL
+		AND
+			color IS NOT NULL
+		AND
+			color <> ''
+		ORDER BY
+			color
+	`,
+		userID,
+	)
+	if err != nil {
+		return nil, errors.Annotate(err, "selecting colors by user ID failed")
+	}
+
+	defer func() {
+		if err := rows.Close(); err != nil {
+			log.Println(errors.Annotate(err, "closing rows failed"))
+		}
+	}()
+
+	var result []string
+	for rows.Next() {
+		var color string
+		if err := rows.Scan(
+			&color,
+		); err != nil {
+			return nil, errors.Annotate(err, "scanning colors failed")
+		}
+
+		result = append(result, color)
+	}
+
+	return result, nil
+}
