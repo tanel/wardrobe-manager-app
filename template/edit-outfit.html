@@ -18,10 +18,24 @@
   <div class="form-group">
     <div class="row images">
       {{range .Outfit.OutfitItems}}
-        {{template "item-image" .Item}}
+        <div class="item-image col-sm-2">
+          <div class="image-frame">
+          {{if .Item.ImageID}}
+            <a href="/items/{{.Item.ID}}">
+              <img src="/thumbnails/{{.Item.ImageID}}" alt="{{.Item.Name}}"/>
+            </a>
+          {{end}}
+          </div>
+          <a href="/items/{{.Item.ID}}">{{.Item.Name}}{{if .Item.Color}} - {{.Item.Color}}{{end}}</a>
+          {{if .Item.Starred}}
+            <i class="fa fa-star"></i>
+          {{end}}
+        </div>
       {{end}}
     </div>
+    {{if .Outfit.ID}}
     <a class="btn btn-success" href="/items?add-to-outfit-id={{.Outfit.ID}}">Add an item to outfit</a>
+    {{end}}
   </div>
 </fieldset>
 {{end}}

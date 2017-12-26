@@ -35,7 +35,19 @@
 			<h1><a href="/items?category={{.Description}}">{{.Description}} ({{.ItemCount}})</a></h1>
 			<div class="row images">
 			{{range .Items}}
-				{{template "item-image" .}}
+				<div class="item-image col-sm-2">
+					<div class="image-frame">
+					{{if .ImageID}}
+						<a href="/items/{{.ID}}">
+							<img src="/thumbnails/{{.ImageID}}" alt="{{.Name}}"/>
+						</a>
+					{{end}}
+					</div>
+					<a href="/items/{{.ID}}">{{.Name}}{{if ne .Quantity 1}} ({{.Quantity}}){{end}}{{if .Color}} - {{.Color}}{{end}}</a>
+					{{if .Starred}}
+						<i class="fa fa-star"></i>
+					{{end}}
+				</div>
 			{{end}}
 			</div>
 		{{end}}
