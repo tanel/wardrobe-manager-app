@@ -8,8 +8,10 @@ import (
 	"github.com/tanel/wardrobe-manager-app/session"
 )
 
+// RequireUserFunc is a func that requires user ID to execute
 type RequireUserFunc func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string)
 
+// RequireUser wraps regular request to check that user ID is presents in session
 func RequireUser(handlerFunc RequireUserFunc) func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		userID, err := session.UserID(r)
