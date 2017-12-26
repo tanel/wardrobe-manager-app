@@ -28,6 +28,7 @@
 			<option{{if eq . $.SelectedColor}} selected{{end}}>{{.}}</option>>
 			{{end}}
 		</select>
+		<a class="btn btn-success" href="/items?category=&brand=&color=">Reset</a>
 	</p>
 	<p>
 		<a class="btn btn-success" href="/new?category={{.SelectedCategory}}">Add an item</a>
