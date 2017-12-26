@@ -1,9 +1,5 @@
 {{define "new-outfit"}}
 	{{template "header" .}}
-	<ol class="breadcrumb">
-	    <li class="breadcrumb-item"><a href="/outfits">Outfits</a></li>
-	    <li class="breadcrumb-item active">New</li>
-	</ol>
 	<form action="/new-outfit" method="POST">
 		{{template "edit-outfit" .}}
 	</form>

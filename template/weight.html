@@ -1,9 +1,5 @@
 {{define "weight"}}
 	{{template "header" .}}
-	<ol class="breadcrumb">
-	    <li class="breadcrumb-item"><a href="/weight">Weight entries</a></li>
-	    <li class="breadcrumb-item active">{{formatDate .Weight.CreatedAt}}</li>
-	</ol>
 	<form action="/weights/{{.Weight.ID}}" method="POST">
 		{{template "edit-weight" .}}
 	</form>

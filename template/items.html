@@ -1,14 +1,5 @@
 {{define "items"}}
 	{{template "header" .}}
-	<ol class="breadcrumb">
-	    <li class="breadcrumb-item"><a href="/items?category=">Items</a></li>
-	    {{if .SelectedCategory}}
-	    <li class="breadcrumb-item">{{.SelectedCategory}}</li>
-	    {{else}}
-	    <li class="breadcrumb-item">All categories</li>
-	    {{end}}
-	</ol>
-
 	<p>
 		<select class="select-category">
 			<option value="">All categories</option>
