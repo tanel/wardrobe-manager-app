@@ -32,6 +32,10 @@ ul {
 	padding-top:20px;
 }
 
+.container ul {
+	padding:0;
+}
+
 .images img {
 	max-height:140px;
 	max-width:200px;
@@ -48,4 +52,8 @@ ul {
 .star-clickable {
 	cursor:pointer;
 	margin-bottom: 10px;
+}
+
+.btn-link {
+	padding:6px;
 }
