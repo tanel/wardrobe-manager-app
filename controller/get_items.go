@@ -7,6 +7,7 @@ import (
 	"github.com/juju/errors"
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-manager-app/db"
+	"github.com/tanel/wardrobe-manager-app/model"
 	"github.com/tanel/wardrobe-manager-app/service"
 	"github.com/tanel/wardrobe-manager-app/session"
 	"github.com/tanel/wardrobe-manager-app/ui"
@@ -33,6 +34,24 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, user
 		log.Println(err)
 		http.Error(w, "cookie error", http.StatusInternalServerError)
 		return
+	}
+
+	outfitID, err := handleParam(w, r, session.AddToOutfitID)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "cookie error", http.StatusInternalServerError)
+		return
+	}
+
+	var outfit *model.Outfit
+	if outfitID != "" {
+		var err error
+		outfit, err = db.SelectOutfitByID(outfitID, userID)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "database error", http.StatusInternalServerError)
+			return
+		}
 	}
 
 	itemCategories, err := service.GroupItemsByCategory(userID, category, brand, color)
@@ -74,6 +93,7 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, user
 		SelectedBrand:    brand,
 		Colors:           colors,
 		SelectedColor:    color,
+		SelectedOutfit:   outfit,
 	}
 	if err := Render(w, "items", page); err != nil {
 		log.Println(err)

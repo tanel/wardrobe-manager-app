@@ -14,4 +14,5 @@ type ItemsPage struct {
 	SelectedCategory string
 	SelectedBrand    string
 	SelectedColor    string
+	SelectedOutfit   *model.Outfit
 }

@@ -110,3 +110,30 @@ func SelectOutfitItemsByOutfitID(outfitID string, userID string) ([]model.Outfit
 
 	return items, nil
 }
+
+// InsertOutfitItem inserts an outfit item into database
+func InsertOutfitItem(item model.OutfitItem) error {
+	_, err := db.Exec(`
+		INSERT INTO outfit_items(
+			id,
+			outfit_id,
+			item_id,
+			created_at
+		) VALUES(
+			$1,
+			$2,
+			$3,
+			$4
+		)
+	`,
+		item.ID,
+		item.OutfitID,
+		item.ItemID,
+		item.CreatedAt,
+	)
+	if err != nil {
+		return errors.Annotate(err, "inserting outfit item failed")
+	}
+
+	return nil
+}

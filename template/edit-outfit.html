@@ -21,7 +21,7 @@
         {{template "item-image" .Item}}
       {{end}}
     </div>
-    <a class="btn btn-success" href="/items">Add an item to outfit</a>
+    <a class="btn btn-success" href="/items?add-to-outfit-id={{.Outfit.ID}}">Add an item to outfit</a>
   </div>
 </fieldset>
 {{end}}

@@ -1,5 +1,8 @@
 {{define "items"}}
 	{{template "header" .}}
+	{{if .SelectedOutfit}}
+	<h1>Click on item to add it to outfit {{.SelectedOutfit.Name}}</h1>
+	{{end}}
 	<p>
 		<select class="select-category">
 			<option value="">All categories</option>
@@ -21,9 +24,11 @@
 		</select>
 		<a class="btn btn-success" href="/items?category=&brand=&color=">Reset</a>
 	</p>
+	{{if not .SelectedOutfit}}
 	<p>
 		<a class="btn btn-success" href="/new?category={{.SelectedCategory}}">Add an item</a>
 	</p>
+	{{end}}
 
 	{{range .ItemCategories}}
 		{{if .Items}}

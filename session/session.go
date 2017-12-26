@@ -9,8 +9,12 @@ import (
 	"github.com/juju/errors"
 )
 
-const sessionName = "wardrobe-app-session"
-const unsecureCredentials = "C93B74DA-4D85-418C-B513-3BEDE6BFCECC"
+const (
+	sessionName         = "wardrobe-app-session"
+	unsecureCredentials = "C93B74DA-4D85-418C-B513-3BEDE6BFCECC"
+
+	AddToOutfitID = "add-to-outfit-id"
+)
 
 var store *sessions.CookieStore
 
