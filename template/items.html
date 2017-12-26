@@ -18,7 +18,7 @@
 		{{if not .SelectedCategory}}
 		<p class="bs-component">
 			{{range .Categories}}
-			<a class="btn btn-link" href="/items?category={{.Description}}">{{.Description}} ({{.ItemCount}})</a>
+			<a class="btn btn-link" href="/items?category={{.Description}}">{{.Description}}</a>
 			{{end}}
 		</p>
 		{{end}}
