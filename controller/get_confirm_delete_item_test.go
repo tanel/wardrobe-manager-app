@@ -8,7 +8,6 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 	"github.com/tanel/wardrobe-manager-app/db"
-	"github.com/tanel/wardrobe-manager-app/session"
 )
 
 func Test_GetConfirmDeleteItem_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
@@ -25,10 +24,9 @@ func Test_GetConfirmDeleteItem_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
 	req := httptest.NewRequest("GET", "/", nil)
 	w := httptest.NewRecorder()
 	const userID = "3E874918-F54E-49A3-A635-321437A85F00"
-	assert.NoError(t, session.SetUserID(w, req, userID))
 
 	// Act
-	GetConfirmDeleteItem(w, req, ps)
+	GetConfirmDeleteItem(w, req, ps, userID)
 
 	// Assert
 	resp := w.Result()

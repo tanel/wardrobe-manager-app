@@ -9,23 +9,10 @@ import (
 	"github.com/satori/go.uuid"
 	"github.com/tanel/wardrobe-manager-app/db"
 	"github.com/tanel/wardrobe-manager-app/model"
-	"github.com/tanel/wardrobe-manager-app/session"
 )
 
 // PostNewOutfit saves a new outfit into database
-func PostNewOutfit(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	userID, err := session.UserID(r)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
-		return
-	}
-
-	if userID == nil {
-		http.Redirect(w, r, loginPage, http.StatusSeeOther)
-		return
-	}
-
+func PostNewOutfit(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
 	outfit, err := model.NewOutfitForm(r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -33,7 +20,7 @@ func PostNewOutfit(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 	}
 
 	outfit.ID = uuid.NewV4().String()
-	outfit.UserID = *userID
+	outfit.UserID = userID
 	outfit.CreatedAt = time.Now()
 
 	if err := db.InsertOutfit(*outfit); err != nil {

@@ -13,19 +13,7 @@ import (
 )
 
 // GetItems renders items page
-func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	userID, err := session.UserID(r)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
-		return
-	}
-
-	if userID == nil {
-		http.Redirect(w, r, loginPage, http.StatusSeeOther)
-		return
-	}
-
+func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
 	category, err := parseFilter(r, "category")
 	if err != nil {
 		log.Println(err)
@@ -39,21 +27,21 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	categories, err := service.GroupItemsByCategory(*userID, *category)
+	categories, err := service.GroupItemsByCategory(userID, *category)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
 		return
 	}
 
-	brands, err := db.SelectBrandsByUserID(*userID)
+	brands, err := db.SelectBrandsByUserID(userID)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
 		return
 	}
 
-	colors, err := db.SelectColorsByUserID(*userID)
+	colors, err := db.SelectColorsByUserID(userID)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
@@ -62,7 +50,7 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	page := ui.ItemsPage{
 		Page: ui.Page{
-			UserID: *userID,
+			UserID: userID,
 		},
 		Categories:       categories,
 		SelectedCategory: *category,

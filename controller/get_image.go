@@ -7,26 +7,13 @@ import (
 	"github.com/juju/errors"
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-manager-app/db"
-	"github.com/tanel/wardrobe-manager-app/session"
 )
 
 // GetItemImage renders iamge
-func GetItemImage(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	userID, err := session.UserID(r)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
-		return
-	}
-
-	if userID == nil {
-		http.Redirect(w, r, loginPage, http.StatusSeeOther)
-		return
-	}
-
+func GetItemImage(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
 	imageID := ps.ByName("id")
 
-	itemImage, err := db.SelectItemImageByID(imageID, *userID)
+	itemImage, err := db.SelectItemImageByID(imageID, userID)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
