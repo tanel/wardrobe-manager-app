@@ -74,9 +74,12 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	item.Quantity = quantity
 	item.Starred = starred
 	item.CreatedAt = time.Now()
-	item.Images = append(item.Images, ItemImage{
-		Body: b,
-	})
+
+	if b != nil {
+		item.Images = append(item.Images, ItemImage{
+			Body: b,
+		})
+	}
 
 	return &item, nil
 }
