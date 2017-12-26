@@ -44,7 +44,7 @@ func New() *httprouter.Router {
 	router.GET("/confirm-delete-weight/:id", middleware.RequireUser(controller.GetConfirmDeleteWeight))
 	router.POST("/delete-weight/:id", middleware.RequireUser(controller.PostDeleteWeight))
 
-	router.GET("/", middleware.RequireUser(controller.GetIndex))
+	router.GET("/", controller.GetIndex)
 
 	// Serve static files from the ./public directory
 	router.NotFound = http.FileServer(http.Dir("public"))
