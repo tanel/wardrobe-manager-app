@@ -21,7 +21,7 @@ func GenerateThumbnailsForImage(imagePath string) error {
 		return errors.Annotate(err, "reading image failed")
 	}
 
-	newImage, err := bimg.NewImage(buffer).Resize(140, 200)
+	newImage, err := bimg.NewImage(buffer).Thumbnail(140)
 	if err != nil {
 		return errors.Annotate(err, "creating new image failed")
 	}
