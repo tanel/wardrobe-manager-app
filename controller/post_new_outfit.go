@@ -42,5 +42,5 @@ func PostNewOutfit(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 		return
 	}
 
-	http.Redirect(w, r, "/outfits/"+outfit.ID, http.StatusSeeOther)
+	http.Redirect(w, r, "/outfits", http.StatusSeeOther)
 }
