@@ -17,10 +17,12 @@ app.handleStar = function () {
 };
 
 app.renderWeightChart = function () {
-	var ctx = document.getElementById("weightChart").getContext('2d');
-	if (!ctx) {
-		return;
-	}
+    var weightChart = document.getElementById("weightChart");
+    if (!weightChart) {
+        return;
+    }
+
+	var ctx = weightChart.getContext('2d');
 
 	var config = {
             type: 'line',
