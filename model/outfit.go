@@ -10,9 +10,9 @@ import (
 // Outfit represents an outfit
 type Outfit struct {
 	Base
-	UserID string
-	Name   string
-	Items  []Item
+	UserID      string
+	Name        string
+	OutfitItems []OutfitItem
 }
 
 // NewOutfitForm returns an outfit with values parsed from HTTP form

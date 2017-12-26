@@ -7,6 +7,13 @@
       </div>
     </div>
   </div>
+  <div class="form-group">
+    <div class="row images">
+      {{range .Outfit.OutfitItems}}
+        {{template "item-image" .Item}}
+      {{end}}
+    </div>
+  </div>
    <div class="form-group">
       <button type="submit" class="btn btn-success">Save outfit</button>
       {{if .Outfit.ID}}
