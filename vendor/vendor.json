@@ -51,12 +51,6 @@
 			"revisionTime": "2017-11-26T05:04:59Z"
 		},
 		{
-			"checksumSHA1": "r5eQHkttko6kxroDEENXbmXKrSs=",
-			"path": "github.com/nfnt/resize",
-			"revision": "891127d8d1b52734debe1b3c3d7e747502b6c366",
-			"revisionTime": "2016-07-24T20:39:20Z"
-		},
-		{
 			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",
 			"path": "github.com/pmezard/go-difflib/difflib",
 			"revision": "792786c7400a136282c1664665ae0a8db921c6c2",
