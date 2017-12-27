@@ -18,34 +18,33 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, user
 	category, err := handleParam(w, r, "category")
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "cookie error", http.StatusInternalServerError)
+		http.Error(w, "session error", http.StatusInternalServerError)
 		return
 	}
 
 	brand, err := handleParam(w, r, "brand")
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "cookie error", http.StatusInternalServerError)
+		http.Error(w, "session error", http.StatusInternalServerError)
 		return
 	}
 
 	color, err := handleParam(w, r, "color")
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "cookie error", http.StatusInternalServerError)
+		http.Error(w, "session error", http.StatusInternalServerError)
 		return
 	}
 
 	outfitID, err := handleParam(w, r, session.AddToOutfitID)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "cookie error", http.StatusInternalServerError)
+		http.Error(w, "session error", http.StatusInternalServerError)
 		return
 	}
 
 	var outfit *model.Outfit
 	if outfitID != "" {
-		var err error
 		outfit, err = db.SelectOutfitByID(outfitID, userID)
 		if err != nil {
 			log.Println(err)

@@ -18,7 +18,7 @@ func GetItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userI
 	outfitID, err := session.Value(r, session.AddToOutfitID)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "cookie error", http.StatusInternalServerError)
+		http.Error(w, "session error", http.StatusInternalServerError)
 		return
 	}
 
@@ -43,7 +43,11 @@ func GetItem(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userI
 			return
 		}
 
-		session.SetValue(w, r, session.AddToOutfitID, "")
+		if err := session.SetValue(w, r, session.AddToOutfitID, ""); err != nil {
+			log.Println(err)
+			http.Error(w, "session error", http.StatusInternalServerError)
+			return
+		}
 
 		http.Redirect(w, r, "/outfits/"+*outfitID, http.StatusSeeOther)
 		return
