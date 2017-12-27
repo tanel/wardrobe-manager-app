@@ -8,6 +8,43 @@ import (
 	"github.com/tanel/wardrobe-manager-app/model"
 )
 
+// SelectOutfitIDByOutfitItemID selects outfit ID by outfit item ID
+func SelectOutfitIDByOutfitItemID(outfitItemID, userID string) (string, error) {
+	var outfitID string
+	err := db.QueryRow(`
+		SELECT
+			outfit_id
+		FROM
+			outfit_items
+		WHERE
+			id = $1
+		AND
+			outfit_id IN (
+				SELECT
+					id
+				FROM
+					outfits
+				WHERE
+					user_id = $2
+				AND
+					deleted_at IS NULL
+			)
+		AND
+			deleted_at IS NULL
+		LIMIT 1
+	`,
+		outfitItemID,
+		userID,
+	).Scan(
+		&outfitID,
+	)
+	if err != nil && err != sql.ErrNoRows {
+		return "", errors.Annotate(err, "selecting outfit ID by outfit item ID failed")
+	}
+
+	return outfitID, nil
+}
+
 // SelectOutfitItemsByOutfitID selects outfit items by outfit ID
 func SelectOutfitItemsByOutfitID(outfitID string, userID string) ([]model.OutfitItem, error) {
 	rows, err := db.Query(`
@@ -133,6 +170,37 @@ func InsertOutfitItem(item model.OutfitItem) error {
 	)
 	if err != nil {
 		return errors.Annotate(err, "inserting outfit item failed")
+	}
+
+	return nil
+}
+
+// DeleteOutfitItem deletes an outfit item
+func DeleteOutfitItem(outfitItemID, userID string) error {
+	_, err := db.Exec(`
+		UPDATE
+			outfit_items
+		SET
+			deleted_at = current_timestamp
+		WHERE
+			id = $1
+		AND
+			outfit_id IN (
+				SELECT
+					id
+				FROM
+					outfits
+				WHERE
+					user_id = $2
+				AND
+					deleted_at IS NULL
+			)
+	`,
+		outfitItemID,
+		userID,
+	)
+	if err != nil {
+		return errors.Annotate(err, "deleting outfit item failed")
 	}
 
 	return nil

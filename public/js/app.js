@@ -69,15 +69,15 @@ app.handleItemsFilterSelection = function () {
 };
 
 app.itemsCategorySelected = function () {
-    window.location.href = '/items?category=' + $('.select-category').val();
+    window.location.href = '/items?category=' + encodeURIComponent($('.select-category').val());
 };
 
 app.itemsBrandSelected = function () {
-    window.location.href = '/items?brand=' + $('.select-brand').val();
+    window.location.href = '/items?brand=' + encodeURIComponent($('.select-brand').val());
 };
 
 app.itemsColorSelected = function () {
-    window.location.href = '/items?color=' + $('.select-color').val();
+    window.location.href = '/items?color=' + encodeURIComponent($('.select-color').val());
 };
 
 // Page load
