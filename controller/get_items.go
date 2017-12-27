@@ -29,8 +29,6 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, user
 		return
 	}
 
-	println("BRAND", brand)
-
 	color, err := handleParam(w, r, "color")
 	if err != nil {
 		log.Println(err)
