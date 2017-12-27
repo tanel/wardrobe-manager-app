@@ -13,6 +13,7 @@ const (
 	sessionName         = "wardrobe-app-session"
 	unsecureCredentials = "C93B74DA-4D85-418C-B513-3BEDE6BFCECC"
 
+	// AddToOutfitID is session key for adding items to an outfit ID
 	AddToOutfitID = "add-to-outfit-id"
 )
 

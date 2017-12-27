@@ -13,10 +13,9 @@ func Test_GetIndex_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
 	var ps httprouter.Params
 	req := httptest.NewRequest("GET", "/", nil)
 	w := httptest.NewRecorder()
-	const userID = "3E874918-F54E-49A3-A635-321437A85F00"
 
 	// Act
-	GetIndex(w, req, ps, userID)
+	GetIndex(w, req, ps)
 
 	// Assert
 	resp := w.Result()

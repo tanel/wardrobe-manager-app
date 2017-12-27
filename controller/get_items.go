@@ -13,39 +13,52 @@ import (
 	"github.com/tanel/wardrobe-manager-app/ui"
 )
 
+type filters struct {
+	category string
+	brand    string
+	color    string
+	outfitID string
+}
+
+func newFilters(w http.ResponseWriter, r *http.Request) (*filters, error) {
+	var result filters
+	var err error
+
+	result.category, err = handleParam(w, r, "category")
+	if err != nil {
+		return nil, errors.Annotate(err, "handling category param failed")
+	}
+
+	result.brand, err = handleParam(w, r, "brand")
+	if err != nil {
+		return nil, errors.Annotate(err, "handling brand param failed")
+	}
+
+	result.color, err = handleParam(w, r, "color")
+	if err != nil {
+		return nil, errors.Annotate(err, "handling color param failed")
+	}
+
+	result.outfitID, err = handleParam(w, r, session.AddToOutfitID)
+	if err != nil {
+		return nil, errors.Annotate(err, "handling outfit ID param failed")
+	}
+
+	return &result, nil
+}
+
 // GetItems renders items page
 func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
-	category, err := handleParam(w, r, "category")
+	f, err := newFilters(w, r)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
-		return
-	}
-
-	brand, err := handleParam(w, r, "brand")
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
-		return
-	}
-
-	color, err := handleParam(w, r, "color")
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
-		return
-	}
-
-	outfitID, err := handleParam(w, r, session.AddToOutfitID)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
+		http.Error(w, "filters error", http.StatusInternalServerError)
 		return
 	}
 
 	var outfit *model.Outfit
-	if outfitID != "" {
-		outfit, err = db.SelectOutfitByID(outfitID, userID)
+	if f.outfitID != "" {
+		outfit, err = db.SelectOutfitByID(f.outfitID, userID)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "database error", http.StatusInternalServerError)
@@ -53,7 +66,7 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, user
 		}
 	}
 
-	itemCategories, err := service.GroupItemsByCategory(userID, category, brand, color)
+	itemCategories, err := service.GroupItemsByCategory(userID, f.category, f.brand, f.color)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)
@@ -87,12 +100,12 @@ func GetItems(w http.ResponseWriter, r *http.Request, ps httprouter.Params, user
 		},
 		ItemCategories:   itemCategories,
 		Categories:       categories,
-		SelectedCategory: category,
 		Brands:           brands,
-		SelectedBrand:    brand,
 		Colors:           colors,
-		SelectedColor:    color,
 		SelectedOutfit:   outfit,
+		SelectedCategory: f.category,
+		SelectedBrand:    f.brand,
+		SelectedColor:    f.color,
 	}
 	if err := Render(w, "items", page); err != nil {
 		log.Println(err)
