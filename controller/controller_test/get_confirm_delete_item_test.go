@@ -1,4 +1,4 @@
-package controller
+package controller_test
 
 import (
 	"net/http/httptest"
@@ -7,6 +7,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
+	"github.com/tanel/wardrobe-manager-app/controller"
 	"github.com/tanel/wardrobe-manager-app/db"
 )
 
@@ -26,7 +27,7 @@ func Test_GetConfirmDeleteItem_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
 	const userID = "3E874918-F54E-49A3-A635-321437A85F00"
 
 	// Act
-	GetConfirmDeleteItem(w, req, ps, userID)
+	controller.GetConfirmDeleteItem(w, req, ps, userID)
 
 	// Assert
 	resp := w.Result()

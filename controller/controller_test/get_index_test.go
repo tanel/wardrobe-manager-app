@@ -1,4 +1,4 @@
-package controller
+package controller_test
 
 import (
 	"net/http/httptest"
@@ -6,6 +6,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/stretchr/testify/assert"
+	"github.com/tanel/wardrobe-manager-app/controller"
 )
 
 func Test_GetIndex_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
@@ -15,7 +16,7 @@ func Test_GetIndex_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// Act
-	GetIndex(w, req, ps)
+	controller.GetIndex(w, req, ps)
 
 	// Assert
 	resp := w.Result()
