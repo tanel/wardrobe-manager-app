@@ -25,6 +25,8 @@ type Item struct {
 	Formal      bool
 	Quantity    int
 	Starred     bool
+	Code        string
+	URL         string
 
 	Images  []ItemImage
 	ImageID *string
@@ -73,6 +75,8 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	item.Price = price
 	item.Quantity = quantity
 	item.Starred = starred
+	item.Code = strings.TrimSpace(r.FormValue("code"))
+	item.URL = strings.TrimSpace(r.FormValue("url"))
 	item.CreatedAt = time.Now()
 
 	if b != nil {
