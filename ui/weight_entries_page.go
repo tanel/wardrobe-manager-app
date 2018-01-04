@@ -30,8 +30,8 @@ func NewWeightEntriesPage(userID string, weights []model.WeightEntry) (*WeightEn
 
 func (page *WeightEntriesPage) prepareChartData() error {
 	var data []float64
-	for _, weightEntry := range page.Weights {
-		data = append(data, weightEntry.Value)
+	for i := len(page.Weights) - 1; i >= 0; i-- {
+		data = append(data, page.Weights[i].Value)
 	}
 
 	b, err := json.Marshal(data)
