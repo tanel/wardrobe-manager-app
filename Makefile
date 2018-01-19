@@ -5,6 +5,9 @@ default: build
 build:
 	go build
 
+build-linux:
+	CGO_ENABLED=1 GOOS=linux go build .
+
 run: build
 	./wardrobe-manager-app
 
@@ -51,3 +54,5 @@ thumbnails:
 
 test:	
 	TEMPLATE_PATH=../../template/*.html go test ./...
+
+deploy: build-linux
