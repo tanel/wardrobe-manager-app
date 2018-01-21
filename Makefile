@@ -56,3 +56,6 @@ test:
 	TEMPLATE_PATH=../../template/*.html go test ./...
 
 deploy: build-linux
+	scp -r public deploy@wardrobe:/home/deploy/wardrobe/
+	scp -r migrations deploy@wardrobe:/home/deploy/wardrobe/
+	scp wardrobe-linux deploy@wardrobe:/home/deploy/wardrobe/
