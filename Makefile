@@ -6,7 +6,7 @@ build:
 	go build
 
 build-linux:
-	CGO_ENABLED=1 GOOS=linux go build .
+	CGO_ENABLED=0 GOOS=linux go build .
 
 run: build
 	./wardrobe-manager-app
