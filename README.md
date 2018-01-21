@@ -34,12 +34,6 @@ To add test user to database with mock data, run
 
 It creates user "test@test.com" with password "123".
 
-## Install vips
-
-For thumbnail generation, vips is used in the app. Install vips with:
-
-	brew install vips
-
 ## Start server
 
 	make run
