@@ -2,10 +2,10 @@ package image
 
 import (
 	"log"
+	"os/exec"
 	"strings"
 
 	"github.com/juju/errors"
-	"gopkg.in/h2non/bimg.v1"
 )
 
 // GenerateThumbnailsForImage generates a thumbnail for a given image
@@ -16,18 +16,16 @@ func GenerateThumbnailsForImage(imagePath string) error {
 
 	log.Println("generating thumbnail for", imagePath)
 
-	buffer, err := bimg.Read(imagePath)
-	if err != nil {
-		return errors.Annotate(err, "reading image failed")
+	if _, err := exec.Command("cp", imagePath, imagePath+".png").Output(); err != nil {
+		return errors.Annotate(err, "copying image failed")
 	}
 
-	newImage, err := bimg.NewImage(buffer).Thumbnail(140)
-	if err != nil {
-		return errors.Annotate(err, "creating new image failed")
+	if _, err := exec.Command("mogrify", "-format", "png", "-thumbnail", "140x140", imagePath+".png").Output(); err != nil {
+		return errors.Annotate(err, "creating thumbnail failed")
 	}
 
-	if err := bimg.Write(imagePath+"-thumbnail", newImage); err != nil {
-		log.Println(errors.Annotate(err, "writing image failed"))
+	if _, err := exec.Command("mv", imagePath+".png", imagePath+"-thumbnail").Output(); err != nil {
+		return errors.Annotate(err, "moving thumbnail failed")
 	}
 
 	return nil
