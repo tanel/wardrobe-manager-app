@@ -59,3 +59,7 @@ deploy: build-linux
 	scp -r public deploy@wardrobe:/home/deploy/wardrobe/
 	scp -r migrations deploy@wardrobe:/home/deploy/wardrobe/
 	scp wardrobe-linux deploy@wardrobe:/home/deploy/wardrobe/
+
+cov:
+	go test -coverprofile cover.out && go tool cover -html=cover.out -o cover.html && open cover.html
+
