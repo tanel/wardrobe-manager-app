@@ -24,6 +24,10 @@ func SaveItem(item *model.Item, userID string) error {
 	}
 
 	for _, itemImage := range item.Images {
+		if len(itemImage.Body) == 0 {
+			continue
+		}
+
 		itemImage.ID = uuid.NewV4().String()
 		itemImage.ItemID = item.ID
 		itemImage.CreatedAt = time.Now()
