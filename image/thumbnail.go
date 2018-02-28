@@ -9,6 +9,7 @@ import (
 )
 
 // GenerateThumbnailsForImage generates a thumbnail for a given image
+// nolint: gas
 func GenerateThumbnailsForImage(imagePath string) error {
 	if strings.Contains(imagePath, "-thumbnail") {
 		return nil
