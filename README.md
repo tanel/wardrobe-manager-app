@@ -14,7 +14,7 @@ Install PostgresSQL, for example with brew:
 Create database and user:
 
 	createdb wardrobe
-	createdb wardrobe
+	createuser wardrobe
 
 Install "migrate" package
 
