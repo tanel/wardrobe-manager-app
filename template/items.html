@@ -4,25 +4,26 @@
 	<h1>Click an item to add it to the outfit. {{.SelectedOutfit.Name}} selected</h1>
 	{{end}}
 	<p>
+		Filter by
 		<select class="select-category">
-			<option value="">All categories</option>
+			<option value="">Category</option>
 			{{range .Categories}}
 			<option{{if eq . $.SelectedCategory}} selected{{end}}>{{.}}</option>>
 			{{end}}
 		</select>
 		<select class="select-brand">
-			<option value="">All brands</option>
+			<option value="">Brand</option>
 			{{range .Brands}}
 			<option{{if eq . $.SelectedBrand}} selected{{end}}>{{.}}</option>>
 			{{end}}
 		</select>
 		<select class="select-color">
-			<option value="">All colors</option>
+			<option value="">Color</option>
 			{{range .Colors}}
 			<option{{if eq . $.SelectedColor}} selected{{end}}>{{.}}</option>>
 			{{end}}
 		</select>
-		<a class="btn btn-success" href="/items?category=&brand=&color=">Reset</a>
+		<a class="btn btn-success" href="/items?category=&brand=&color=">Show all</a>
 	</p>
 	{{if not .SelectedOutfit}}
 	<p>
