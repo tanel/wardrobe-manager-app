@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/juju/errors"
-	"github.com/tanel/wardrobe-manager-app/image"
+	"github.com/tanel/wardrobe-organizer/image"
 )
 
 func main() {

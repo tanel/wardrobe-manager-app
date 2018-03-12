@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tanel/wardrobe-manager-app/db"
-	"github.com/tanel/wardrobe-manager-app/ui"
+	"github.com/tanel/wardrobe-organizer/db"
+	"github.com/tanel/wardrobe-organizer/ui"
 )
 
 // GetConfirmDeleteOutfit renders outfit deletion confirmation page

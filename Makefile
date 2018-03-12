@@ -9,7 +9,7 @@ build-linux:
 	CGO_ENABLED=0 GOOS=linux go build -o wardrobe-linux
 
 run: build
-	./wardrobe-manager-app
+	./wardrobe-organizer
 
 migration:
 	migrate -path migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" create $(name)

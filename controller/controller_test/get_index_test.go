@@ -6,7 +6,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/stretchr/testify/assert"
-	"github.com/tanel/wardrobe-manager-app/controller"
+	"github.com/tanel/wardrobe-organizer/controller"
 )
 
 func Test_GetIndex_ReturnsResponse_InCaseOfSuccess(t *testing.T) {

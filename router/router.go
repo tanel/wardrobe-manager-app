@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tanel/wardrobe-manager-app/controller"
-	"github.com/tanel/wardrobe-manager-app/middleware"
+	"github.com/tanel/wardrobe-organizer/controller"
+	"github.com/tanel/wardrobe-organizer/middleware"
 )
 
 // New returns new router instance

@@ -14,8 +14,8 @@
 .glide/
 
 # Build artefacts
-wardrobe-manager-app
 wardrobe-linux
+wardrobe-organizer
 
 # Uploaded content
 uploads

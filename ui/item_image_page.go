@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/tanel/wardrobe-manager-app/model"
+	"github.com/tanel/wardrobe-organizer/model"
 )
 
 // ItemImagePage represents an image page

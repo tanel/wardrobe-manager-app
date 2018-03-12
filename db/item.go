@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/juju/errors"
-	"github.com/tanel/wardrobe-manager-app/model"
+	"github.com/tanel/wardrobe-organizer/model"
 )
 
 // InsertItem inserts an item into database

@@ -6,8 +6,8 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/satori/go.uuid"
-	"github.com/tanel/wardrobe-manager-app/db"
-	"github.com/tanel/wardrobe-manager-app/model"
+	"github.com/tanel/wardrobe-organizer/db"
+	"github.com/tanel/wardrobe-organizer/model"
 )
 
 // PostNewWeight saves a new weight into database

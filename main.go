@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	_ "github.com/lib/pq"
-	"github.com/tanel/wardrobe-manager-app/db"
-	"github.com/tanel/wardrobe-manager-app/router"
+	"github.com/tanel/wardrobe-organizer/db"
+	"github.com/tanel/wardrobe-organizer/router"
 )
 
 const port = ":8080"

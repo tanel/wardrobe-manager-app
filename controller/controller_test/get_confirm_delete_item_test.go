@@ -7,8 +7,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
-	"github.com/tanel/wardrobe-manager-app/controller"
-	"github.com/tanel/wardrobe-manager-app/db"
+	"github.com/tanel/wardrobe-organizer/controller"
+	"github.com/tanel/wardrobe-organizer/db"
 )
 
 func Test_GetConfirmDeleteItem_ReturnsResponse_InCaseOfSuccess(t *testing.T) {

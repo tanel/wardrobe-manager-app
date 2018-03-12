@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tanel/wardrobe-manager-app/session"
+	"github.com/tanel/wardrobe-organizer/session"
 )
 
 // RequireUserFunc is a func that requires user ID to execute

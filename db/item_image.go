@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/juju/errors"
-	"github.com/tanel/wardrobe-manager-app/model"
+	"github.com/tanel/wardrobe-organizer/model"
 )
 
 // InsertItemImage inserts image into database

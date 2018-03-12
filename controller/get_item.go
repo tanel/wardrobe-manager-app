@@ -7,10 +7,10 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/satori/go.uuid"
-	"github.com/tanel/wardrobe-manager-app/db"
-	"github.com/tanel/wardrobe-manager-app/model"
-	"github.com/tanel/wardrobe-manager-app/session"
-	"github.com/tanel/wardrobe-manager-app/ui"
+	"github.com/tanel/wardrobe-organizer/db"
+	"github.com/tanel/wardrobe-organizer/model"
+	"github.com/tanel/wardrobe-organizer/session"
+	"github.com/tanel/wardrobe-organizer/ui"
 )
 
 // GetItem renders an item page

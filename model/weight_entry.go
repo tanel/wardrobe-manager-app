@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/juju/errors"
-	"github.com/tanel/wardrobe-manager-app/form"
+	"github.com/tanel/wardrobe-organizer/form"
 )
 
 // WeightEntry represents a weight measurement

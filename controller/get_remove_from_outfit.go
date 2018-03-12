@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tanel/wardrobe-manager-app/db"
+	"github.com/tanel/wardrobe-organizer/db"
 )
 
 // GetRemoveFromOutfit removes an outfit item from outfit

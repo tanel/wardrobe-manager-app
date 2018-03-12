@@ -6,11 +6,11 @@ import (
 
 	"github.com/juju/errors"
 	"github.com/julienschmidt/httprouter"
-	"github.com/tanel/wardrobe-manager-app/db"
-	"github.com/tanel/wardrobe-manager-app/model"
-	"github.com/tanel/wardrobe-manager-app/service"
-	"github.com/tanel/wardrobe-manager-app/session"
-	"github.com/tanel/wardrobe-manager-app/ui"
+	"github.com/tanel/wardrobe-organizer/db"
+	"github.com/tanel/wardrobe-organizer/model"
+	"github.com/tanel/wardrobe-organizer/service"
+	"github.com/tanel/wardrobe-organizer/session"
+	"github.com/tanel/wardrobe-organizer/ui"
 )
 
 // GetItems renders items page

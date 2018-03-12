@@ -5,9 +5,9 @@ import (
 
 	"github.com/juju/errors"
 	"github.com/satori/go.uuid"
-	"github.com/tanel/wardrobe-manager-app/db"
-	"github.com/tanel/wardrobe-manager-app/image"
-	"github.com/tanel/wardrobe-manager-app/model"
+	"github.com/tanel/wardrobe-organizer/db"
+	"github.com/tanel/wardrobe-organizer/image"
+	"github.com/tanel/wardrobe-organizer/model"
 )
 
 // SaveItem saves item to database, including images

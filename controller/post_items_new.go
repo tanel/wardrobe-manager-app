@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tanel/wardrobe-manager-app/model"
-	"github.com/tanel/wardrobe-manager-app/service"
+	"github.com/tanel/wardrobe-organizer/model"
+	"github.com/tanel/wardrobe-organizer/service"
 )
 
 // PostItemsNew creates a new item
