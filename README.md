@@ -1,8 +1,8 @@
-# Wardrobe manager app
+# Wardrobe Organizer
 
-[![Build Status](https://travis-ci.org/tanel/wardrobe-organizer.svg?branch=master)](https://travis-ci.org/tanel/wardrobe-organizer) [![Go Report Card](https://goreportcard.com/badge/github.com/tanel/wardrobe-manager-app)](https://goreportcard.com/report/github.com/tanel/wardrobe-manager-app)
+[![Build Status](https://travis-ci.org/tanel/wardrobe-organizer.svg?branch=master)](https://travis-ci.org/tanel/wardrobe-organizer) [![Go Report Card](https://goreportcard.com/badge/github.com/tanel/wardrobe-organizer)](https://goreportcard.com/report/github.com/tanel/wardrobe-organizer)
 
-Web-based open source wardrobe manager with easy data entry and photos import.
+Web-based open source wardrobe organizer created while teaching Go programming.
 
 # How to install
 
