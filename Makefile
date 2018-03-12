@@ -56,9 +56,12 @@ test:
 	TEMPLATE_PATH=../../template/*.html go test ./...
 
 deploy: build-linux
-	scp -r public deploy@wardrobe:/home/deploy/wardrobe/
-	scp -r migrations deploy@wardrobe:/home/deploy/wardrobe/
-	scp wardrobe-linux deploy@wardrobe:/home/deploy/wardrobe/
+	scp -r public migrations deploy@wardrobe:/home/deploy/wardrobe/
+	scp -r wardrobe-linux deploy@wardrobe:/home/deploy/wardrobe/wardrobe-linux-next
+	ssh deploy@wardrobe 'cp /home/deploy/wardrobe/wardrobe-linux /home/deploy/wardrobe/wardrobe-previous'
+	ssh deploy@wardrobe 'sudo systemctl stop wardrobe'
+	ssh deploy@wardrobe 'cp /home/deploy/wardrobe/wardrobe-linux-next /home/deploy/wardrobe/wardrobe'
+	ssh deploy@wardrobe 'sudo systemctl start wardrobe'
 
 cov:
 	go test -coverprofile cover.out && go tool cover -html=cover.out -o cover.html && open cover.html
