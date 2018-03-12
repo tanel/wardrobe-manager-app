@@ -12,9 +12,9 @@ import (
 func New() *httprouter.Router {
 	router := httprouter.New()
 
-	router.GET("/signup", controller.GetSignup)
-	router.POST("/signup", controller.PostSignup)
-	router.GET("/logout", controller.GetLogout)
+	router.GET("/signup", middleware.Public(controller.GetSignup))
+	router.POST("/signup", middleware.Public(controller.PostSignup))
+	router.GET("/logout", middleware.Public(controller.GetLogout))
 
 	router.GET("/items/:id", middleware.RequireUser(controller.GetItem))
 	router.POST("/items/:id", middleware.RequireUser(controller.PostItem))
@@ -45,7 +45,7 @@ func New() *httprouter.Router {
 	router.GET("/confirm-delete-weight/:id", middleware.RequireUser(controller.GetConfirmDeleteWeight))
 	router.POST("/delete-weight/:id", middleware.RequireUser(controller.PostDeleteWeight))
 
-	router.GET("/", controller.GetIndex)
+	router.GET("/", middleware.Public(controller.GetIndex))
 
 	// Serve static files from the ./public directory
 	router.NotFound = http.FileServer(http.Dir("public"))
