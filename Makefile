@@ -41,7 +41,7 @@ backup:
 lint: lint-go lint-js lint-css
 
 lint-go:
-	gometalinter.v1 ./... --config=.gometalinter
+	gometalinter.v2 ./... --config=.gometalinter
 
 lint-js:
 	jshint public/js/app.js
