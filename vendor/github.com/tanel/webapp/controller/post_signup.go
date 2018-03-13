@@ -43,7 +43,7 @@ func PostSignup(databaseConnection *sql.DB, sessionStore *session.Store, w http.
 	}
 
 	if user.ID == "" {
-		user.ID = uuid.NewV4().String()
+		user.ID = uuid.Must(uuid.NewV4()).String()
 		user.CreatedAt = time.Now()
 
 		b, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)

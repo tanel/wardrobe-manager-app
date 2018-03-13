@@ -14,7 +14,7 @@ import (
 // SaveItem saves item to database, including images
 func SaveItem(connection *sql.DB, item *model.Item, userID string) error {
 	if item.ID == "" {
-		item.ID = uuid.NewV4().String()
+		item.ID = uuid.Must(uuid.NewV4()).String()
 		if err := db.InsertItem(connection, *item); err != nil {
 			return errors.Annotate(err, "inserting item failed")
 		}
@@ -29,7 +29,7 @@ func SaveItem(connection *sql.DB, item *model.Item, userID string) error {
 			continue
 		}
 
-		itemImage.ID = uuid.NewV4().String()
+		itemImage.ID = uuid.Must(uuid.NewV4()).String()
 		itemImage.ItemID = item.ID
 		itemImage.CreatedAt = time.Now()
 		itemImage.UserID = userID

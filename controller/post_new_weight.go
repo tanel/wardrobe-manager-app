@@ -20,7 +20,7 @@ func PostNewWeight(databaseConnection *sql.DB, sessionStore *session.Store, w ht
 		return
 	}
 
-	weightEntry.ID = uuid.NewV4().String()
+	weightEntry.ID = uuid.Must(uuid.NewV4()).String()
 	weightEntry.UserID = userID
 
 	if err := db.InsertWeight(databaseConnection, *weightEntry); err != nil {

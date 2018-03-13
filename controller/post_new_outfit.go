@@ -21,7 +21,7 @@ func PostNewOutfit(databaseConnection *sql.DB, sessionStore *session.Store, w ht
 		return
 	}
 
-	outfit.ID = uuid.NewV4().String()
+	outfit.ID = uuid.Must(uuid.NewV4()).String()
 	outfit.UserID = userID
 	outfit.CreatedAt = time.Now()
 

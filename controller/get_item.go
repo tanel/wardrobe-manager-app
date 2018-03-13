@@ -37,7 +37,7 @@ func GetItem(databaseConnection *sql.DB, sessionStore *session.Store, w http.Res
 
 	if outfitID != nil {
 		outfitItem := model.OutfitItem{}
-		outfitItem.ID = uuid.NewV4().String()
+		outfitItem.ID = uuid.Must(uuid.NewV4()).String()
 		outfitItem.OutfitID = *outfitID
 		outfitItem.ItemID = itemID
 		outfitItem.CreatedAt = time.Now()
