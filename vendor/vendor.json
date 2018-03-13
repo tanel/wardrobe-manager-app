@@ -1,0 +1,149 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "CSPbwbyzqA6sfORicn4HFtIhF/c=",
+			"path": "github.com/davecgh/go-spew/spew",
+			"revision": "8991bc29aa16c548c550c7ff78260e27b9ab7c73",
+			"revisionTime": "2018-02-21T22:46:20Z"
+		},
+		{
+			"checksumSHA1": "g/V4qrXjUGG9B+e3hB+4NAYJ5Gs=",
+			"path": "github.com/gorilla/context",
+			"revision": "08b5f424b9271eedf6f9f0ce86cb9396ed337a42",
+			"revisionTime": "2016-08-17T18:46:32Z"
+		},
+		{
+			"checksumSHA1": "ucTBCc7dDRKLGPsYfAzu/Gq63qA=",
+			"path": "github.com/gorilla/securecookie",
+			"revision": "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983",
+			"revisionTime": "2017-02-24T19:38:04Z"
+		},
+		{
+			"checksumSHA1": "hvvZPckMAA1bO17He4lVJEC7k+8=",
+			"path": "github.com/gorilla/sessions",
+			"revision": "7910f5bb5ac86ab08f97d8bda39b476fc117b684",
+			"revisionTime": "2018-03-12T18:45:12Z"
+		},
+		{
+			"path": "github.com/gorilla/sessionsgithub.com/gorilla/securecookie",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "HpnVP25yXZys8uwdVe25MKMIwn8=",
+			"path": "github.com/juju/errors",
+			"revision": "c7d06af17c68cd34c835053720b21f6549d9b0ee",
+			"revisionTime": "2017-07-03T01:00:42Z"
+		},
+		{
+			"checksumSHA1": "T+kh2poktvucf6QrY3nRo09otto=",
+			"path": "github.com/julienschmidt/httprouter",
+			"revision": "d1898390779332322e6b5ca5011da4bf249bb056",
+			"revisionTime": "2018-02-22T16:05:26Z"
+		},
+		{
+			"checksumSHA1": "V1a5/Ra9HXKNuArt5WKUqu+Jxt8=",
+			"path": "github.com/lib/pq",
+			"revision": "88edab0803230a3898347e77b474f8c1820a1f20",
+			"revisionTime": "2018-02-01T18:47:07Z"
+		},
+		{
+			"checksumSHA1": "AU3fA8Sm33Vj9PBoRPSeYfxLRuE=",
+			"path": "github.com/lib/pq/oid",
+			"revision": "88edab0803230a3898347e77b474f8c1820a1f20",
+			"revisionTime": "2018-02-01T18:47:07Z"
+		},
+		{
+			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",
+			"path": "github.com/pmezard/go-difflib/difflib",
+			"revision": "792786c7400a136282c1664665ae0a8db921c6c2",
+			"revisionTime": "2016-01-10T10:55:54Z"
+		},
+		{
+			"checksumSHA1": "eDQ6f1EsNf+frcRO/9XukSEchm8=",
+			"path": "github.com/satori/go.uuid",
+			"revision": "36e9d2ebbde5e3f13ab2e25625fd453271d6522e",
+			"revisionTime": "2018-01-03T17:44:51Z"
+		},
+		{
+			"checksumSHA1": "5QKvAdxb0E47Nzn7iI25AfgAvOI=",
+			"path": "github.com/stretchr/testify/assert",
+			"revision": "b89eecf5ca5db6d3ba60b237ffe3df7bafb7662f",
+			"revisionTime": "2018-03-03T13:51:14Z"
+		},
+		{
+			"checksumSHA1": "uH1/YMMuyUErjKkQsYSO2AymBl0=",
+			"path": "github.com/tanel/webapp/controller",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "+VNlyKWGAL/g8otX3mqXIavA0VA=",
+			"path": "github.com/tanel/webapp/db",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "ApRi7wsIe2mG8GHLxinvWOMMcW8=",
+			"path": "github.com/tanel/webapp/form",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "T2HpuZNtKbP53hyio5OQjdjYqxQ=",
+			"path": "github.com/tanel/webapp/image",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "2NTBJizog+/T8CE6cmj3UetE9RQ=",
+			"path": "github.com/tanel/webapp/middleware",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "5UkFbp92C9DotmOQZ7Q3CGkqePw=",
+			"path": "github.com/tanel/webapp/model",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "7hFKGsFCUxuWffJ/6bUa4ROWGdU=",
+			"path": "github.com/tanel/webapp/router",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "QwFUC4JL93VjXcLuC41cr5WULPg=",
+			"path": "github.com/tanel/webapp/session",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "gQZpNMDwiqqQCs+EMrbOmi+Hjy4=",
+			"path": "github.com/tanel/webapp/template",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "j0xHbQ2LTzNWd/mRWXZARaI58S8=",
+			"path": "github.com/tanel/webapp/ui",
+			"revision": "84608e68f97899b78c1527dc55184cef7500b9eb",
+			"revisionTime": "2018-03-13T23:00:24Z"
+		},
+		{
+			"checksumSHA1": "oCH3J96RWvO8W4xjix47PModpio=",
+			"path": "golang.org/x/crypto/bcrypt",
+			"revision": "c4a91bd4f524f10d064139674cf55852e055ad01",
+			"revisionTime": "2018-03-13T19:10:02Z"
+		},
+		{
+			"checksumSHA1": "oVPHWesOmZ02vLq2fglGvf+AMgk=",
+			"path": "golang.org/x/crypto/blowfish",
+			"revision": "c4a91bd4f524f10d064139674cf55852e055ad01",
+			"revisionTime": "2018-03-13T19:10:02Z"
+		}
+	],
+	"rootPath": "github.com/tanel/wardrobe-organizer"
+}
