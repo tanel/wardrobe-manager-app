@@ -1,16 +1,18 @@
 package controller
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-organizer/db"
 	"github.com/tanel/wardrobe-organizer/model"
+	"github.com/tanel/webapp/session"
 )
 
 // PostOutfit updates an outfit
-func PostOutfit(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
+func PostOutfit(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
 	outfit, err := model.NewOutfitForm(r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -20,7 +22,7 @@ func PostOutfit(w http.ResponseWriter, r *http.Request, ps httprouter.Params, us
 	outfit.ID = ps.ByName("id")
 	outfit.UserID = userID
 
-	if err := db.UpdateOutfit(*outfit); err != nil {
+	if err := db.UpdateOutfit(databaseConnection, *outfit); err != nil {
 		log.Println(err)
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return

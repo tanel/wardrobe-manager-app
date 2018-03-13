@@ -9,7 +9,7 @@ import (
 )
 
 // InsertItem inserts an item into database
-func InsertItem(item model.Item) error {
+func InsertItem(db *sql.DB, item model.Item) error {
 	_, err := db.Exec(`
 		INSERT INTO items(
 			id,
@@ -75,13 +75,13 @@ func InsertItem(item model.Item) error {
 }
 
 // SelectItemWithImagesByID selects item by ID, including its images
-func SelectItemWithImagesByID(itemID, userID string) (*model.Item, error) {
-	item, err := SelectItemByID(itemID, userID)
+func SelectItemWithImagesByID(db *sql.DB, itemID, userID string) (*model.Item, error) {
+	item, err := SelectItemByID(db, itemID, userID)
 	if err != nil {
 		return nil, errors.Annotate(err, "selecting item failed")
 	}
 
-	itemImages, err := SelectItemImagesByItemID(itemID)
+	itemImages, err := SelectItemImagesByItemID(db, itemID)
 	if err != nil {
 		return nil, errors.Annotate(err, "selecting item images failed")
 	}
@@ -92,7 +92,7 @@ func SelectItemWithImagesByID(itemID, userID string) (*model.Item, error) {
 }
 
 // SelectItemByID selects an item by ID
-func SelectItemByID(itemID, userID string) (*model.Item, error) {
+func SelectItemByID(db *sql.DB, itemID, userID string) (*model.Item, error) {
 	var description, color, size, brand, currency, category, code, url sql.NullString
 	var price sql.NullFloat64
 
@@ -162,7 +162,7 @@ func SelectItemByID(itemID, userID string) (*model.Item, error) {
 }
 
 // SelectItemsByUserID selects items by user ID and category, brand, color
-func SelectItemsByUserID(userID string, category, brand, color string) ([]model.Item, error) {
+func SelectItemsByUserID(db *sql.DB, userID string, category, brand, color string) ([]model.Item, error) {
 	rows, err := db.Query(`
 		SELECT
 			id,
@@ -271,7 +271,7 @@ func SelectItemsByUserID(userID string, category, brand, color string) ([]model.
 }
 
 // UpdateItem updates item in database
-func UpdateItem(item model.Item) error {
+func UpdateItem(db *sql.DB, item model.Item) error {
 	if item.ID == "" {
 		return errors.New("item is missing ID")
 	}
@@ -321,7 +321,7 @@ func UpdateItem(item model.Item) error {
 }
 
 // DeleteItem deletes an item
-func DeleteItem(itemID, userID string) error {
+func DeleteItem(db *sql.DB, itemID, userID string) error {
 	_, err := db.Exec(`
 		UPDATE
 			items
@@ -343,7 +343,7 @@ func DeleteItem(itemID, userID string) error {
 }
 
 // SelectBrandsByUserID selects brands by user ID
-func SelectBrandsByUserID(userID string) ([]string, error) {
+func SelectBrandsByUserID(db *sql.DB, userID string) ([]string, error) {
 	rows, err := db.Query(`
 		SELECT
 			DISTINCT brand
@@ -388,7 +388,7 @@ func SelectBrandsByUserID(userID string) ([]string, error) {
 }
 
 // SelectColorsByUserID selects colors by user ID
-func SelectColorsByUserID(userID string) ([]string, error) {
+func SelectColorsByUserID(db *sql.DB, userID string) ([]string, error) {
 	rows, err := db.Query(`
 		SELECT
 			DISTINCT color
@@ -433,7 +433,7 @@ func SelectColorsByUserID(userID string) ([]string, error) {
 }
 
 // SelectCategoriesByUserID selects categories by user ID
-func SelectCategoriesByUserID(userID string) ([]string, error) {
+func SelectCategoriesByUserID(db *sql.DB, userID string) ([]string, error) {
 	rows, err := db.Query(`
 		SELECT
 			DISTINCT category

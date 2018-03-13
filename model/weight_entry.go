@@ -5,12 +5,13 @@ import (
 	"time"
 
 	"github.com/juju/errors"
-	"github.com/tanel/wardrobe-organizer/form"
+	"github.com/tanel/webapp/form"
+	"github.com/tanel/webapp/model"
 )
 
 // WeightEntry represents a weight measurement
 type WeightEntry struct {
-	Base
+	model.Base
 	UserID string
 	Value  float64
 }

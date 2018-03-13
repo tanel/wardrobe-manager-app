@@ -6,12 +6,13 @@ import (
 	"time"
 
 	"github.com/juju/errors"
-	"github.com/tanel/wardrobe-organizer/form"
+	"github.com/tanel/webapp/form"
+	"github.com/tanel/webapp/model"
 )
 
 // Item represents a wardrobe item
 type Item struct {
-	Base
+	model.Base
 	UserID      string
 	Name        string
 	Description string

@@ -1,8 +1,12 @@
 package model
 
+import (
+	"github.com/tanel/webapp/model"
+)
+
 // OutfitItem represents an item that belongs to an outfit
 type OutfitItem struct {
-	Base
+	model.Base
 	ItemID   string
 	OutfitID string
 

@@ -5,11 +5,12 @@ import (
 
 	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-organizer/model"
+	"github.com/tanel/webapp/ui"
 )
 
 // WeightEntriesPage represents weights page
 type WeightEntriesPage struct {
-	Page
+	ui.Page
 	Weights             []model.WeightEntry
 	WeightChartDataJSON string
 }
@@ -17,7 +18,7 @@ type WeightEntriesPage struct {
 // NewWeightEntriesPage returns a new weights page
 func NewWeightEntriesPage(userID string, weights []model.WeightEntry) (*WeightEntriesPage, error) {
 	page := WeightEntriesPage{
-		Page:    *NewPage(userID),
+		Page:    *ui.NewPage(userID),
 		Weights: weights,
 	}
 

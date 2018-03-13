@@ -1,19 +1,21 @@
 package controller
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 
 	"github.com/juju/errors"
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-organizer/db"
+	"github.com/tanel/webapp/session"
 )
 
 // GetItemImage renders iamge
-func GetItemImage(w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
+func GetItemImage(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
 	imageID := ps.ByName("id")
 
-	itemImage, err := db.SelectItemImageByID(imageID, userID)
+	itemImage, err := db.SelectItemImageByID(databaseConnection, imageID, userID)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "database error", http.StatusInternalServerError)

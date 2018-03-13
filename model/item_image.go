@@ -7,11 +7,12 @@ import (
 	"strings"
 
 	"github.com/juju/errors"
+	"github.com/tanel/webapp/model"
 )
 
 // ItemImage represents an image of an item
 type ItemImage struct {
-	Base
+	model.Base
 	ItemID string
 	UserID string
 	Body   []byte

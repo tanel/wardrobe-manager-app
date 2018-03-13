@@ -9,7 +9,7 @@ import (
 )
 
 // InsertWeight inserts a weight into database
-func InsertWeight(weightEntry model.WeightEntry) error {
+func InsertWeight(db *sql.DB, weightEntry model.WeightEntry) error {
 	_, err := db.Exec(`
 		INSERT INTO weight_entries(
 			id,
@@ -36,7 +36,7 @@ func InsertWeight(weightEntry model.WeightEntry) error {
 }
 
 // DeleteWeight deletes a weight from database
-func DeleteWeight(weightEntryID, userID string) error {
+func DeleteWeight(db *sql.DB, weightEntryID, userID string) error {
 	_, err := db.Exec(`
 		UPDATE
 			weight_entries
@@ -58,7 +58,7 @@ func DeleteWeight(weightEntryID, userID string) error {
 }
 
 // UpdateWeight updates a weight in database
-func UpdateWeight(weightEntry model.WeightEntry) error {
+func UpdateWeight(db *sql.DB, weightEntry model.WeightEntry) error {
 	_, err := db.Exec(`
 		UPDATE weight_entries
 		SET
@@ -80,7 +80,7 @@ func UpdateWeight(weightEntry model.WeightEntry) error {
 }
 
 // SelectWeightByID selects a weight entry by ID
-func SelectWeightByID(weightID, userID string) (*model.WeightEntry, error) {
+func SelectWeightByID(db *sql.DB, weightID, userID string) (*model.WeightEntry, error) {
 	var weight model.WeightEntry
 	err := db.QueryRow(`
 		SELECT
@@ -111,7 +111,7 @@ func SelectWeightByID(weightID, userID string) (*model.WeightEntry, error) {
 }
 
 // SelectWeightsByUserID selects weights by user ID
-func SelectWeightsByUserID(userID string) ([]model.WeightEntry, error) {
+func SelectWeightsByUserID(db *sql.DB, userID string) ([]model.WeightEntry, error) {
 	rows, err := db.Query(`
 		SELECT
 			id,

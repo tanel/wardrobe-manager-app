@@ -5,11 +5,12 @@ import (
 	"strings"
 
 	"github.com/juju/errors"
+	"github.com/tanel/webapp/model"
 )
 
 // Outfit represents an outfit
 type Outfit struct {
-	Base
+	model.Base
 	UserID      string
 	Name        string
 	OutfitItems []OutfitItem

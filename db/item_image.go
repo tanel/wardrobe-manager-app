@@ -1,6 +1,7 @@
 package db
 
 import (
+	"database/sql"
 	"log"
 
 	"github.com/juju/errors"
@@ -8,7 +9,7 @@ import (
 )
 
 // InsertItemImage inserts image into database
-func InsertItemImage(itemImage model.ItemImage) error {
+func InsertItemImage(db *sql.DB, itemImage model.ItemImage) error {
 	_, err := db.Exec(`
 		INSERT INTO item_images(
 			id,
@@ -35,7 +36,7 @@ func InsertItemImage(itemImage model.ItemImage) error {
 }
 
 // SelectItemImagesByItemID selects images by item ID
-func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
+func SelectItemImagesByItemID(db *sql.DB, itemID string) ([]model.ItemImage, error) {
 	rows, err := db.Query(`
 		SELECT
 			id,
@@ -82,7 +83,7 @@ func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
 }
 
 // SelectItemImageByID selects an image by ID
-func SelectItemImageByID(itemImageID, userID string) (*model.ItemImage, error) {
+func SelectItemImageByID(db *sql.DB, itemImageID, userID string) (*model.ItemImage, error) {
 	var itemImage model.ItemImage
 	if err := db.QueryRow(`
 		SELECT
@@ -113,7 +114,7 @@ func SelectItemImageByID(itemImageID, userID string) (*model.ItemImage, error) {
 }
 
 // DeleteItemImage deletes an item in database
-func DeleteItemImage(itemImageID, userID string) error {
+func DeleteItemImage(db *sql.DB, itemImageID, userID string) error {
 	_, err := db.Exec(`
 		UPDATE
 			item_images
