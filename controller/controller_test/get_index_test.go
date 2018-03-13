@@ -6,7 +6,9 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/stretchr/testify/assert"
-	"github.com/tanel/wardrobe-organizer/controller"
+	"github.com/tanel/webapp/controller"
+	"github.com/tanel/webapp/db"
+	"github.com/tanel/webapp/session"
 )
 
 func Test_GetIndex_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
@@ -14,9 +16,11 @@ func Test_GetIndex_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
 	var ps httprouter.Params
 	req := httptest.NewRequest("GET", "/", nil)
 	w := httptest.NewRecorder()
+	databaseConnection := db.Connect("wardrobe", "wardrobe_test")
+	sessionStore := session.New("secret", "wardrobe-test")
 
 	// Act
-	controller.GetIndex(w, req, ps)
+	controller.GetIndex(databaseConnection, sessionStore, w, req, ps)
 
 	// Assert
 	resp := w.Result()

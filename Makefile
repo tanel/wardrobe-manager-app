@@ -23,6 +23,9 @@ migrate-up:
 migrate-down:
 	migrate -path migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" down 1
 
+migrate-test:
+	migrate -path migrations -url "postgres://wardrobe@localhost/wardrobe_test?sslmode=disable" up
+
 testuser: testuser-up
 
 testuser-up:
@@ -52,7 +55,7 @@ lint-css:
 thumbnails: 
 	go run cmd/thumbnails/thumbnails.go
 
-test:	
+test: migrate-test
 	TEMPLATE_PATH=../../template/*.html go test ./...
 
 deploy: build-linux
