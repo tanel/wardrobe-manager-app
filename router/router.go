@@ -11,8 +11,8 @@ import (
 )
 
 // New returns new router instance
-func New(db *sql.DB, sessionStore *session.Store, vendorPath string) *httprouter.Router {
-	router := router.New(db, sessionStore, vendorPath)
+func New(db *sql.DB, sessionStore *session.Store) *httprouter.Router {
+	router := router.New(db, sessionStore)
 
 	router.GET("/items/:id", middleware.RequireUser(db, sessionStore, controller.GetItem))
 	router.POST("/items/:id", middleware.RequireUser(db, sessionStore, controller.PostItem))

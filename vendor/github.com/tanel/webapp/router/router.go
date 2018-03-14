@@ -11,7 +11,7 @@ import (
 )
 
 // New returns new router instance
-func New(databaseConnection *sql.DB, sessionStore *session.Store, vendorPath string) *httprouter.Router {
+func New(databaseConnection *sql.DB, sessionStore *session.Store) *httprouter.Router {
 	router := httprouter.New()
 
 	router.GET("/signup", middleware.HandlePublic(databaseConnection, sessionStore, controller.GetSignup))
