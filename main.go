@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	_ "github.com/lib/pq"
 	"github.com/tanel/wardrobe-organizer/router"
@@ -28,7 +29,9 @@ func main() {
 
 	sessionStore := session.New(sessionSecret, "wardrobe-session")
 
-	r := router.New(databaseConnection, sessionStore)
+	vendorPath := filepath.Join(".", "vendor")
+
+	r := router.New(databaseConnection, sessionStore, vendorPath)
 
 	log.Println("Server starting at http://localhost" + port)
 

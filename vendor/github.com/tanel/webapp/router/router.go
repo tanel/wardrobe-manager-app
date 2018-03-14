@@ -11,7 +11,7 @@ import (
 )
 
 // New returns new router instance
-func New(databaseConnection *sql.DB, sessionStore *session.Store) *httprouter.Router {
+func New(databaseConnection *sql.DB, sessionStore *session.Store, vendorPath string) *httprouter.Router {
 	router := httprouter.New()
 
 	router.GET("/signup", middleware.HandlePublic(databaseConnection, sessionStore, controller.GetSignup))
@@ -20,7 +20,11 @@ func New(databaseConnection *sql.DB, sessionStore *session.Store) *httprouter.Ro
 	router.GET("/", middleware.HandlePublic(databaseConnection, sessionStore, controller.GetIndex))
 
 	// Serve static files from the ./public directory
-	router.NotFound = http.FileServer(http.Dir("public"))
+	publicFileServer := http.FileServer(http.Dir("public"))
+	router.GET("/public/*filepath", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		r.URL.Path = p.ByName("filepath")
+		publicFileServer.ServeHTTP(w, r)
+	})
 
 	return router
 }
