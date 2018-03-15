@@ -1,22 +1,17 @@
 package controller
 
 import (
-	"database/sql"
-	"log"
-	"net/http"
-
-	"github.com/julienschmidt/httprouter"
+	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-organizer/db"
-	"github.com/tanel/webapp/session"
+	"github.com/tanel/webapp/http"
 )
 
 // PostDeleteItem deletes an item
-func PostDeleteItem(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
-	if err := db.DeleteItem(databaseConnection, ps.ByName("id"), userID); err != nil {
-		log.Println(err)
-		http.Error(w, "Database error", http.StatusInternalServerError)
+func PostDeleteItem(request *http.Request, userID string) {
+	if err := db.DeleteItem(request.DB, request.ParamByName("id"), userID); err != nil {
+		request.InternalServerError(errors.Annotate(err, "deleting item failed"))
 		return
 	}
 
-	http.Redirect(w, r, frontPage, http.StatusSeeOther)
+	request.Redirect(frontPage)
 }

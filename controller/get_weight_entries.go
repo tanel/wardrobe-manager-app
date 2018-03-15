@@ -1,36 +1,25 @@
 package controller
 
 import (
-	"database/sql"
-	"log"
-	"net/http"
-
-	"github.com/julienschmidt/httprouter"
+	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-organizer/db"
 	"github.com/tanel/wardrobe-organizer/ui"
-	"github.com/tanel/webapp/session"
-	"github.com/tanel/webapp/template"
+	"github.com/tanel/webapp/http"
 )
 
 // GetWeightEntries renders weight entries page
-func GetWeightEntries(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
-	weights, err := db.SelectWeightsByUserID(databaseConnection, userID)
+func GetWeightEntries(request *http.Request, userID string) {
+	weights, err := db.SelectWeightsByUserID(request.DB, userID)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "database error", http.StatusInternalServerError)
+		request.InternalServerError(errors.Annotate(err, "selecting weights by user ID failed"))
 		return
 	}
 
 	page, err := ui.NewWeightEntriesPage(userID, weights)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "page error", http.StatusInternalServerError)
+		request.InternalServerError(errors.Annotate(err, "initializing weight entries page failed"))
 		return
 	}
 
-	if err := template.Render(w, "weight-entries", page); err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
+	request.Render("weight-entries", page)
 }

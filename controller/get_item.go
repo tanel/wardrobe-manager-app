@@ -1,37 +1,30 @@
 package controller
 
 import (
-	"database/sql"
-	"log"
-	"net/http"
 	"time"
 
-	"github.com/julienschmidt/httprouter"
+	"github.com/juju/errors"
 	"github.com/satori/go.uuid"
 	"github.com/tanel/wardrobe-organizer/db"
 	"github.com/tanel/wardrobe-organizer/model"
 	"github.com/tanel/wardrobe-organizer/ui"
-	"github.com/tanel/webapp/session"
-	"github.com/tanel/webapp/template"
+	"github.com/tanel/webapp/http"
 )
 
 const addToOutfitID = "add-to-outfit-id"
 
 // GetItem renders an item page
-func GetItem(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
-	outfitID, err := sessionStore.Value(r, addToOutfitID)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
+func GetItem(request *http.Request, userID string) {
+	outfitID, ok := request.SessionValue(addToOutfitID)
+	if !ok {
 		return
 	}
 
-	itemID := ps.ByName("id")
+	itemID := request.ParamByName("id")
 
-	item, err := db.SelectItemWithImagesByID(databaseConnection, itemID, userID)
+	item, err := db.SelectItemWithImagesByID(request.DB, itemID, userID)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "database error", http.StatusInternalServerError)
+		request.InternalServerError(errors.Annotate(err, "selecting item with images by ID failed"))
 		return
 	}
 
@@ -41,26 +34,19 @@ func GetItem(databaseConnection *sql.DB, sessionStore *session.Store, w http.Res
 		outfitItem.OutfitID = *outfitID
 		outfitItem.ItemID = itemID
 		outfitItem.CreatedAt = time.Now()
-		if err := db.InsertOutfitItem(databaseConnection, outfitItem); err != nil {
-			log.Println(err)
-			http.Error(w, "database error", http.StatusInternalServerError)
+		if err := db.InsertOutfitItem(request.DB, outfitItem); err != nil {
+			request.InternalServerError(errors.Annotate(err, "inserting outfit item failed"))
 			return
 		}
 
-		if err := sessionStore.SetValue(w, r, addToOutfitID, ""); err != nil {
-			log.Println(err)
-			http.Error(w, "session error", http.StatusInternalServerError)
+		if ok := request.SetSessionValue(addToOutfitID, ""); !ok {
 			return
 		}
 
-		http.Redirect(w, r, "/outfits/"+*outfitID, http.StatusSeeOther)
+		request.Redirect("/outfits/" + *outfitID)
 		return
 	}
 
 	page := ui.NewItemPage(userID, *item)
-	if err := template.Render(w, "item", page); err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
+	request.Render("item", page)
 }

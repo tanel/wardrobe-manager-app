@@ -1,29 +1,23 @@
 package controller
 
 import (
-	"database/sql"
-	"log"
-	"net/http"
-
-	"github.com/julienschmidt/httprouter"
+	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-organizer/db"
-	"github.com/tanel/webapp/session"
+	"github.com/tanel/webapp/http"
 )
 
 // PostDeleteItemImage deletes an image
-func PostDeleteItemImage(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
-	itemImage, err := db.SelectItemImageByID(databaseConnection, ps.ByName("id"), userID)
+func PostDeleteItemImage(request *http.Request, userID string) {
+	itemImage, err := db.SelectItemImageByID(request.DB, request.ParamByName("id"), userID)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "Database error", http.StatusInternalServerError)
+		request.InternalServerError(errors.Annotate(err, "selecting item image by ID failed"))
 		return
 	}
 
-	if err := db.DeleteItemImage(databaseConnection, ps.ByName("id"), userID); err != nil {
-		log.Println(err)
-		http.Error(w, "Database error", http.StatusInternalServerError)
+	if err := db.DeleteItemImage(request.DB, request.ParamByName("id"), userID); err != nil {
+		request.InternalServerError(errors.Annotate(err, "deleting item image failed"))
 		return
 	}
 
-	http.Redirect(w, r, "/items/"+itemImage.ItemID, http.StatusSeeOther)
+	request.Redirect("/items/" + itemImage.ItemID)
 }

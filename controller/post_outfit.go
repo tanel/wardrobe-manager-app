@@ -1,32 +1,26 @@
 package controller
 
 import (
-	"database/sql"
-	"log"
-	"net/http"
-
-	"github.com/julienschmidt/httprouter"
+	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-organizer/db"
 	"github.com/tanel/wardrobe-organizer/model"
-	"github.com/tanel/webapp/session"
+	"github.com/tanel/webapp/http"
 )
 
 // PostOutfit updates an outfit
-func PostOutfit(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
-	outfit, err := model.NewOutfitForm(r)
+func PostOutfit(request *http.Request, userID string) {
+	outfit, err := model.NewOutfitForm(request.R())
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		request.BadRequest(err.Error())
 		return
 	}
 
-	outfit.ID = ps.ByName("id")
+	outfit.ID = request.ParamByName("id")
 	outfit.UserID = userID
-
-	if err := db.UpdateOutfit(databaseConnection, *outfit); err != nil {
-		log.Println(err)
-		http.Error(w, "Database error", http.StatusInternalServerError)
+	if err := db.UpdateOutfit(request.DB, *outfit); err != nil {
+		request.InternalServerError(errors.Annotate(err, "updating outfit in database failed"))
 		return
 	}
 
-	http.Redirect(w, r, "/outfits", http.StatusSeeOther)
+	request.Redirect("/outfits")
 }

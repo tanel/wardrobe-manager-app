@@ -1,65 +1,52 @@
 package controller
 
 import (
-	"database/sql"
-	"log"
-	"net/http"
-
 	"github.com/juju/errors"
-	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-organizer/db"
 	"github.com/tanel/wardrobe-organizer/model"
-	"github.com/tanel/wardrobe-organizer/service"
 	"github.com/tanel/wardrobe-organizer/ui"
-	"github.com/tanel/webapp/session"
-	"github.com/tanel/webapp/template"
+	"github.com/tanel/webapp/http"
 	commonui "github.com/tanel/webapp/ui"
 )
 
 // GetItems renders items page
-func GetItems(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
-	f, err := newFilters(sessionStore, w, r)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "filters error", http.StatusInternalServerError)
+func GetItems(request *http.Request, userID string) {
+	f, ok := newFilters(request)
+	if !ok {
 		return
 	}
 
 	var outfit *model.Outfit
 	if f.outfitID != "" {
-		outfit, err = db.SelectOutfitByID(databaseConnection, f.outfitID, userID)
+		var err error
+		outfit, err = db.SelectOutfitByID(request.DB, f.outfitID, userID)
 		if err != nil {
-			log.Println(err)
-			http.Error(w, "database error", http.StatusInternalServerError)
+			request.InternalServerError(errors.Annotate(err, "selecting outfit by ID failed"))
 			return
 		}
 	}
 
-	itemCategories, err := service.GroupItemsByCategory(databaseConnection, userID, f.category, f.brand, f.color)
+	itemCategories, err := db.GroupItemsByCategory(request.DB, userID, f.category, f.brand, f.color)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "database error", http.StatusInternalServerError)
+		request.InternalServerError(errors.Annotate(err, "grouping items by category failed"))
 		return
 	}
 
-	categories, err := db.SelectCategoriesByUserID(databaseConnection, userID)
+	categories, err := db.SelectCategoriesByUserID(request.DB, userID)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "database error", http.StatusInternalServerError)
+		request.InternalServerError(errors.Annotate(err, "selecting categories by user ID failed"))
 		return
 	}
 
-	brands, err := db.SelectBrandsByUserID(databaseConnection, userID)
+	brands, err := db.SelectBrandsByUserID(request.DB, userID)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "database error", http.StatusInternalServerError)
+		request.InternalServerError(errors.Annotate(err, "selecting brands by user ID failed"))
 		return
 	}
 
-	colors, err := db.SelectColorsByUserID(databaseConnection, userID)
+	colors, err := db.SelectColorsByUserID(request.DB, userID)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "database error", http.StatusInternalServerError)
+		request.InternalServerError(errors.Annotate(err, "selecting colors by user ID failed"))
 		return
 	}
 
@@ -76,22 +63,18 @@ func GetItems(databaseConnection *sql.DB, sessionStore *session.Store, w http.Re
 		SelectedBrand:    f.brand,
 		SelectedColor:    f.color,
 	}
-	if err := template.Render(w, "items", page); err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
+	request.Render("items", page)
 }
 
-func parseFilter(sessionStore *session.Store, r *http.Request, name string) (string, error) {
-	filterFromSession, err := sessionStore.Value(r, name)
-	if err != nil {
-		return "", errors.Annotatef(err, "getting filter %s from session failed", name)
+func parseFilter(request *http.Request, name string) (string, bool) {
+	filterFromSession, ok := request.SessionValue(name)
+	if !ok {
+		return "", false
 	}
 
-	filterFromURL := r.URL.Query().Get(name)
+	filterFromURL := request.QueryParamByName(name)
 	hasFilterParameter := false
-	for k := range r.URL.Query() {
+	for k := range request.Query() {
 		if k == name {
 			hasFilterParameter = true
 			break
@@ -108,20 +91,20 @@ func parseFilter(sessionStore *session.Store, r *http.Request, name string) (str
 		filter = filterFromURL
 	}
 
-	return filter, nil
+	return filter, true
 }
 
-func handleParam(sessionStore *session.Store, w http.ResponseWriter, r *http.Request, name string) (string, error) {
-	value, err := parseFilter(sessionStore, r, name)
-	if err != nil {
-		return "", errors.Annotatef(err, "reading %s from cookie failed", name)
+func handleParam(request *http.Request, name string) (string, bool) {
+	value, ok := parseFilter(request, name)
+	if !ok {
+		return "", false
 	}
 
-	if sessionErr := sessionStore.SetValue(w, r, name, value); sessionErr != nil {
-		return "", errors.Annotatef(err, "setting %s in session failed", name)
+	if ok := request.SetSessionValue(name, value); !ok {
+		return "", false
 	}
 
-	return value, nil
+	return value, true
 }
 
 type filters struct {
@@ -131,29 +114,29 @@ type filters struct {
 	outfitID string
 }
 
-func newFilters(sessionStore *session.Store, w http.ResponseWriter, r *http.Request) (*filters, error) {
+func newFilters(request *http.Request) (*filters, bool) {
 	var result filters
-	var err error
+	var ok bool
 
-	result.category, err = handleParam(sessionStore, w, r, "category")
-	if err != nil {
-		return nil, errors.Annotate(err, "handling category param failed")
+	result.category, ok = handleParam(request, "category")
+	if !ok {
+		return nil, false
 	}
 
-	result.brand, err = handleParam(sessionStore, w, r, "brand")
-	if err != nil {
-		return nil, errors.Annotate(err, "handling brand param failed")
+	result.brand, ok = handleParam(request, "brand")
+	if !ok {
+		return nil, false
 	}
 
-	result.color, err = handleParam(sessionStore, w, r, "color")
-	if err != nil {
-		return nil, errors.Annotate(err, "handling color param failed")
+	result.color, ok = handleParam(request, "color")
+	if !ok {
+		return nil, false
 	}
 
-	result.outfitID, err = handleParam(sessionStore, w, r, addToOutfitID)
-	if err != nil {
-		return nil, errors.Annotate(err, "handling outfit ID param failed")
+	result.outfitID, ok = handleParam(request, addToOutfitID)
+	if !ok {
+		return nil, false
 	}
 
-	return &result, nil
+	return &result, true
 }

@@ -6,27 +6,33 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
+	commonhttp "github.com/tanel/webapp/http"
 	"github.com/tanel/webapp/session"
 )
 
 // RequireUserFunc is a func that requires user ID to execute
-type RequireUserFunc func(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string)
+type RequireUserFunc func(request *commonhttp.Request, userID string)
 
 // RequireUser wraps regular request to check that user ID is presents in session
-func RequireUser(databaseConnection *sql.DB, sessionStore *session.Store, handlerFunc RequireUserFunc) func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func RequireUser(db *sql.DB, sessionStore *session.Store, handlerFunc RequireUserFunc) func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		userID, err := sessionStore.UserID(r)
+		request, err := commonhttp.NewRequest(db, sessionStore, w, r, ps)
 		if err != nil {
 			log.Println(err)
-			http.Error(w, "session error", http.StatusInternalServerError)
+			http.Error(w, "handling request failed", http.StatusInternalServerError)
+			return
+		}
+
+		userID, ok := request.UserID()
+		if !ok {
 			return
 		}
 
 		if userID == nil {
-			http.Redirect(w, r, "/signup", http.StatusSeeOther)
+			request.Redirect("/signup")
 			return
 		}
 
-		handlerFunc(databaseConnection, sessionStore, w, r, ps, *userID)
+		handlerFunc(request, *userID)
 	}
 }

@@ -1,44 +1,33 @@
 package controller
 
 import (
-	"database/sql"
-	"log"
-	"net/http"
-	"strings"
 	"time"
 
-	"github.com/julienschmidt/httprouter"
+	"github.com/juju/errors"
 	"github.com/satori/go.uuid"
 	"github.com/tanel/webapp/db"
+	"github.com/tanel/webapp/http"
 	"github.com/tanel/webapp/model"
-	"github.com/tanel/webapp/session"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // PostSignup creates a new user account
-func PostSignup(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	if err := r.ParseForm(); err != nil {
-		log.Println(err)
-		http.Error(w, "form error", http.StatusInternalServerError)
-		return
-	}
-
+func PostSignup(request *http.Request) {
 	var user model.User
-	user.Email = strings.TrimSpace(r.FormValue("email"))
+	user.Email = request.FormValue("email")
 	if user.Email == "" {
-		http.Error(w, "please enter an e-mail", http.StatusBadRequest)
+		request.BadRequest("please enter an e-mail")
 		return
 	}
 
-	password := strings.TrimSpace(r.FormValue("password"))
+	password := request.FormValue("password")
 	if password == "" {
-		http.Error(w, "please enter a password", http.StatusBadRequest)
+		request.BadRequest("please enter a password")
 		return
 	}
 
-	if err := db.SelectUserByEmail(databaseConnection, user.Email, &user); err != nil {
-		log.Println(err)
-		http.Error(w, "Database error", http.StatusInternalServerError)
+	if err := db.SelectUserByEmail(request.DB, user.Email, &user); err != nil {
+		request.InternalServerError(errors.Annotate(err, "selecting user by email failed"))
 		return
 	}
 
@@ -48,31 +37,26 @@ func PostSignup(databaseConnection *sql.DB, sessionStore *session.Store, w http.
 
 		b, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 		if err != nil {
-			log.Println(err)
-			http.Error(w, "Password error", http.StatusInternalServerError)
+			request.InternalServerError(errors.Annotate(err, "hashing password failed"))
 			return
 		}
 
 		user.PasswordHash = string(b)
 
-		if err := db.InsertUser(databaseConnection, user); err != nil {
-			log.Println(err)
-			http.Error(w, "Database error", http.StatusInternalServerError)
+		if err := db.InsertUser(request.DB, user); err != nil {
+			request.InternalServerError(errors.Annotate(err, "inserting user into database failed"))
 			return
 		}
 	} else {
 		if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password)); err != nil {
-			log.Println(err)
-			http.Error(w, "Invalid password", http.StatusUnauthorized)
+			request.Unauthorized("invalid password")
 			return
 		}
 	}
 
-	if err := sessionStore.SetUserID(w, r, user.ID); err != nil {
-		log.Println(err)
-		http.Error(w, "Session error", http.StatusInternalServerError)
+	if ok := request.SetUserID(user.ID); !ok {
 		return
 	}
 
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	request.Redirect("/")
 }

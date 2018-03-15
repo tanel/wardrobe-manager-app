@@ -8,21 +8,24 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/tanel/webapp/controller"
 	"github.com/tanel/webapp/db"
+	commonhttp "github.com/tanel/webapp/http"
 	"github.com/tanel/webapp/session"
 )
 
 func Test_GetIndex_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
 	// Arrange
-	var ps httprouter.Params
-	req := httptest.NewRequest("GET", "/", nil)
-	w := httptest.NewRecorder()
 	databaseConnection := db.Connect("wardrobe", "wardrobe_test")
 	sessionStore := session.New("secret", "wardrobe-test")
+	w := httptest.NewRecorder()
+	r := httptest.NewRequest("GET", "/", nil)
+	var ps httprouter.Params
+	request, err := commonhttp.NewRequest(databaseConnection, sessionStore, w, r, ps)
 
 	// Act
-	controller.GetIndex(databaseConnection, sessionStore, w, req, ps)
+	controller.GetIndex(request)
 
 	// Assert
-	resp := w.Result()
-	assert.Equal(t, 200, resp.StatusCode)
+	assert.NoError(t, err)
+	res := w.Result()
+	assert.Equal(t, 200, res.StatusCode)
 }

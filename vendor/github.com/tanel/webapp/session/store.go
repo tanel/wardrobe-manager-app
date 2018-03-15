@@ -35,6 +35,11 @@ func (store *Store) UserID(r *http.Request) (*string, error) {
 	return store.Value(r, "user_id")
 }
 
+// SetUserID sets user ID in session
+func (store *Store) SetUserID(w http.ResponseWriter, r *http.Request, userID string) error {
+	return store.SetValue(w, r, "user_id", userID)
+}
+
 // Value returns reads a value from session by key
 func (store *Store) Value(r *http.Request, key string) (*string, error) {
 	// Get a session. Get() always returns a session, even if empty.
@@ -49,11 +54,6 @@ func (store *Store) Value(r *http.Request, key string) (*string, error) {
 	}
 
 	return nil, nil
-}
-
-// SetUserID sets user ID in session
-func (store *Store) SetUserID(w http.ResponseWriter, r *http.Request, userID string) error {
-	return store.SetValue(w, r, "user_id", userID)
 }
 
 // SetValue sets a value in session

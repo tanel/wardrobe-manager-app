@@ -1,33 +1,21 @@
 package controller
 
 import (
-	"database/sql"
-	"log"
-	"net/http"
-
-	"github.com/julienschmidt/httprouter"
-	"github.com/tanel/webapp/session"
-	"github.com/tanel/webapp/template"
+	"github.com/tanel/webapp/http"
 	"github.com/tanel/webapp/ui"
 )
 
 // GetIndex renders the index page
-func GetIndex(_ *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	userID, err := sessionStore.UserID(r)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "session error", http.StatusInternalServerError)
+func GetIndex(request *http.Request) {
+	userID, ok := request.UserID()
+	if !ok {
 		return
 	}
 
 	if userID != nil {
-		http.Redirect(w, r, "/items", http.StatusSeeOther)
+		request.Redirect("/items")
 		return
 	}
 
-	if err := template.Render(w, "index", ui.Page{}); err != nil {
-		log.Println(err)
-		http.Error(w, "template error", http.StatusInternalServerError)
-		return
-	}
+	request.Render("index", ui.Page{})
 }

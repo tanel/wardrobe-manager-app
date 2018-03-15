@@ -1,31 +1,25 @@
 package controller
 
 import (
-	"database/sql"
-	"log"
-	"net/http"
-
-	"github.com/julienschmidt/httprouter"
+	"github.com/juju/errors"
+	"github.com/tanel/wardrobe-organizer/db"
 	"github.com/tanel/wardrobe-organizer/model"
-	"github.com/tanel/wardrobe-organizer/service"
-	"github.com/tanel/webapp/session"
+	"github.com/tanel/webapp/http"
 )
 
 // PostItemsNew creates a new item
-func PostItemsNew(databaseConnection *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params, userID string) {
-	item, err := model.NewItemForm(r)
+func PostItemsNew(request *http.Request, userID string) {
+	item, err := model.NewItemForm(request.R())
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		request.BadRequest(err.Error())
 		return
 	}
 
 	item.UserID = userID
-
-	if err := service.SaveItem(databaseConnection, item, userID); err != nil {
-		log.Println(err)
-		http.Error(w, "Database error", http.StatusInternalServerError)
+	if err := db.SaveItem(request.DB, item, userID); err != nil {
+		request.InternalServerError(errors.Annotate(err, "saving item failed"))
 		return
 	}
 
-	http.Redirect(w, r, frontPage, http.StatusSeeOther)
+	request.Redirect(frontPage)
 }
