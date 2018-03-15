@@ -14,6 +14,8 @@ import (
 func New(db *sql.DB, sessionStore *session.Store) *httprouter.Router {
 	router := router.New(db, sessionStore)
 
+	router.GET("/start", middleware.Redirect("/items"))
+
 	router.GET("/items/:id", middleware.RequireUser(db, sessionStore, controller.GetItem))
 	router.POST("/items/:id", middleware.RequireUser(db, sessionStore, controller.PostItem))
 	router.GET("/items", middleware.RequireUser(db, sessionStore, controller.GetItems))
