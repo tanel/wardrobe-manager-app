@@ -9,6 +9,8 @@ import (
 
 	"github.com/juju/errors"
 	"github.com/julienschmidt/httprouter"
+	"github.com/tanel/webapp/db"
+	"github.com/tanel/webapp/model"
 	"github.com/tanel/webapp/session"
 	"github.com/tanel/webapp/template"
 )
@@ -68,6 +70,23 @@ func (request *Request) SetSessionValue(key, value string) bool {
 	}
 
 	return true
+}
+
+// CurrentUser returns logged in user
+func (request *Request) CurrentUser() (*model.User, bool) {
+	userID, err := request.sessionStore.UserID(request.r)
+	if err != nil {
+		request.InternalServerError(errors.Annotate(err, "getting user ID from session failed"))
+		return nil, false
+	}
+
+	user, err := db.SelectUserByID(request.DB, *userID)
+	if err != nil {
+		request.InternalServerError(errors.Annotate(err, "selecting user by ID failed"))
+		return nil, false
+	}
+
+	return user, true
 }
 
 // UserID returns logged in user ID

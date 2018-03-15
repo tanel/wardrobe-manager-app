@@ -5,6 +5,9 @@ default: build
 build:
 	go build
 
+update:
+	govendor update github.com/tanel/webapp/...
+
 build-linux:
 	CGO_ENABLED=0 GOOS=linux go build -o wardrobe-linux
 

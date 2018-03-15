@@ -13,10 +13,8 @@ type WeightPage struct {
 
 // NewWeightPage returns a new weight page
 func NewWeightPage(userID string, weight model.WeightEntry) *WeightPage {
-	page := WeightPage{
-		Page:   *ui.NewPage(userID),
+	return &WeightPage{
+		Page:   *ui.NewPageWithUserID(userID),
 		Weight: weight,
 	}
-
-	return &page
 }

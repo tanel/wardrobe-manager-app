@@ -13,10 +13,8 @@ type OutfitPage struct {
 
 // NewOutfitPage returns a new outfit page
 func NewOutfitPage(userID string, outfit model.Outfit) *OutfitPage {
-	page := OutfitPage{
-		Page:   *ui.NewPage(userID),
+	return &OutfitPage{
+		Page:   *ui.NewPageWithUserID(userID),
 		Outfit: outfit,
 	}
-
-	return &page
 }

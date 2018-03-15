@@ -11,13 +11,13 @@ import (
 )
 
 // New returns new router instance
-func New(databaseConnection *sql.DB, sessionStore *session.Store) *httprouter.Router {
+func New(db *sql.DB, sessionStore *session.Store) *httprouter.Router {
 	router := httprouter.New()
 
-	router.GET("/signup", middleware.HandlePublic(databaseConnection, sessionStore, controller.GetSignup))
-	router.POST("/signup", middleware.HandlePublic(databaseConnection, sessionStore, controller.PostSignup))
-	router.GET("/logout", middleware.HandlePublic(databaseConnection, sessionStore, controller.GetLogout))
-	router.GET("/", middleware.HandlePublic(databaseConnection, sessionStore, controller.GetIndex))
+	router.GET("/signup", middleware.HandlePublic(db, sessionStore, controller.GetSignup))
+	router.POST("/signup", middleware.HandlePublic(db, sessionStore, controller.PostSignup))
+	router.GET("/logout", middleware.HandlePublic(db, sessionStore, controller.GetLogout))
+	router.GET("/", middleware.HandlePublic(db, sessionStore, controller.GetIndex))
 
 	// Serve static files from the ./public directory
 	publicFileServer := http.FileServer(http.Dir("public"))

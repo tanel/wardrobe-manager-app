@@ -18,7 +18,7 @@ type WeightEntriesPage struct {
 // NewWeightEntriesPage returns a new weights page
 func NewWeightEntriesPage(userID string, weights []model.WeightEntry) (*WeightEntriesPage, error) {
 	page := WeightEntriesPage{
-		Page:    *ui.NewPage(userID),
+		Page:    *ui.NewPageWithUserID(userID),
 		Weights: weights,
 	}
 

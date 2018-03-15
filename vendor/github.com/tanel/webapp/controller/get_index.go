@@ -13,7 +13,7 @@ func GetIndex(request *http.Request) {
 	}
 
 	if userID != nil {
-		request.Redirect("/items")
+		request.Redirect("/start")
 		return
 	}
 

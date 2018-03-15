@@ -30,6 +30,34 @@ func SelectUserByEmail(db *sql.DB, email string, user *model.User) error {
 	return nil
 }
 
+// SelectUserByID selects user from database by ID
+func SelectUserByID(db *sql.DB, ID string) (*model.User, error) {
+	var user model.User
+	if err := db.QueryRow(`
+		SELECT
+			id,
+			password_hash,
+			created_at
+		FROM
+			users
+		WHERE
+			id = $1
+	`, ID,
+	).Scan(
+		&user.ID,
+		&user.PasswordHash,
+		&user.CreatedAt,
+	); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+
+		return nil, errors.Annotate(err, "selecting user by ID failed")
+	}
+
+	return &user, nil
+}
+
 // InsertUser inserts user into database
 func InsertUser(db *sql.DB, user model.User) error {
 	if _, err := db.Exec(`

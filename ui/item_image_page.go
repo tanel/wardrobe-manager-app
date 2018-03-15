@@ -13,10 +13,8 @@ type ItemImagePage struct {
 
 // NewItemImagePage returns new image page
 func NewItemImagePage(userID string, itemImage model.ItemImage) *ItemImagePage {
-	page := ItemImagePage{
-		Page:      *ui.NewPage(userID),
+	return &ItemImagePage{
+		Page:      *ui.NewPageWithUserID(userID),
 		ItemImage: itemImage,
 	}
-
-	return &page
 }
