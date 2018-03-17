@@ -16,6 +16,8 @@ type PublicFunc func(r *commonhttp.Request)
 // HandlePublic wraps regular request
 func HandlePublic(db *sql.DB, sessionStore *session.Store, handlerFunc PublicFunc) func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		logRequest(r)
+
 		request, err := commonhttp.NewRequest(db, sessionStore, w, r, ps)
 		if err != nil {
 			log.Println(err)

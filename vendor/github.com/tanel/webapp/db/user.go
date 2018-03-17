@@ -8,26 +8,33 @@ import (
 )
 
 // SelectUserByEmail selects user from database by email
-func SelectUserByEmail(db *sql.DB, email string, user *model.User) error {
+func SelectUserByEmail(db *sql.DB, email string) (*model.User, error) {
+	var user model.User
 	if err := db.QueryRow(`
 		SELECT
 			id,
 			password_hash,
-			created_at
+			created_at,
+			picture
 		FROM
 			users
 		WHERE
 			email = $1
-	`, user.Email,
+	`, email,
 	).Scan(
 		&user.ID,
 		&user.PasswordHash,
 		&user.CreatedAt,
-	); err != nil && err != sql.ErrNoRows {
-		return errors.Annotate(err, "selecting user by email failed")
+		&user.Picture,
+	); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+
+		return nil, errors.Annotate(err, "selecting user by email failed")
 	}
 
-	return nil
+	return &user, nil
 }
 
 // SelectUserByID selects user from database by ID
@@ -37,7 +44,8 @@ func SelectUserByID(db *sql.DB, ID string) (*model.User, error) {
 		SELECT
 			id,
 			password_hash,
-			created_at
+			created_at,
+			picture
 		FROM
 			users
 		WHERE
@@ -47,6 +55,7 @@ func SelectUserByID(db *sql.DB, ID string) (*model.User, error) {
 		&user.ID,
 		&user.PasswordHash,
 		&user.CreatedAt,
+		&user.Picture,
 	); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
@@ -65,20 +74,41 @@ func InsertUser(db *sql.DB, user model.User) error {
 			id,
 			email,
 			password_hash,
-			created_at
+			created_at,
+			picture
 		) VALUES(
 			$1,
 			$2,
 			$3,
-			$4
+			$4,
+			$5
 		)
 	`,
 		user.ID,
 		user.Email,
 		user.PasswordHash,
 		user.CreatedAt,
+		user.Picture,
 	); err != nil {
 		return errors.Annotate(err, "inserting user failed")
+	}
+
+	return nil
+}
+
+// UpdateUser updates user in database
+func UpdateUser(db *sql.DB, user model.User) error {
+	if _, err := db.Exec(`
+		UPDATE users
+		SET
+			picture = $1
+		WHERE
+			id = $2
+	`,
+		user.Picture,
+		user.ID,
+	); err != nil {
+		return errors.Annotate(err, "updating user failed")
 	}
 
 	return nil

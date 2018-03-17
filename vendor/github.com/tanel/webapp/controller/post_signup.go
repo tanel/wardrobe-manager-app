@@ -13,9 +13,8 @@ import (
 
 // PostSignup creates a new user account
 func PostSignup(request *http.Request) {
-	var user model.User
-	user.Email = request.FormValue("email")
-	if user.Email == "" {
+	email := request.FormValue("email")
+	if email == "" {
 		request.BadRequest("please enter an e-mail")
 		return
 	}
@@ -26,29 +25,34 @@ func PostSignup(request *http.Request) {
 		return
 	}
 
-	if err := db.SelectUserByEmail(request.DB, user.Email, &user); err != nil {
+	user, err := db.SelectUserByEmail(request.DB, email)
+	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting user by email failed"))
 		return
 	}
 
-	if user.ID == "" {
-		user.ID = uuid.Must(uuid.NewV4()).String()
-		user.CreatedAt = time.Now()
-
+	if user == nil {
 		b, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 		if err != nil {
 			request.InternalServerError(errors.Annotate(err, "hashing password failed"))
 			return
 		}
 
-		user.PasswordHash = string(b)
+		passwordHash := string(b)
 
-		if err := db.InsertUser(request.DB, user); err != nil {
+		user = &model.User{
+			Base: model.Base{
+				ID:        uuid.Must(uuid.NewV4()).String(),
+				CreatedAt: time.Now(),
+			},
+			PasswordHash: &passwordHash,
+		}
+		if err := db.InsertUser(request.DB, *user); err != nil {
 			request.InternalServerError(errors.Annotate(err, "inserting user into database failed"))
 			return
 		}
 	} else {
-		if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password)); err != nil {
+		if err := bcrypt.CompareHashAndPassword([]byte(*user.PasswordHash), []byte(password)); err != nil {
 			request.Unauthorized("invalid password")
 			return
 		}

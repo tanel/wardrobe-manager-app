@@ -16,6 +16,8 @@ type RequireUserFunc func(request *commonhttp.Request, userID string)
 // RequireUser wraps regular request to check that user ID is presents in session
 func RequireUser(db *sql.DB, sessionStore *session.Store, handlerFunc RequireUserFunc) func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		logRequest(r)
+
 		request, err := commonhttp.NewRequest(db, sessionStore, w, r, ps)
 		if err != nil {
 			log.Println(err)
