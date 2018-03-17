@@ -13,9 +13,8 @@ func GetIndex(request *http.Request) {
 	}
 
 	if userID != nil {
-		request.Redirect("/start")
-		return
+		request.Redirect(startPage)
+	} else {
+		request.Render("index", ui.Page{})
 	}
-
-	request.Render("index", ui.Page{})
 }

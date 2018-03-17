@@ -3,10 +3,28 @@
 	"ignore": "test",
 	"package": [
 		{
+			"path": "appengine",
+			"revision": ""
+		},
+		{
+			"path": "appengine_internal",
+			"revision": ""
+		},
+		{
+			"path": "appengine_internal/base",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "CSPbwbyzqA6sfORicn4HFtIhF/c=",
 			"path": "github.com/davecgh/go-spew/spew",
 			"revision": "8991bc29aa16c548c550c7ff78260e27b9ab7c73",
 			"revisionTime": "2018-02-21T22:46:20Z"
+		},
+		{
+			"checksumSHA1": "WX1+2gktHcBmE9MGwFSGs7oqexU=",
+			"path": "github.com/golang/protobuf/proto",
+			"revision": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175",
+			"revisionTime": "2018-02-02T18:43:18Z"
 		},
 		{
 			"checksumSHA1": "g/V4qrXjUGG9B+e3hB+4NAYJ5Gs=",
@@ -73,70 +91,76 @@
 			"revisionTime": "2018-03-03T13:51:14Z"
 		},
 		{
-			"checksumSHA1": "kpi/LkMnuLcZB+rnj+B7Z0g8Me4=",
-			"path": "github.com/tanel/webapp/controller",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"checksumSHA1": "9wJ052dwCtADdw7OPhwiRzIDkSk=",
+			"path": "github.com/tanel/webapp/configuration",
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
-			"checksumSHA1": "GhVgsQHT831PpfO/lgTYPE/q+bw=",
+			"checksumSHA1": "hy3DUBsY1BFgqbxAd2tXU72CVrU=",
+			"path": "github.com/tanel/webapp/controller",
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
+		},
+		{
+			"checksumSHA1": "KuiGD9aahLkHqtja+t+6iXziH14=",
 			"path": "github.com/tanel/webapp/db",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
 			"checksumSHA1": "ApRi7wsIe2mG8GHLxinvWOMMcW8=",
 			"path": "github.com/tanel/webapp/form",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
 			"checksumSHA1": "I1/BthcOpk1Jg+UURswzojz3Pz4=",
 			"path": "github.com/tanel/webapp/http",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
 			"checksumSHA1": "T2HpuZNtKbP53hyio5OQjdjYqxQ=",
 			"path": "github.com/tanel/webapp/image",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
-			"checksumSHA1": "5Pbewe8XwQ2b/uwenp/iDOwfGNA=",
+			"checksumSHA1": "Z29SKstaae4c/SKrzBqbJBfwrxA=",
 			"path": "github.com/tanel/webapp/middleware",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
 			"checksumSHA1": "nbROwqnJCYTcJLntUPe1jrawTPk=",
 			"path": "github.com/tanel/webapp/model",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
-			"checksumSHA1": "FPhAQQzQTp65YPAGKK+SPGRRyiM=",
+			"checksumSHA1": "XiF4TO6rCW9xKyTbN5wCLGn7FnQ=",
 			"path": "github.com/tanel/webapp/router",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
 			"checksumSHA1": "f3NbF55qNBXGPZbeEuYtX+XpmO0=",
 			"path": "github.com/tanel/webapp/session",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
 			"checksumSHA1": "gQZpNMDwiqqQCs+EMrbOmi+Hjy4=",
 			"path": "github.com/tanel/webapp/template",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
 			"checksumSHA1": "MaPZ5xniVoNGATcx3wRDJI0AahU=",
 			"path": "github.com/tanel/webapp/ui",
-			"revision": "aa685db2d836284958c491ea96d1db4bbd7c9a32",
-			"revisionTime": "2018-03-16T21:51:23Z"
+			"revision": "98bc1466badc3e134f7d36dd86e569976ebfb391",
+			"revisionTime": "2018-03-17T09:25:22Z"
 		},
 		{
 			"checksumSHA1": "oCH3J96RWvO8W4xjix47PModpio=",
@@ -149,6 +173,72 @@
 			"path": "golang.org/x/crypto/blowfish",
 			"revision": "c4a91bd4f524f10d064139674cf55852e055ad01",
 			"revisionTime": "2018-03-13T19:10:02Z"
+		},
+		{
+			"checksumSHA1": "GtamqiJoL7PGHsN454AoffBFMa8=",
+			"path": "golang.org/x/net/context",
+			"revision": "e0c57d8f86c17f0724497efcb3bc617e82834821",
+			"revisionTime": "2018-03-14T17:20:59Z"
+		},
+		{
+			"checksumSHA1": "WHc3uByvGaMcnSoI21fhzYgbOgg=",
+			"path": "golang.org/x/net/context/ctxhttp",
+			"revision": "e0c57d8f86c17f0724497efcb3bc617e82834821",
+			"revisionTime": "2018-03-14T17:20:59Z"
+		},
+		{
+			"checksumSHA1": "EOT+855GBCb1QG0sBy2xhB3c5+A=",
+			"path": "golang.org/x/oauth2",
+			"revision": "fdc9e635145ae97e6c2cb777c48305600cf515cb",
+			"revisionTime": "2018-03-14T17:21:01Z"
+		},
+		{
+			"checksumSHA1": "SYinbTOs4JSXuw1R5RhiT+NnKNc=",
+			"path": "golang.org/x/oauth2/internal",
+			"revision": "fdc9e635145ae97e6c2cb777c48305600cf515cb",
+			"revisionTime": "2018-03-14T17:21:01Z"
+		},
+		{
+			"checksumSHA1": "NA+ebc/RfKLZ+wxPs3lRn94H3gA=",
+			"path": "google.golang.org/appengine/internal",
+			"revision": "5bee14b453b4c71be47ec1781b0fa61c2ea182db",
+			"revisionTime": "2017-12-12T22:30:47Z"
+		},
+		{
+			"checksumSHA1": "TsNO8P0xUlLNyh3Ic/tzSp/fDWM=",
+			"path": "google.golang.org/appengine/internal/base",
+			"revision": "5bee14b453b4c71be47ec1781b0fa61c2ea182db",
+			"revisionTime": "2017-12-12T22:30:47Z"
+		},
+		{
+			"checksumSHA1": "5QsV5oLGSfKZqTCVXP6NRz5T4Tw=",
+			"path": "google.golang.org/appengine/internal/datastore",
+			"revision": "5bee14b453b4c71be47ec1781b0fa61c2ea182db",
+			"revisionTime": "2017-12-12T22:30:47Z"
+		},
+		{
+			"checksumSHA1": "Gep2T9zmVYV8qZfK2gu3zrmG6QE=",
+			"path": "google.golang.org/appengine/internal/log",
+			"revision": "5bee14b453b4c71be47ec1781b0fa61c2ea182db",
+			"revisionTime": "2017-12-12T22:30:47Z"
+		},
+		{
+			"checksumSHA1": "a1XY7rz3BieOVqVI2Et6rKiwQCk=",
+			"path": "google.golang.org/appengine/internal/remote_api",
+			"revision": "5bee14b453b4c71be47ec1781b0fa61c2ea182db",
+			"revisionTime": "2017-12-12T22:30:47Z"
+		},
+		{
+			"checksumSHA1": "QtAbHtHmDzcf6vOV9eqlCpKgjiw=",
+			"path": "google.golang.org/appengine/internal/urlfetch",
+			"revision": "5bee14b453b4c71be47ec1781b0fa61c2ea182db",
+			"revisionTime": "2017-12-12T22:30:47Z"
+		},
+		{
+			"checksumSHA1": "akOV9pYnCbcPA8wJUutSQVibdyg=",
+			"path": "google.golang.org/appengine/urlfetch",
+			"revision": "5bee14b453b4c71be47ec1781b0fa61c2ea182db",
+			"revisionTime": "2017-12-12T22:30:47Z"
 		}
 	],
 	"rootPath": "github.com/tanel/wardrobe-organizer"

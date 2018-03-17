@@ -62,5 +62,5 @@ func PostSignup(request *http.Request) {
 		return
 	}
 
-	request.Redirect("/")
+	request.Redirect(startPage)
 }
