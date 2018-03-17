@@ -193,6 +193,12 @@
 			"revisionTime": "2018-03-14T17:21:01Z"
 		},
 		{
+			"checksumSHA1": "9fgYIPOCIRhAuQBg65mFoZ2vpMY=",
+			"path": "golang.org/x/oauth2/facebook",
+			"revision": "fdc9e635145ae97e6c2cb777c48305600cf515cb",
+			"revisionTime": "2018-03-14T17:21:01Z"
+		},
+		{
 			"checksumSHA1": "SYinbTOs4JSXuw1R5RhiT+NnKNc=",
 			"path": "golang.org/x/oauth2/internal",
 			"revision": "fdc9e635145ae97e6c2cb777c48305600cf515cb",
