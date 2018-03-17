@@ -19,10 +19,10 @@ func main() {
 	databaseConnection := db.Connect("wardrobe", "wardrobe")
 
 	sessionSecret := unsecureSessionSecret
-	if secret := os.Getenv("SESSION_SECRET"); secret != "" {
+	if secret := os.Getenv("WARDROBE_SESSIONSECRET"); secret != "" {
 		sessionSecret = secret
 	} else {
-		log.Println("Warning: set SESSION_SECRET")
+		log.Println("Warning: set WARDROBE_SESSIONSECRET")
 	}
 
 	sessionStore := session.New(sessionSecret, "wardrobe-session")
