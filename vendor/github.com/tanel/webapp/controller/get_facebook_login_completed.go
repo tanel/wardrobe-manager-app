@@ -90,9 +90,11 @@ func facebookUser(code string, cfg configuration.OAuth2) (*model.User, error) {
 		return nil, errors.Annotate(err, "decoding oauth2 user data failed")
 	}
 
+	name := profile["name"].(string)
+
 	var user model.User
 	user.Email = profile["email"].(string)
-	user.Name = profile["name"].(string)
+	user.Name = &name
 	if pic, isMap := profile["picture"].(map[string]interface{}); isMap {
 		if data, isMap := pic["data"].(map[string]interface{}); isMap {
 			if s, isString := data["url"].(string); isString {

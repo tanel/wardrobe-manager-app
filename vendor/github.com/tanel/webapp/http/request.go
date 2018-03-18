@@ -287,7 +287,7 @@ func (request *Request) CreateUser(email, password string) (*model.User, bool) {
 			ID:        uuid.Must(uuid.NewV4()).String(),
 			CreatedAt: time.Now(),
 		},
-		Name:         email,
+		Name:         &email,
 		Email:        email,
 		PasswordHash: &passwordHash,
 	}

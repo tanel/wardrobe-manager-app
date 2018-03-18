@@ -9,7 +9,7 @@ import (
 type User struct {
 	Base
 	Email        string
-	Name         string
+	Name         *string
 	Picture      *string
 	PasswordHash *string
 }

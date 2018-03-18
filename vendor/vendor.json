@@ -93,80 +93,80 @@
 		{
 			"checksumSHA1": "jlXSuBCe2RmRLIgNufch5YckLyk=",
 			"path": "github.com/tanel/webapp/configuration",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
-			"checksumSHA1": "G6bvTWZTmOZq0OiBGeL7lL10bL8=",
+			"checksumSHA1": "PQeToS4tx045uwFG+xhh+knCTCg=",
 			"path": "github.com/tanel/webapp/controller",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "qGK0utlcCoQ0N8mvnwffdnaD/s0=",
 			"path": "github.com/tanel/webapp/db",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "lTUnBsOjz6mVmdvFOdk5cvnHhpM=",
 			"path": "github.com/tanel/webapp/email",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "ApRi7wsIe2mG8GHLxinvWOMMcW8=",
 			"path": "github.com/tanel/webapp/form",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
-			"checksumSHA1": "yJDrFkO5vA/W1Ywh+trv+BVyp7c=",
+			"checksumSHA1": "Ll2gSSt+WKzVgvxcwfSXl2kpOHo=",
 			"path": "github.com/tanel/webapp/http",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "T2HpuZNtKbP53hyio5OQjdjYqxQ=",
 			"path": "github.com/tanel/webapp/image",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "Z29SKstaae4c/SKrzBqbJBfwrxA=",
 			"path": "github.com/tanel/webapp/middleware",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
-			"checksumSHA1": "agbQtVhkhg+eWRc1Xh9rVruNMzI=",
+			"checksumSHA1": "83/ywedoD/WNm74PUXUKTHfPJYw=",
 			"path": "github.com/tanel/webapp/model",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "XiF4TO6rCW9xKyTbN5wCLGn7FnQ=",
 			"path": "github.com/tanel/webapp/router",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "f3NbF55qNBXGPZbeEuYtX+XpmO0=",
 			"path": "github.com/tanel/webapp/session",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "gQZpNMDwiqqQCs+EMrbOmi+Hjy4=",
 			"path": "github.com/tanel/webapp/template",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "uZLqywIrMUqY9oU9+pIUwMxN9BE=",
 			"path": "github.com/tanel/webapp/ui",
-			"revision": "1c763b083cd91455f0674731da0eb12aba6c4a61",
-			"revisionTime": "2018-03-18T20:57:45Z"
+			"revision": "e3146bbb0e57ab1415b552f38312245206a2f9fe",
+			"revisionTime": "2018-03-18T21:02:04Z"
 		},
 		{
 			"checksumSHA1": "oCH3J96RWvO8W4xjix47PModpio=",
