@@ -17,6 +17,7 @@ import (
 	"github.com/tanel/webapp/model"
 	"github.com/tanel/webapp/session"
 	"github.com/tanel/webapp/template"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // Request represents a HTTP request
@@ -205,7 +206,17 @@ func (request *Request) File(name string) ([]byte, bool) {
 	return b, true
 }
 
-func (request *Request) SaveImage(b []byte, userID string) bool {
+// SaveFormImage saves image uploaded with HTML form
+func (request *Request) SaveFormImage(name, userID string) bool {
+	b, ok := request.File(name)
+	if !ok {
+		return false
+	}
+
+	if len(b) == 0 {
+		return true
+	}
+
 	img := model.Image{
 		Base: model.Base{
 			ID:        uuid.Must(uuid.NewV4()).String(),
@@ -231,4 +242,60 @@ func (request *Request) SaveImage(b []byte, userID string) bool {
 	}
 
 	return true
+}
+
+// SaveImage saves image
+func (request *Request) SaveImage(b []byte, name, userID string) bool {
+	img := model.Image{
+		Base: model.Base{
+			ID:        uuid.Must(uuid.NewV4()).String(),
+			CreatedAt: time.Now(),
+		},
+		UserID: userID,
+		Body:   b,
+	}
+	if err := db.InsertImage(request.DB, img); err != nil {
+		request.InternalServerError(errors.Annotate(err, "inserting image failed"))
+		return false
+	}
+
+	if err := img.Save(); err != nil {
+		request.InternalServerError(errors.Annotate(err, "saving upladed file to disk failed"))
+		return false
+	}
+
+	if err := image.GenerateThumbnailsForImage(img.FilePath()); err != nil {
+		request.InternalServerError(errors.Annotate(err, "getting file upload failed"))
+		return false
+
+	}
+
+	return true
+}
+
+// CreateUser creates user
+func (request *Request) CreateUser(email, password string) (*model.User, bool) {
+	b, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		request.InternalServerError(errors.Annotate(err, "hashing password failed"))
+		return nil, false
+	}
+
+	passwordHash := string(b)
+	user := model.User{
+		Base: model.Base{
+			ID:        uuid.Must(uuid.NewV4()).String(),
+			CreatedAt: time.Now(),
+		},
+		Name:         email,
+		Email:        email,
+		PasswordHash: &passwordHash,
+	}
+	if err := db.InsertUser(request.DB, user); err != nil {
+		request.InternalServerError(errors.Annotate(err, "inserting user into database failed"))
+		return nil, false
+	}
+
+	return &user, true
+
 }

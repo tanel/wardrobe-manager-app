@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/tanel/webapp/configuration"
 	"github.com/tanel/webapp/http"
 	"github.com/tanel/webapp/ui"
 )
@@ -13,8 +14,9 @@ func GetIndex(request *http.Request) {
 	}
 
 	if userID != nil {
-		request.Redirect(startPage)
-	} else {
-		request.Render("index", ui.Page{})
+		request.Redirect(configuration.LoggedInPage)
+		return
 	}
+
+	request.Render("index", ui.Page{})
 }

@@ -17,7 +17,7 @@ func InsertImage(db *sql.DB, img model.Image) error {
 		) VALUES(
 			$1,
 			$2,
-			$3,
+			$3
 		)
 	`,
 		img.ID,

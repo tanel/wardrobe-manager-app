@@ -63,7 +63,7 @@ func GetFacebookLoginCompleted(request *http.Request, cfg configuration.OAuth2) 
 		return
 	}
 
-	request.Redirect(startPage)
+	request.Redirect(configuration.LoggedInPage)
 }
 
 // private methods
