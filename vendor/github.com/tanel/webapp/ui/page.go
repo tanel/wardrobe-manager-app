@@ -24,6 +24,10 @@ func NewPageWithUserID(userID string) *Page {
 
 // NewPageWithUser returns a new page with user
 func NewPageWithUser(currentUser *model.User) *Page {
+	if currentUser == nil {
+		return &Page{}
+	}
+
 	return &Page{
 		UserID:      currentUser.ID,
 		CurrentUser: currentUser,
