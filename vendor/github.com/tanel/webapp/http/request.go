@@ -10,6 +10,7 @@ import (
 	"github.com/juju/errors"
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/webapp/db"
+	"github.com/tanel/webapp/form"
 	"github.com/tanel/webapp/model"
 	"github.com/tanel/webapp/session"
 	"github.com/tanel/webapp/template"
@@ -24,9 +25,18 @@ type Request struct {
 	ps           httprouter.Params
 }
 
+const maxUploadSize = 5 * 1024 * 1024
+
 // NewRequest returns new request instance
 func NewRequest(db *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params) (*Request, error) {
-	if err := r.ParseForm(); err != nil {
+	var err error
+	if r.Header.Get("Content-Type") == "multipart/form-data" {
+		err = r.ParseMultipartForm(maxUploadSize)
+	} else {
+		err = r.ParseForm()
+	}
+
+	if err != nil {
 		log.Println(err)
 		http.Error(w, "form error", http.StatusInternalServerError)
 		return nil, errors.Annotate(err, "parsing form failed")
@@ -179,4 +189,15 @@ func (request *Request) Write(b []byte) bool {
 	}
 
 	return true
+}
+
+// File gets uploaded file from request
+func (request *Request) File(name string) ([]byte, error) {
+	b, err := form.File(request.r, name)
+	if err != nil {
+		request.InternalServerError(errors.Annotate(err, "getting file upload failed"))
+		return nil, err
+	}
+
+	return b, nil
 }

@@ -15,7 +15,8 @@ func SelectUserByEmail(db *sql.DB, email string) (*model.User, error) {
 			id,
 			password_hash,
 			created_at,
-			picture
+			picture,
+			name
 		FROM
 			users
 		WHERE
@@ -26,6 +27,7 @@ func SelectUserByEmail(db *sql.DB, email string) (*model.User, error) {
 		&user.PasswordHash,
 		&user.CreatedAt,
 		&user.Picture,
+		&user.Name,
 	); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
@@ -45,7 +47,8 @@ func SelectUserByID(db *sql.DB, ID string) (*model.User, error) {
 			id,
 			password_hash,
 			created_at,
-			picture
+			picture,
+			name
 		FROM
 			users
 		WHERE
@@ -56,6 +59,7 @@ func SelectUserByID(db *sql.DB, ID string) (*model.User, error) {
 		&user.PasswordHash,
 		&user.CreatedAt,
 		&user.Picture,
+		&user.Name,
 	); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
@@ -75,13 +79,15 @@ func InsertUser(db *sql.DB, user model.User) error {
 			email,
 			password_hash,
 			created_at,
-			picture
+			picture,
+			name
 		) VALUES(
 			$1,
 			$2,
 			$3,
 			$4,
-			$5
+			$5,
+			$6
 		)
 	`,
 		user.ID,
@@ -89,6 +95,7 @@ func InsertUser(db *sql.DB, user model.User) error {
 		user.PasswordHash,
 		user.CreatedAt,
 		user.Picture,
+		user.Name,
 	); err != nil {
 		return errors.Annotate(err, "inserting user failed")
 	}
@@ -101,11 +108,13 @@ func UpdateUser(db *sql.DB, user model.User) error {
 	if _, err := db.Exec(`
 		UPDATE users
 		SET
-			picture = $1
+			picture = $1,
+			name = $2
 		WHERE
-			id = $2
+			id = $3
 	`,
 		user.Picture,
+		user.Name,
 		user.ID,
 	); err != nil {
 		return errors.Annotate(err, "updating user failed")
