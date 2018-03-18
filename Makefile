@@ -15,7 +15,7 @@ run: build
 	./wardrobe-organizer
 
 migration:
-	migrate -path migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" create $(name)
+	migrate -path migrations create $(name)
 
 migrate:
 	migrate -path migrations -url "postgres://wardrobe@localhost/wardrobe?sslmode=disable" up
