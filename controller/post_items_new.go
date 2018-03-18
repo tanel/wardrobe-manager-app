@@ -21,5 +21,5 @@ func PostItemsNew(request *http.Request, userID string) {
 		return
 	}
 
-	request.Redirect(frontPage)
+	request.Redirect("/items")
 }

@@ -15,6 +15,5 @@ func GetConfirmDeleteItem(request *http.Request, userID string) {
 		return
 	}
 
-	page := ui.NewItemPage(userID, *item)
-	request.Render("confirm-delete-item", page)
+	request.Render("confirm-delete-item", ui.NewItemPage(userID, *item))
 }

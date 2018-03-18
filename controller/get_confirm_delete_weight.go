@@ -15,6 +15,5 @@ func GetConfirmDeleteWeight(request *http.Request, userID string) {
 		return
 	}
 
-	page := ui.NewWeightPage(userID, *weightEntry)
-	request.Render("confirm-delete-weight", page)
+	request.Render("confirm-delete-weight", ui.NewWeightPage(userID, *weightEntry))
 }

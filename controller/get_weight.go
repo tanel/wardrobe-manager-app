@@ -15,6 +15,5 @@ func GetWeight(request *http.Request, userID string) {
 		return
 	}
 
-	page := ui.NewWeightPage(userID, *weight)
-	request.Render("weight", page)
+	request.Render("weight", ui.NewWeightPage(userID, *weight))
 }

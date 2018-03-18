@@ -8,6 +8,5 @@ import (
 
 // GetNewOutfit renders new outfit page
 func GetNewOutfit(request *http.Request, userID string) {
-	page := ui.NewOutfitPage(userID, model.Outfit{})
-	request.Render("new-outfit", page)
+	request.Render("new-outfit", ui.NewOutfitPage(userID, model.Outfit{}))
 }

@@ -10,10 +10,9 @@ import (
 func GetItemsNew(request *http.Request, userID string) {
 	category := request.QueryParamByName("category")
 
-	page := ui.NewItemPage(userID, model.Item{
+	request.Render("items-new", ui.NewItemPage(userID, model.Item{
 		Currency: "EUR",
 		Quantity: 1,
 		Category: category,
-	})
-	request.Render("items-new", page)
+	}))
 }

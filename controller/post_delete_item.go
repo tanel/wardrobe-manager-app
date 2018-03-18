@@ -13,5 +13,5 @@ func PostDeleteItem(request *http.Request, userID string) {
 		return
 	}
 
-	request.Redirect(frontPage)
+	request.Redirect("/items")
 }

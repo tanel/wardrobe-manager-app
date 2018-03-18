@@ -16,11 +16,10 @@ func GetOutfits(request *http.Request, userID string) {
 		return
 	}
 
-	page := ui.OutfitsPage{
+	request.Render("outfits", ui.OutfitsPage{
 		Page: commonui.Page{
 			UserID: userID,
 		},
 		Outfits: outfits,
-	}
-	request.Render("outfits", page)
+	})
 }

@@ -25,6 +25,5 @@ func GetOutfit(request *http.Request, userID string) {
 
 	outfit.OutfitItems = outfitItems
 
-	page := ui.NewOutfitPage(userID, *outfit)
-	request.Render("outfit", page)
+	request.Render("outfit", ui.NewOutfitPage(userID, *outfit))
 }

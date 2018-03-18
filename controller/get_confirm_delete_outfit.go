@@ -15,6 +15,5 @@ func GetConfirmDeleteOutfit(request *http.Request, userID string) {
 		return
 	}
 
-	page := ui.NewOutfitPage(userID, *outfit)
-	request.Render("confirm-delete-outfit", page)
+	request.Render("confirm-delete-outfit", ui.NewOutfitPage(userID, *outfit))
 }
