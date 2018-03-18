@@ -12,14 +12,8 @@ type OAuth2 struct {
 	RedirectURL  string
 }
 
-// New returns instance
-func New(clientID, clientSecret, redirectURL string) *OAuth2 {
-	return &OAuth2{
-		ClientID:     clientID,
-		ClientSecret: clientSecret,
-		RedirectURL:  redirectURL,
-	}
-}
+// FacebookOAuth2 specifies Facebook OAuth2 configuration
+var FacebookOAuth2 OAuth2
 
 // Facebook returns Facebook OAuth2 config
 func (cfg OAuth2) Facebook() *oauth2.Config {

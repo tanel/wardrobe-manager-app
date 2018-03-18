@@ -15,9 +15,9 @@ import (
 )
 
 // GetFacebookLoginCompleted finishes FB signup/login
-func GetFacebookLoginCompleted(request *http.Request, cfg configuration.OAuth2) {
+func GetFacebookLoginCompleted(request *http.Request) {
 	code := request.QueryParamByName("code")
-	fbUser, err := facebookUser(code, cfg)
+	fbUser, err := facebookUser(code)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "getting Facebook user failed"))
 		return
@@ -68,9 +68,8 @@ func GetFacebookLoginCompleted(request *http.Request, cfg configuration.OAuth2) 
 
 // private methods
 
-func facebookUser(code string, cfg configuration.OAuth2) (*model.User, error) {
-	// FIXME: load configuration only once
-	conf := cfg.Facebook()
+func facebookUser(code string) (*model.User, error) {
+	conf := configuration.FacebookOAuth2.Facebook()
 	ctx := context.Background()
 
 	token, err := conf.Exchange(ctx, code)

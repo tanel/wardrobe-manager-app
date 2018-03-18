@@ -13,7 +13,7 @@ import (
 
 // New returns new router instance
 func New(db *sql.DB, sessionStore *session.Store) *httprouter.Router {
-	router := router.New(db, sessionStore, nil)
+	router := router.New(db, sessionStore)
 
 	configuration.LoggedInPage = "/items"
 

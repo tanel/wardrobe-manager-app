@@ -7,8 +7,7 @@ import (
 )
 
 // GetFacebookLogin starts FB signup/login
-func GetFacebookLogin(request *http.Request, cfg configuration.OAuth2) {
-	// redirect user to Facebook
-	url := cfg.Facebook().AuthCodeURL("state", oauth2.AccessTypeOffline)
+func GetFacebookLogin(request *http.Request) {
+	url := configuration.FacebookOAuth2.Facebook().AuthCodeURL("state", oauth2.AccessTypeOffline)
 	request.Redirect(url)
 }
