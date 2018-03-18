@@ -5,6 +5,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/wardrobe-organizer/controller"
+	"github.com/tanel/webapp/configuration"
 	"github.com/tanel/webapp/middleware"
 	"github.com/tanel/webapp/router"
 	"github.com/tanel/webapp/session"
@@ -14,7 +15,7 @@ import (
 func New(db *sql.DB, sessionStore *session.Store) *httprouter.Router {
 	router := router.New(db, sessionStore, nil)
 
-	router.GET("/start", middleware.Redirect("/items"))
+	configuration.LoggedInPage = "/items"
 
 	router.GET("/items/:id", middleware.RequireUser(db, sessionStore, controller.GetItem))
 	router.POST("/items/:id", middleware.RequireUser(db, sessionStore, controller.PostItem))
