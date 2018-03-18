@@ -6,11 +6,14 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/juju/errors"
 	"github.com/julienschmidt/httprouter"
+	"github.com/satori/go.uuid"
 	"github.com/tanel/webapp/db"
 	"github.com/tanel/webapp/form"
+	"github.com/tanel/webapp/image"
 	"github.com/tanel/webapp/model"
 	"github.com/tanel/webapp/session"
 	"github.com/tanel/webapp/template"
@@ -192,12 +195,40 @@ func (request *Request) Write(b []byte) bool {
 }
 
 // File gets uploaded file from request
-func (request *Request) File(name string) ([]byte, error) {
+func (request *Request) File(name string) ([]byte, bool) {
 	b, err := form.File(request.r, name)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "getting file upload failed"))
-		return nil, err
+		return nil, false
 	}
 
-	return b, nil
+	return b, true
+}
+
+func (request *Request) SaveImage(b []byte, userID string) bool {
+	img := model.Image{
+		Base: model.Base{
+			ID:        uuid.Must(uuid.NewV4()).String(),
+			CreatedAt: time.Now(),
+		},
+		UserID: userID,
+		Body:   b,
+	}
+	if err := db.InsertImage(request.DB, img); err != nil {
+		request.InternalServerError(errors.Annotate(err, "inserting image failed"))
+		return false
+	}
+
+	if err := img.Save(); err != nil {
+		request.InternalServerError(errors.Annotate(err, "saving upladed file to disk failed"))
+		return false
+	}
+
+	if err := image.GenerateThumbnailsForImage(img.FilePath()); err != nil {
+		request.InternalServerError(errors.Annotate(err, "getting file upload failed"))
+		return false
+
+	}
+
+	return true
 }
