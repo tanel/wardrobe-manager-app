@@ -6,7 +6,10 @@ Web-based open source wardrobe organizer created while teaching Go programming.
 
 # Run locally
 
-## Database setup
+Set environment variables
+
+        export WARDROBE_SESSIONSECRET=somerandomvalue
+        export WARDROBE_PORT=8080
 
 Install PostgresSQL, for example with brew:
 
@@ -25,15 +28,7 @@ Run migrations
 
 	make migrate
 
-## Test data (optional)
-
-To add test user to database with mock data, run
-
-	make testuser
-
-It creates user "test@test.com" with password "123".
-
-## Run the app
+Run the app
 
 	make run
 
