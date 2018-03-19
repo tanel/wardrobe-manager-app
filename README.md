@@ -21,9 +21,7 @@ Create database and user:
 
 Install "migrate" package
 
-	git clone github.com/wallester/migrate
-	cd migrate
-	make install
+	go install github.com/wallester/migrate
 
 Run migrations
 
