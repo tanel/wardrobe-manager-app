@@ -4,9 +4,7 @@
 
 Web-based open source wardrobe organizer created while teaching Go programming.
 
-# How to install
-
-Start by cloning the repo. Then proceed to database setup.
+# Run locally
 
 ## Database setup
 
@@ -35,27 +33,9 @@ To add test user to database with mock data, run
 
 It creates user "test@test.com" with password "123".
 
-## Start server
+## Run the app
 
 	make run
-
-## Migrations
-
-### Create a new migration
-
-	name=my_new_migration_name make migration
-
-### Apply all migrations
-
-	make migrate
-
-### Apply only one migration
-
-	make migrate-up
-
-### Dis-apply one migration
-
-	make migrate-down
 
 # Deployment
 
@@ -63,13 +43,13 @@ It creates user "test@test.com" with password "123".
 
 Install postgresql and nginx
 
-## Create user
+## Create deployment user
 
 Create user "deploy" on server
 
 ## Create deployment folder
 
-Log into remote server and create a folder called "deploy"
+Log into remote server as user "deploy" and create a folder called "deploy"
 
 ## Configure nginx
 
@@ -125,7 +105,7 @@ Cmnd_Alias MYAPP_CMNDS = /bin/systemctl start wardrobe, /bin/systemctl stop ward
 deploy ALL=(ALL) NOPASSWD: MYAPP_CMNDS
 ```
 
-## Deploy
+## Deploy (from your local machine, not on server)
 
 Execute
 
