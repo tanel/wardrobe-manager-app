@@ -105,8 +105,8 @@ Cmnd_Alias MYAPP_CMNDS = /bin/systemctl start wardrobe, /bin/systemctl stop ward
 deploy ALL=(ALL) NOPASSWD: MYAPP_CMNDS
 ```
 
-## Deploy (from your local machine, not on server)
+## Deploy
 
-Execute
+Execute on your local machine (not on server!)
 
 	make deploy
