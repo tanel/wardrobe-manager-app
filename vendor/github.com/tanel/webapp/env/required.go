@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// Required requires an environment variable
 func Required(key string) string {
 	value := os.Getenv(key)
 	if value == "" {
