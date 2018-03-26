@@ -21,6 +21,7 @@ func main() {
 
 	r := router.New(databaseConnection, sessionStore)
 	port := env.Required("WARDROBE_PORT")
+	logFile := env.Get("WARDROBE_LOGFILE")
 
-	server.Serve(r, port)
+	server.Serve(r, port, logFile)
 }

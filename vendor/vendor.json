@@ -93,92 +93,92 @@
 		{
 			"checksumSHA1": "BNIf2CawBxvntYHIK2QrhoIYYn8=",
 			"path": "github.com/tanel/webapp/configuration",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "NsP79sEYmAzePkIRBpewbCXPw1k=",
 			"path": "github.com/tanel/webapp/controller",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "qGK0utlcCoQ0N8mvnwffdnaD/s0=",
 			"path": "github.com/tanel/webapp/db",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "LuMtLVacOTEve8M8iepgiEFYbAA=",
 			"path": "github.com/tanel/webapp/email",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
-			"checksumSHA1": "Qn2uH6Gq+xB0Aw+liRcz54MsTEw=",
+			"checksumSHA1": "i95m22UvzN8z0R5uQ4bxISgeonw=",
 			"path": "github.com/tanel/webapp/env",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "ApRi7wsIe2mG8GHLxinvWOMMcW8=",
 			"path": "github.com/tanel/webapp/form",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "8T9KDKlRI+Ed6CgW81HtabywIiE=",
 			"path": "github.com/tanel/webapp/http",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "T2HpuZNtKbP53hyio5OQjdjYqxQ=",
 			"path": "github.com/tanel/webapp/image",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "0Vi08/5M6bQoxZHAtln2PotOnLQ=",
 			"path": "github.com/tanel/webapp/middleware",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "83/ywedoD/WNm74PUXUKTHfPJYw=",
 			"path": "github.com/tanel/webapp/model",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "buSTcF8huz8TGEcP5emn+bvyAvI=",
 			"path": "github.com/tanel/webapp/router",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
-			"checksumSHA1": "0vhfRaVXQQ9+BUGjiYhKdPaROg0=",
+			"checksumSHA1": "u2nOffprXheGJRRvKeXU30vNE0U=",
 			"path": "github.com/tanel/webapp/server",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "f3NbF55qNBXGPZbeEuYtX+XpmO0=",
 			"path": "github.com/tanel/webapp/session",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "gQZpNMDwiqqQCs+EMrbOmi+Hjy4=",
 			"path": "github.com/tanel/webapp/template",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "uZLqywIrMUqY9oU9+pIUwMxN9BE=",
 			"path": "github.com/tanel/webapp/ui",
-			"revision": "d9724ebce549d339753ec99e1136cb6eae577c55",
-			"revisionTime": "2018-03-26T19:49:03Z"
+			"revision": "f25e026e6a83ea7f6dc23bd74c19465de496c427",
+			"revisionTime": "2018-03-26T19:59:14Z"
 		},
 		{
 			"checksumSHA1": "oCH3J96RWvO8W4xjix47PModpio=",
