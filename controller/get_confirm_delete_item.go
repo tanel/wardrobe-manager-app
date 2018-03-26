@@ -9,7 +9,7 @@ import (
 
 // GetConfirmDeleteItem renders item deletion confirmation page
 func GetConfirmDeleteItem(request *http.Request, userID string) {
-	item, err := db.SelectItemByID(request.DB, request.ParamByName("id"), userID)
+	item, err := db.SelectItemByID(request.ParamByName("id"), userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting item by ID failed"))
 		return

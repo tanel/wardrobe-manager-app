@@ -11,13 +11,13 @@ import (
 func GetOutfit(request *http.Request, userID string) {
 	outfitID := request.ParamByName("id")
 
-	outfit, err := db.SelectOutfitByID(request.DB, outfitID, userID)
+	outfit, err := db.SelectOutfitByID(outfitID, userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting outfit by ID failed"))
 		return
 	}
 
-	outfitItems, err := db.SelectOutfitItemsByOutfitID(request.DB, outfitID, userID)
+	outfitItems, err := db.SelectOutfitItemsByOutfitID(outfitID, userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting outfit items by outfit ID failed"))
 		return

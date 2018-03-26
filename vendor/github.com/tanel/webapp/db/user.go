@@ -8,9 +8,9 @@ import (
 )
 
 // SelectUserByEmail selects user from database by email
-func SelectUserByEmail(db *sql.DB, email string) (*model.User, error) {
+func SelectUserByEmail(email string) (*model.User, error) {
 	var user model.User
-	if err := db.QueryRow(`
+	if err := SharedInstance.QueryRow(`
 		SELECT
 			id,
 			password_hash,
@@ -40,9 +40,9 @@ func SelectUserByEmail(db *sql.DB, email string) (*model.User, error) {
 }
 
 // SelectUserByID selects user from database by ID
-func SelectUserByID(db *sql.DB, ID string) (*model.User, error) {
+func SelectUserByID(ID string) (*model.User, error) {
 	var user model.User
-	if err := db.QueryRow(`
+	if err := SharedInstance.QueryRow(`
 		SELECT
 			id,
 			password_hash,
@@ -72,8 +72,8 @@ func SelectUserByID(db *sql.DB, ID string) (*model.User, error) {
 }
 
 // InsertUser inserts user into database
-func InsertUser(db *sql.DB, user model.User) error {
-	if _, err := db.Exec(`
+func InsertUser(user model.User) error {
+	if _, err := SharedInstance.Exec(`
 		INSERT INTO users(
 			id,
 			email,
@@ -104,8 +104,8 @@ func InsertUser(db *sql.DB, user model.User) error {
 }
 
 // UpdateUser updates user in database
-func UpdateUser(db *sql.DB, user model.User) error {
-	if _, err := db.Exec(`
+func UpdateUser(user model.User) error {
+	if _, err := SharedInstance.Exec(`
 		UPDATE users
 		SET
 			picture = $1,

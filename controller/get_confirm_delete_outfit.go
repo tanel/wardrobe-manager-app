@@ -9,7 +9,7 @@ import (
 
 // GetConfirmDeleteOutfit renders outfit deletion confirmation page
 func GetConfirmDeleteOutfit(request *http.Request, userID string) {
-	outfit, err := db.SelectOutfitByID(request.DB, request.ParamByName("id"), userID)
+	outfit, err := db.SelectOutfitByID(request.ParamByName("id"), userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting outfit by ID failed"))
 		return

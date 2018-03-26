@@ -12,9 +12,6 @@ type OAuth2 struct {
 	RedirectURL  string
 }
 
-// FacebookOAuth2 specifies Facebook OAuth2 configuration
-var FacebookOAuth2 OAuth2
-
 // Facebook returns Facebook OAuth2 config
 func (cfg OAuth2) Facebook() *oauth2.Config {
 	return &oauth2.Config{

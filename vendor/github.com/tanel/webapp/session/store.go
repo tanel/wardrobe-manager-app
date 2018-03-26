@@ -6,7 +6,16 @@ import (
 
 	"github.com/gorilla/sessions"
 	"github.com/juju/errors"
+	"github.com/tanel/webapp/configuration"
 )
+
+// SharedInstance represents shared shore
+var SharedInstance *Store
+
+// Init initializes shared store
+func Init(name string) {
+	SharedInstance = New(configuration.SharedInstance.SessionSecret, name)
+}
 
 // Store wraps actual session store logic
 type Store struct {

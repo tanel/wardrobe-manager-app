@@ -24,7 +24,7 @@ func PostSignup(request *http.Request) {
 		return
 	}
 
-	user, err := db.SelectUserByEmail(request.DB, email)
+	user, err := db.SelectUserByEmail(email)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting user by email failed"))
 		return

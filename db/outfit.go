@@ -6,10 +6,11 @@ import (
 
 	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-organizer/model"
+	"github.com/tanel/webapp/db"
 )
 
 // InsertOutfit inserts an outfit into database
-func InsertOutfit(db *sql.DB, outfit model.Outfit) error {
+func InsertOutfit(outfit model.Outfit) error {
 	_, err := db.Exec(`
 		INSERT INTO outfits(
 			id,
@@ -36,7 +37,7 @@ func InsertOutfit(db *sql.DB, outfit model.Outfit) error {
 }
 
 // SelectOutfitByID selects a outfit by ID
-func SelectOutfitByID(db *sql.DB, outfitID, userID string) (*model.Outfit, error) {
+func SelectOutfitByID(outfitID, userID string) (*model.Outfit, error) {
 	var outfit model.Outfit
 	err := db.QueryRow(`
 		SELECT
@@ -67,7 +68,7 @@ func SelectOutfitByID(db *sql.DB, outfitID, userID string) (*model.Outfit, error
 }
 
 // UpdateOutfit updates an outfit in database
-func UpdateOutfit(db *sql.DB, outfit model.Outfit) error {
+func UpdateOutfit(outfit model.Outfit) error {
 	_, err := db.Exec(`
 		UPDATE
 			outfits
@@ -90,7 +91,7 @@ func UpdateOutfit(db *sql.DB, outfit model.Outfit) error {
 }
 
 // SelectOutfitsByUserID selects outfits by user ID
-func SelectOutfitsByUserID(db *sql.DB, userID string) ([]model.Outfit, error) {
+func SelectOutfitsByUserID(userID string) ([]model.Outfit, error) {
 	rows, err := db.Query(`
 		SELECT
 			id,
@@ -137,7 +138,7 @@ func SelectOutfitsByUserID(db *sql.DB, userID string) ([]model.Outfit, error) {
 }
 
 // DeleteOutfit delets an outfit in database
-func DeleteOutfit(db *sql.DB, outfitID, userID string) error {
+func DeleteOutfit(outfitID, userID string) error {
 	_, err := db.Exec(`
 		UPDATE
 			outfits

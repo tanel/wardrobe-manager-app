@@ -19,32 +19,32 @@ func GetItems(request *http.Request, userID string) {
 	var outfit *model.Outfit
 	if f.outfitID != "" {
 		var err error
-		outfit, err = db.SelectOutfitByID(request.DB, f.outfitID, userID)
+		outfit, err = db.SelectOutfitByID(f.outfitID, userID)
 		if err != nil {
 			request.InternalServerError(errors.Annotate(err, "selecting outfit by ID failed"))
 			return
 		}
 	}
 
-	itemCategories, err := db.GroupItemsByCategory(request.DB, userID, f.category, f.brand, f.color)
+	itemCategories, err := db.GroupItemsByCategory(userID, f.category, f.brand, f.color)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "grouping items by category failed"))
 		return
 	}
 
-	categories, err := db.SelectCategoriesByUserID(request.DB, userID)
+	categories, err := db.SelectCategoriesByUserID(userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting categories by user ID failed"))
 		return
 	}
 
-	brands, err := db.SelectBrandsByUserID(request.DB, userID)
+	brands, err := db.SelectBrandsByUserID(userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting brands by user ID failed"))
 		return
 	}
 
-	colors, err := db.SelectColorsByUserID(request.DB, userID)
+	colors, err := db.SelectColorsByUserID(userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting colors by user ID failed"))
 		return

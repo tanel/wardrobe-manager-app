@@ -10,7 +10,7 @@ import (
 
 // GetOutfits renders outfits page
 func GetOutfits(request *http.Request, userID string) {
-	outfits, err := db.SelectOutfitsByUserID(request.DB, userID)
+	outfits, err := db.SelectOutfitsByUserID(userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting outfits by user ID failed"))
 		return

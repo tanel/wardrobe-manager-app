@@ -8,11 +8,12 @@ import (
 	"github.com/juju/errors"
 	"github.com/satori/go.uuid"
 	"github.com/tanel/wardrobe-organizer/model"
+	"github.com/tanel/webapp/db"
 	"github.com/tanel/webapp/image"
 )
 
 // InsertItem inserts an item into database
-func InsertItem(db *sql.DB, item model.Item) error {
+func InsertItem(item model.Item) error {
 	_, err := db.Exec(`
 		INSERT INTO items(
 			id,
@@ -78,13 +79,13 @@ func InsertItem(db *sql.DB, item model.Item) error {
 }
 
 // SelectItemWithImagesByID selects item by ID, including its images
-func SelectItemWithImagesByID(db *sql.DB, itemID, userID string) (*model.Item, error) {
-	item, err := SelectItemByID(db, itemID, userID)
+func SelectItemWithImagesByID(itemID, userID string) (*model.Item, error) {
+	item, err := SelectItemByID(itemID, userID)
 	if err != nil {
 		return nil, errors.Annotate(err, "selecting item failed")
 	}
 
-	itemImages, err := SelectItemImagesByItemID(db, itemID)
+	itemImages, err := SelectItemImagesByItemID(itemID)
 	if err != nil {
 		return nil, errors.Annotate(err, "selecting item images failed")
 	}
@@ -95,7 +96,7 @@ func SelectItemWithImagesByID(db *sql.DB, itemID, userID string) (*model.Item, e
 }
 
 // SelectItemByID selects an item by ID
-func SelectItemByID(db *sql.DB, itemID, userID string) (*model.Item, error) {
+func SelectItemByID(itemID, userID string) (*model.Item, error) {
 	var description, color, size, brand, currency, category, code, url sql.NullString
 	var price sql.NullFloat64
 
@@ -165,7 +166,7 @@ func SelectItemByID(db *sql.DB, itemID, userID string) (*model.Item, error) {
 }
 
 // SelectItemsByUserID selects items by user ID and category, brand, color
-func SelectItemsByUserID(db *sql.DB, userID string, category, brand, color string) ([]model.Item, error) {
+func SelectItemsByUserID(userID string, category, brand, color string) ([]model.Item, error) {
 	rows, err := db.Query(`
 		SELECT
 			id,
@@ -274,7 +275,7 @@ func SelectItemsByUserID(db *sql.DB, userID string, category, brand, color strin
 }
 
 // UpdateItem updates item in database
-func UpdateItem(db *sql.DB, item model.Item) error {
+func UpdateItem(item model.Item) error {
 	if item.ID == "" {
 		return errors.New("item is missing ID")
 	}
@@ -324,7 +325,7 @@ func UpdateItem(db *sql.DB, item model.Item) error {
 }
 
 // DeleteItem deletes an item
-func DeleteItem(db *sql.DB, itemID, userID string) error {
+func DeleteItem(itemID, userID string) error {
 	_, err := db.Exec(`
 		UPDATE
 			items
@@ -346,7 +347,7 @@ func DeleteItem(db *sql.DB, itemID, userID string) error {
 }
 
 // SelectBrandsByUserID selects brands by user ID
-func SelectBrandsByUserID(db *sql.DB, userID string) ([]string, error) {
+func SelectBrandsByUserID(userID string) ([]string, error) {
 	rows, err := db.Query(`
 		SELECT
 			DISTINCT brand
@@ -391,7 +392,7 @@ func SelectBrandsByUserID(db *sql.DB, userID string) ([]string, error) {
 }
 
 // SelectColorsByUserID selects colors by user ID
-func SelectColorsByUserID(db *sql.DB, userID string) ([]string, error) {
+func SelectColorsByUserID(userID string) ([]string, error) {
 	rows, err := db.Query(`
 		SELECT
 			DISTINCT color
@@ -436,7 +437,7 @@ func SelectColorsByUserID(db *sql.DB, userID string) ([]string, error) {
 }
 
 // SelectCategoriesByUserID selects categories by user ID
-func SelectCategoriesByUserID(db *sql.DB, userID string) ([]string, error) {
+func SelectCategoriesByUserID(userID string) ([]string, error) {
 	rows, err := db.Query(`
 		SELECT
 			DISTINCT category
@@ -481,14 +482,14 @@ func SelectCategoriesByUserID(db *sql.DB, userID string) ([]string, error) {
 }
 
 // SaveItem saves item to database, including images
-func SaveItem(db *sql.DB, item *model.Item, userID string) error {
+func SaveItem(item *model.Item, userID string) error {
 	if item.ID == "" {
 		item.ID = uuid.Must(uuid.NewV4()).String()
-		if err := InsertItem(db, *item); err != nil {
+		if err := InsertItem(*item); err != nil {
 			return errors.Annotate(err, "inserting item failed")
 		}
 	} else {
-		if err := UpdateItem(db, *item); err != nil {
+		if err := UpdateItem(*item); err != nil {
 			return errors.Annotate(err, "updating item failed")
 		}
 	}
@@ -502,7 +503,7 @@ func SaveItem(db *sql.DB, item *model.Item, userID string) error {
 		itemImage.ItemID = item.ID
 		itemImage.CreatedAt = time.Now()
 		itemImage.UserID = userID
-		if err := InsertItemImage(db, itemImage); err != nil {
+		if err := InsertItemImage(itemImage); err != nil {
 			return errors.Annotate(err, "saving image failed")
 		}
 
@@ -519,8 +520,8 @@ func SaveItem(db *sql.DB, item *model.Item, userID string) error {
 }
 
 // GroupItemsByCategory groups items into categories
-func GroupItemsByCategory(db *sql.DB, userID string, category, brand, color string) ([]model.Category, error) {
-	items, err := SelectItemsByUserID(db, userID, category, brand, color)
+func GroupItemsByCategory(userID string, category, brand, color string) ([]model.Category, error) {
+	items, err := SelectItemsByUserID(userID, category, brand, color)
 	if err != nil {
 		return nil, errors.Annotate(err, "selecting items by user ID failed")
 	}

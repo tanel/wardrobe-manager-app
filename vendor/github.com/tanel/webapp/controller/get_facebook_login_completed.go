@@ -26,7 +26,7 @@ func GetFacebookLoginCompleted(request *http.Request) {
 	log.Println("FB login completed", fbUser)
 
 	// select user by user.Email
-	user, err := db.SelectUserByEmail(request.DB, fbUser.Email)
+	user, err := db.SelectUserByEmail(fbUser.Email)
 	if err != nil {
 		request.InternalServerError(errors.Annotatef(err, "selecting user by email failed, email=%s", fbUser.Email))
 		return
@@ -44,14 +44,14 @@ func GetFacebookLoginCompleted(request *http.Request) {
 			Name:    fbUser.Name,
 			Picture: fbUser.Picture,
 		}
-		if err := db.InsertUser(request.DB, *user); err != nil {
+		if err := db.InsertUser(*user); err != nil {
 			request.InternalServerError(errors.Annotate(err, "inserting user failed"))
 			return
 		}
 	} else {
 		// Update user data from Facebook
 		user.Picture = fbUser.Picture
-		if err := db.UpdateUser(request.DB, *user); err != nil {
+		if err := db.UpdateUser(*user); err != nil {
 			request.InternalServerError(errors.Annotate(err, "updating user failed"))
 			return
 		}
@@ -69,7 +69,7 @@ func GetFacebookLoginCompleted(request *http.Request) {
 // private methods
 
 func facebookUser(code string) (*model.User, error) {
-	conf := configuration.FacebookOAuth2.Facebook()
+	conf := configuration.SharedInstance.FacebookOAuth2.Facebook()
 	ctx := context.Background()
 
 	token, err := conf.Exchange(ctx, code)

@@ -1,15 +1,15 @@
 package db
 
 import (
-	"database/sql"
 	"log"
 
 	"github.com/juju/errors"
 	"github.com/tanel/wardrobe-organizer/model"
+	"github.com/tanel/webapp/db"
 )
 
 // InsertItemImage inserts image into database
-func InsertItemImage(db *sql.DB, itemImage model.ItemImage) error {
+func InsertItemImage(itemImage model.ItemImage) error {
 	_, err := db.Exec(`
 		INSERT INTO item_images(
 			id,
@@ -36,7 +36,7 @@ func InsertItemImage(db *sql.DB, itemImage model.ItemImage) error {
 }
 
 // SelectItemImagesByItemID selects images by item ID
-func SelectItemImagesByItemID(db *sql.DB, itemID string) ([]model.ItemImage, error) {
+func SelectItemImagesByItemID(itemID string) ([]model.ItemImage, error) {
 	rows, err := db.Query(`
 		SELECT
 			id,
@@ -83,7 +83,7 @@ func SelectItemImagesByItemID(db *sql.DB, itemID string) ([]model.ItemImage, err
 }
 
 // SelectItemImageByID selects an image by ID
-func SelectItemImageByID(db *sql.DB, itemImageID, userID string) (*model.ItemImage, error) {
+func SelectItemImageByID(itemImageID, userID string) (*model.ItemImage, error) {
 	var itemImage model.ItemImage
 	if err := db.QueryRow(`
 		SELECT
@@ -114,7 +114,7 @@ func SelectItemImageByID(db *sql.DB, itemImageID, userID string) (*model.ItemIma
 }
 
 // DeleteItemImage deletes an item in database
-func DeleteItemImage(db *sql.DB, itemImageID, userID string) error {
+func DeleteItemImage(itemImageID, userID string) error {
 	_, err := db.Exec(`
 		UPDATE
 			item_images

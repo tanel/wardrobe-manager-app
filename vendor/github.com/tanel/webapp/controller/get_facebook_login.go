@@ -8,6 +8,6 @@ import (
 
 // GetFacebookLogin starts FB signup/login
 func GetFacebookLogin(request *http.Request) {
-	url := configuration.FacebookOAuth2.Facebook().AuthCodeURL("state", oauth2.AccessTypeOffline)
+	url := configuration.SharedInstance.FacebookOAuth2.Facebook().AuthCodeURL("state", oauth2.AccessTypeOffline)
 	request.Redirect(url)
 }

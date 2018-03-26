@@ -9,7 +9,7 @@ import (
 
 // GetConfirmDeleteWeight renders weight deletion confirmation page
 func GetConfirmDeleteWeight(request *http.Request, userID string) {
-	weightEntry, err := db.SelectWeightByID(request.DB, request.ParamByName("id"), userID)
+	weightEntry, err := db.SelectWeightByID(request.ParamByName("id"), userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting weight by ID failed"))
 		return

@@ -16,7 +16,7 @@ func PostItem(request *http.Request, userID string) {
 	}
 
 	item.ID = request.ParamByName("id")
-	if err := db.SaveItem(request.DB, item, userID); err != nil {
+	if err := db.SaveItem(item, userID); err != nil {
 		request.InternalServerError(errors.Annotate(err, "saving item failed"))
 		return
 	}

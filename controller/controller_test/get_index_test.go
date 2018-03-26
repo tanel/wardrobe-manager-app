@@ -9,17 +9,15 @@ import (
 	"github.com/tanel/webapp/controller"
 	"github.com/tanel/webapp/db"
 	commonhttp "github.com/tanel/webapp/http"
-	"github.com/tanel/webapp/session"
 )
 
 func Test_GetIndex_ReturnsResponse_InCaseOfSuccess(t *testing.T) {
 	// Arrange
-	databaseConnection := db.Connect("wardrobe", "wardrobe_test")
-	sessionStore := session.New("secret", "wardrobe-test")
+	db.Init("wardrobe_test")
 	w := httptest.NewRecorder()
 	r := httptest.NewRequest("GET", "/", nil)
 	var ps httprouter.Params
-	request, err := commonhttp.NewRequest(databaseConnection, sessionStore, w, r, ps)
+	request, err := commonhttp.NewRequest(w, r, ps)
 
 	// Act
 	controller.GetIndex(request)

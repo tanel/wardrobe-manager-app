@@ -8,7 +8,7 @@ import (
 
 // PostDeleteWeight deletes a weight
 func PostDeleteWeight(request *http.Request, userID string) {
-	if err := db.DeleteWeight(request.DB, request.ParamByName("id"), userID); err != nil {
+	if err := db.DeleteWeight(request.ParamByName("id"), userID); err != nil {
 		request.InternalServerError(errors.Annotate(err, "deleting weight failed"))
 		return
 	}

@@ -8,7 +8,7 @@ import (
 
 // PostDeleteItem deletes an item
 func PostDeleteItem(request *http.Request, userID string) {
-	if err := db.DeleteItem(request.DB, request.ParamByName("id"), userID); err != nil {
+	if err := db.DeleteItem(request.ParamByName("id"), userID); err != nil {
 		request.InternalServerError(errors.Annotate(err, "deleting item failed"))
 		return
 	}

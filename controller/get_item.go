@@ -22,7 +22,7 @@ func GetItem(request *http.Request, userID string) {
 
 	itemID := request.ParamByName("id")
 
-	item, err := db.SelectItemWithImagesByID(request.DB, itemID, userID)
+	item, err := db.SelectItemWithImagesByID(itemID, userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting item with images by ID failed"))
 		return
@@ -34,7 +34,7 @@ func GetItem(request *http.Request, userID string) {
 		outfitItem.OutfitID = *outfitID
 		outfitItem.ItemID = itemID
 		outfitItem.CreatedAt = time.Now()
-		if err := db.InsertOutfitItem(request.DB, outfitItem); err != nil {
+		if err := db.InsertOutfitItem(outfitItem); err != nil {
 			request.InternalServerError(errors.Annotate(err, "inserting outfit item failed"))
 			return
 		}

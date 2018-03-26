@@ -17,7 +17,7 @@ func PostOutfit(request *http.Request, userID string) {
 
 	outfit.ID = request.ParamByName("id")
 	outfit.UserID = userID
-	if err := db.UpdateOutfit(request.DB, *outfit); err != nil {
+	if err := db.UpdateOutfit(*outfit); err != nil {
 		request.InternalServerError(errors.Annotate(err, "updating outfit in database failed"))
 		return
 	}

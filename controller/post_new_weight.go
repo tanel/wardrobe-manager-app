@@ -18,7 +18,7 @@ func PostNewWeight(request *http.Request, userID string) {
 
 	weightEntry.ID = uuid.Must(uuid.NewV4()).String()
 	weightEntry.UserID = userID
-	if err := db.InsertWeight(request.DB, *weightEntry); err != nil {
+	if err := db.InsertWeight(*weightEntry); err != nil {
 		request.InternalServerError(errors.Annotate(err, "inserting weight into database failed"))
 		return
 	}

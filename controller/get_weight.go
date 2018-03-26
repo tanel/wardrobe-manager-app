@@ -9,7 +9,7 @@ import (
 
 // GetWeight renders an item page
 func GetWeight(request *http.Request, userID string) {
-	weight, err := db.SelectWeightByID(request.DB, request.ParamByName("id"), userID)
+	weight, err := db.SelectWeightByID(request.ParamByName("id"), userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting weight by ID failed"))
 		return

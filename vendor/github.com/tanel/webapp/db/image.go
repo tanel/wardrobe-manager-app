@@ -1,15 +1,13 @@
 package db
 
 import (
-	"database/sql"
-
 	"github.com/juju/errors"
 	"github.com/tanel/webapp/model"
 )
 
 // InsertImage inserts image into database
-func InsertImage(db *sql.DB, img model.Image) error {
-	_, err := db.Exec(`
+func InsertImage(img model.Image) error {
+	_, err := SharedInstance.Exec(`
 		INSERT INTO images(
 			id,
 			user_id,

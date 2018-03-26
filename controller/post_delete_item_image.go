@@ -8,13 +8,13 @@ import (
 
 // PostDeleteItemImage deletes an image
 func PostDeleteItemImage(request *http.Request, userID string) {
-	itemImage, err := db.SelectItemImageByID(request.DB, request.ParamByName("id"), userID)
+	itemImage, err := db.SelectItemImageByID(request.ParamByName("id"), userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting item image by ID failed"))
 		return
 	}
 
-	if err := db.DeleteItemImage(request.DB, request.ParamByName("id"), userID); err != nil {
+	if err := db.DeleteItemImage(request.ParamByName("id"), userID); err != nil {
 		request.InternalServerError(errors.Annotate(err, "deleting item image failed"))
 		return
 	}

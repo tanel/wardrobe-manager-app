@@ -10,7 +10,7 @@ import (
 func GetItemImageThumbnail(request *http.Request, userID string) {
 	imageID := request.ParamByName("id")
 
-	itemImage, err := db.SelectItemImageByID(request.DB, imageID, userID)
+	itemImage, err := db.SelectItemImageByID(imageID, userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting item image by ID failed"))
 		return

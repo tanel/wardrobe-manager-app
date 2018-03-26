@@ -1,7 +1,6 @@
 package http
 
 import (
-	"database/sql"
 	"log"
 	"net/http"
 	"net/url"
@@ -22,17 +21,15 @@ import (
 
 // Request represents a HTTP request
 type Request struct {
-	DB           *sql.DB
-	sessionStore *session.Store
-	w            http.ResponseWriter
-	r            *http.Request
-	ps           httprouter.Params
+	w  http.ResponseWriter
+	r  *http.Request
+	ps httprouter.Params
 }
 
 const maxUploadSize = 5 * 1024 * 1024
 
 // NewRequest returns new request instance
-func NewRequest(db *sql.DB, sessionStore *session.Store, w http.ResponseWriter, r *http.Request, ps httprouter.Params) (*Request, error) {
+func NewRequest(w http.ResponseWriter, r *http.Request, ps httprouter.Params) (*Request, error) {
 	var err error
 	if r.Header.Get("Content-Type") == "multipart/form-data" {
 		err = r.ParseMultipartForm(maxUploadSize)
@@ -47,11 +44,9 @@ func NewRequest(db *sql.DB, sessionStore *session.Store, w http.ResponseWriter, 
 	}
 
 	return &Request{
-		DB:           db,
-		sessionStore: sessionStore,
-		w:            w,
-		r:            r,
-		ps:           ps,
+		w:  w,
+		r:  r,
+		ps: ps,
 	}, nil
 }
 
@@ -67,7 +62,7 @@ func (request *Request) R() *http.Request {
 
 // SessionValue returns value from session
 func (request *Request) SessionValue(key string) (*string, bool) {
-	value, err := request.sessionStore.Value(request.r, key)
+	value, err := session.SharedInstance.Value(request.r, key)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "getting value from session failed"))
 		return nil, false
@@ -78,7 +73,7 @@ func (request *Request) SessionValue(key string) (*string, bool) {
 
 // SetSessionValue sets value in session
 func (request *Request) SetSessionValue(key, value string) bool {
-	if err := request.sessionStore.SetValue(request.w, request.r, key, value); err != nil {
+	if err := session.SharedInstance.SetValue(request.w, request.r, key, value); err != nil {
 		request.InternalServerError(errors.Annotate(err, "setting value in session failed"))
 		return false
 	}
@@ -88,13 +83,13 @@ func (request *Request) SetSessionValue(key, value string) bool {
 
 // CurrentUser returns logged in user
 func (request *Request) CurrentUser() (*model.User, bool) {
-	userID, err := request.sessionStore.UserID(request.r)
+	userID, err := session.SharedInstance.UserID(request.r)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "getting user ID from session failed"))
 		return nil, false
 	}
 
-	user, err := db.SelectUserByID(request.DB, *userID)
+	user, err := db.SelectUserByID(*userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting user by ID failed"))
 		return nil, false
@@ -105,7 +100,7 @@ func (request *Request) CurrentUser() (*model.User, bool) {
 
 // UserID returns logged in user ID
 func (request *Request) UserID() (*string, bool) {
-	userID, err := request.sessionStore.UserID(request.r)
+	userID, err := session.SharedInstance.UserID(request.r)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "getting user ID from session failed"))
 		return nil, false
@@ -116,7 +111,7 @@ func (request *Request) UserID() (*string, bool) {
 
 // SetUserID logs user in
 func (request *Request) SetUserID(userID string) bool {
-	if err := request.sessionStore.SetUserID(request.w, request.r, userID); err != nil {
+	if err := session.SharedInstance.SetUserID(request.w, request.r, userID); err != nil {
 		request.InternalServerError(errors.Annotate(err, "setting user ID in session failed"))
 		return false
 	}
@@ -126,7 +121,7 @@ func (request *Request) SetUserID(userID string) bool {
 
 // ClearUserID logs user out
 func (request *Request) ClearUserID() bool {
-	if err := request.sessionStore.SetUserID(request.w, request.r, ""); err != nil {
+	if err := session.SharedInstance.SetUserID(request.w, request.r, ""); err != nil {
 		request.InternalServerError(errors.Annotate(err, "setting user ID in session failed"))
 		return false
 	}
@@ -225,7 +220,7 @@ func (request *Request) SaveFormImage(name, userID string) bool {
 		UserID: userID,
 		Body:   b,
 	}
-	if err := db.InsertImage(request.DB, img); err != nil {
+	if err := db.InsertImage(img); err != nil {
 		request.InternalServerError(errors.Annotate(err, "inserting image failed"))
 		return false
 	}
@@ -254,7 +249,7 @@ func (request *Request) SaveImage(b []byte, name, userID string) bool {
 		UserID: userID,
 		Body:   b,
 	}
-	if err := db.InsertImage(request.DB, img); err != nil {
+	if err := db.InsertImage(img); err != nil {
 		request.InternalServerError(errors.Annotate(err, "inserting image failed"))
 		return false
 	}
@@ -291,7 +286,7 @@ func (request *Request) CreateUser(email, password string) (*model.User, bool) {
 		Email:        email,
 		PasswordHash: &passwordHash,
 	}
-	if err := db.InsertUser(request.DB, user); err != nil {
+	if err := db.InsertUser(user); err != nil {
 		request.InternalServerError(errors.Annotate(err, "inserting user into database failed"))
 		return nil, false
 	}

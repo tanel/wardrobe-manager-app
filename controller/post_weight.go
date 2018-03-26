@@ -17,7 +17,7 @@ func PostWeight(request *http.Request, userID string) {
 
 	weightEntry.ID = request.ParamByName("id")
 	weightEntry.UserID = userID
-	if err := db.UpdateWeight(request.DB, *weightEntry); err != nil {
+	if err := db.UpdateWeight(*weightEntry); err != nil {
 		request.InternalServerError(errors.Annotate(err, "updating weight failed"))
 		return
 	}

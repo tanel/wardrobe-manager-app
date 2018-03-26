@@ -9,7 +9,7 @@ import (
 
 // GetWeightEntries renders weight entries page
 func GetWeightEntries(request *http.Request, userID string) {
-	weights, err := db.SelectWeightsByUserID(request.DB, userID)
+	weights, err := db.SelectWeightsByUserID(userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting weights by user ID failed"))
 		return

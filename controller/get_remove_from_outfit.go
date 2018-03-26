@@ -10,13 +10,13 @@ import (
 func GetRemoveFromOutfit(request *http.Request, userID string) {
 	outfitItemID := request.ParamByName("id")
 
-	outfitID, err := db.SelectOutfitIDByOutfitItemID(request.DB, outfitItemID, userID)
+	outfitID, err := db.SelectOutfitIDByOutfitItemID(outfitItemID, userID)
 	if err != nil {
 		request.InternalServerError(errors.Annotate(err, "selecting outfit ID by outfit item ID failed"))
 		return
 	}
 
-	if err := db.DeleteOutfitItem(request.DB, outfitItemID, userID); err != nil {
+	if err := db.DeleteOutfitItem(outfitItemID, userID); err != nil {
 		request.InternalServerError(errors.Annotate(err, "deleting outfit item failed"))
 		return
 	}
