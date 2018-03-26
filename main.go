@@ -1,13 +1,11 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
 	"github.com/tanel/wardrobe-organizer/router"
 	"github.com/tanel/webapp/configuration"
 	"github.com/tanel/webapp/db"
 	"github.com/tanel/webapp/env"
+	"github.com/tanel/webapp/server"
 	"github.com/tanel/webapp/session"
 )
 
@@ -22,10 +20,7 @@ func main() {
 	configuration.FacebookOAuth2.RedirectURL = env.Required("WARDROBE_REDIRECTURL")
 
 	r := router.New(databaseConnection, sessionStore)
+	port := env.Required("WARDROBE_PORT")
 
-	port := ":" + env.Required("WARDROBE_PORT")
-
-	log.Println("Server starting at http://localhost" + port)
-
-	log.Fatal(http.ListenAndServe(port, r))
+	server.Serve(r, port)
 }
