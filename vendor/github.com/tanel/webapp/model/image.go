@@ -12,8 +12,8 @@ import (
 // Image represents an image
 type Image struct {
 	Base
-	UserID string
-	Body   []byte
+	UserID string `json:"user_id"`
+	Body   []byte `json:"body"`
 }
 
 // DirectoryPath returns upload path

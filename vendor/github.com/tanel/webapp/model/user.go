@@ -8,10 +8,10 @@ import (
 // User represents user
 type User struct {
 	Base
-	Email        string
-	Name         *string
-	Picture      *string
-	PasswordHash *string
+	Email        string  `json:"email"`
+	Name         *string `json:"name,omitempty"`
+	Picture      *string `json:"picture,omitempty"`
+	PasswordHash *string `json:"-"`
 }
 
 // CheckPassword checks if password is correct

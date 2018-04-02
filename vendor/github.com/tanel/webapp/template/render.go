@@ -1,6 +1,7 @@
 package template
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 	"os"
@@ -20,6 +21,10 @@ func Render(w io.Writer, templateName string, data interface{}) error {
 	list, err := filepath.Glob(templatePath)
 	if err != nil {
 		return errors.Annotate(err, "globbing templates failed")
+	}
+
+	if len(list) == 0 {
+		return fmt.Errorf("no templates found: %s", templatePath)
 	}
 
 	funcMap := template.FuncMap{

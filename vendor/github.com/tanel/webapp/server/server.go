@@ -6,12 +6,14 @@ import (
 	"os"
 	"strings"
 
+	"github.com/juju/errors"
 	"github.com/julienschmidt/httprouter"
 	"github.com/tanel/webapp/configuration"
 	"github.com/tanel/webapp/db"
 	"github.com/tanel/webapp/session"
 )
 
+// Serve serves an app
 func Serve(name string, r *httprouter.Router) {
 	db.Init(name)
 	configuration.Init(strings.ToUpper(name))
@@ -23,7 +25,11 @@ func Serve(name string, r *httprouter.Router) {
 			log.Fatalf("error opening file: %v", err)
 		}
 
-		defer f.Close()
+		defer func() {
+			if err := f.Close(); err != nil {
+				log.Println(errors.Annotate(err, "closing log file failed"))
+			}
+		}()
 
 		log.SetOutput(f)
 	}

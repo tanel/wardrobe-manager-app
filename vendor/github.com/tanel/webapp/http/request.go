@@ -1,6 +1,8 @@
 package http
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -48,6 +50,40 @@ func NewRequest(w http.ResponseWriter, r *http.Request, ps httprouter.Params) (*
 		r:  r,
 		ps: ps,
 	}, nil
+}
+
+// Unmarshal unmarshals JSON
+func (request *Request) Unmarshal(v interface{}) bool {
+	b, err := ioutil.ReadAll(request.r.Body)
+	if err != nil {
+		log.Println(err)
+		http.Error(request.w, "reading request body failed", http.StatusInternalServerError)
+		return false
+	}
+
+	defer func() {
+		if closeErr := request.r.Body.Close(); closeErr != nil {
+			log.Println(errors.Annotate(closeErr, "closing request body failed"))
+		}
+	}()
+
+	if err := json.Unmarshal(b, v); err != nil {
+		request.BadRequest(err.Error())
+		return false
+	}
+
+	return true
+}
+
+// Marshal marshals JSON
+func (request *Request) Marshal(v interface{}) bool {
+	b, err := json.Marshal(v)
+	if err != nil {
+		request.InternalServerError(errors.Annotate(err, "marshalling JSON failed"))
+		return false
+	}
+
+	return request.Write(b)
 }
 
 // Query returns URL query
@@ -157,7 +193,7 @@ func (request *Request) BadRequest(message string) {
 
 // Unauthorized returns unauthorized
 func (request *Request) Unauthorized(message string) {
-	http.Error(request.w, "Invalid password", http.StatusUnauthorized)
+	http.Error(request.w, message, http.StatusUnauthorized)
 }
 
 // FormValue returns form value
