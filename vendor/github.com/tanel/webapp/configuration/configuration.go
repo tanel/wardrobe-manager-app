@@ -10,6 +10,7 @@ type Configuration struct {
 	FacebookOAuth2 OAuth2
 	Port           string
 	LogFile        string
+	TemplatePath   string
 }
 
 var SharedInstance *Configuration
@@ -23,7 +24,8 @@ func Init(prefix string) {
 			ClientSecret: env.Required(prefix + "_CLIENTSECRET"),
 			RedirectURL:  env.Required(prefix + "_REDIRECTURL"),
 		},
-		Port:    env.Required(prefix + "_PORT"),
-		LogFile: env.Get(prefix + "_LOGFILE"),
+		Port:         env.Required(prefix + "_PORT"),
+		LogFile:      env.Get(prefix + "_LOGFILE"),
+		TemplatePath: env.Required(prefix + "_TEMPLATEPATH"),
 	}
 }

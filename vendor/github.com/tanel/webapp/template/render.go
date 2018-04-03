@@ -4,27 +4,22 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"os"
 	"path/filepath"
 	"time"
 
 	"github.com/juju/errors"
+	"github.com/tanel/webapp/configuration"
 )
 
 // Render renders a template with given data
 func Render(w io.Writer, templateName string, data interface{}) error {
-	templatePath := os.Getenv("TEMPLATE_PATH")
-	if templatePath == "" {
-		templatePath = filepath.Join("template", "*.html")
-	}
-
-	list, err := filepath.Glob(templatePath)
+	list, err := filepath.Glob(configuration.SharedInstance.TemplatePath)
 	if err != nil {
 		return errors.Annotate(err, "globbing templates failed")
 	}
 
 	if len(list) == 0 {
-		return fmt.Errorf("no templates found: %s", templatePath)
+		return fmt.Errorf("no templates found: %s", configuration.SharedInstance.TemplatePath)
 	}
 
 	funcMap := template.FuncMap{
