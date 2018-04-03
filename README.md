@@ -10,6 +10,7 @@ Set environment variables
 
         export WARDROBE_SESSIONSECRET=somerandomvalue
         export WARDROBE_PORT=8080
+	export WARDROBE_TEMPLATEPATH=template/*.html
 
 Install PostgresSQL, for example with brew:
 
