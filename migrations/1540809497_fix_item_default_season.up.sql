@@ -1,0 +1,1 @@
+ALTER TABLE items ALTER COLUMN season SET DEFAULT 'all-year';
