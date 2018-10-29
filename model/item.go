@@ -28,6 +28,7 @@ type Item struct {
 	Starred     bool
 	Code        string
 	URL         string
+	Material    string
 
 	Images  []ItemImage
 	ImageID *string
@@ -79,6 +80,7 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	item.Code = strings.TrimSpace(r.FormValue("code"))
 	item.URL = strings.TrimSpace(r.FormValue("url"))
 	item.CreatedAt = time.Now()
+	item.Material = strings.TrimSpace(r.FormValue("material"))
 
 	if b != nil {
 		itemImage := ItemImage{
