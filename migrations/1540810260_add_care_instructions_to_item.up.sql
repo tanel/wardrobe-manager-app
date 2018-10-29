@@ -1,0 +1,1 @@
+ALTER TABLE items ADD COLUMN care_instructions TEXT;

@@ -13,22 +13,23 @@ import (
 // Item represents a wardrobe item
 type Item struct {
 	model.Base
-	UserID      string
-	Name        string
-	Description string
-	Color       string
-	Size        string
-	Brand       string
-	Price       float64
-	Currency    string
-	Category    string
-	Season      string
-	Formal      bool
-	Quantity    int
-	Starred     bool
-	Code        string
-	URL         string
-	Material    string
+	UserID           string
+	Name             string
+	Description      string
+	Color            string
+	Size             string
+	Brand            string
+	Price            float64
+	Currency         string
+	Category         string
+	Season           string
+	Formal           bool
+	Quantity         int
+	Starred          bool
+	Code             string
+	URL              string
+	Material         string
+	CareInstructions string
 
 	Images  []ItemImage
 	ImageID *string
@@ -81,6 +82,7 @@ func NewItemForm(r *http.Request) (*Item, error) {
 	item.URL = strings.TrimSpace(r.FormValue("url"))
 	item.CreatedAt = time.Now()
 	item.Material = strings.TrimSpace(r.FormValue("material"))
+	item.CareInstructions = strings.TrimSpace(r.FormValue("care_instructions"))
 
 	if b != nil {
 		itemImage := ItemImage{

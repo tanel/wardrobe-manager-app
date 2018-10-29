@@ -33,7 +33,8 @@ func InsertItem(item model.Item) error {
 			code,
 			url,
 			created_at,
-			material
+			material,
+			care_instructions
 		) VALUES(
 			$1,
 			$2,
@@ -52,7 +53,8 @@ func InsertItem(item model.Item) error {
 			$15,
 			$16,
 			$17,
-			$18
+			$18,
+			$19
 		)
 	`,
 		item.ID,
@@ -73,6 +75,7 @@ func InsertItem(item model.Item) error {
 		item.URL,
 		item.CreatedAt,
 		item.Material,
+		item.CareInstructions,
 	)
 	if err != nil {
 		return errors.Annotate(err, "inserting item failed")
@@ -100,7 +103,7 @@ func SelectItemWithImagesByID(itemID, userID string) (*model.Item, error) {
 
 // SelectItemByID selects an item by ID
 func SelectItemByID(itemID, userID string) (*model.Item, error) {
-	var description, color, size, brand, currency, category, code, url, material sql.NullString
+	var description, color, size, brand, currency, category, code, url, material, careInstructions sql.NullString
 	var price sql.NullFloat64
 
 	var item model.Item
@@ -123,7 +126,8 @@ func SelectItemByID(itemID, userID string) (*model.Item, error) {
 			code,
 			url,
 			created_at,
-			material
+			material,
+			care_instructions
 		FROM
 			items
 		WHERE
@@ -152,6 +156,7 @@ func SelectItemByID(itemID, userID string) (*model.Item, error) {
 		&url,
 		&item.CreatedAt,
 		&material,
+		&careInstructions,
 	)
 	if err != nil && err != sql.ErrNoRows {
 		return nil, errors.Annotate(err, "selecting item by ID failed")
@@ -167,6 +172,7 @@ func SelectItemByID(itemID, userID string) (*model.Item, error) {
 	item.Code = code.String
 	item.URL = url.String
 	item.Material = material.String
+	item.CareInstructions = careInstructions.String
 
 	return &item, nil
 }
@@ -205,7 +211,8 @@ func SelectItemsByUserID(userID string, category, brand, color string) ([]model.
 			starred,
 			code,
 			url,
-			material
+			material,
+			care_instructions
 		FROM
 			items
 		WHERE
@@ -238,7 +245,7 @@ func SelectItemsByUserID(userID string, category, brand, color string) ([]model.
 
 	var items []model.Item
 	for rows.Next() {
-		var description, color, size, brand, currency, category, code, url, material sql.NullString
+		var description, color, size, brand, currency, category, code, url, material, careInstructions sql.NullString
 		var price sql.NullFloat64
 
 		var item model.Item
@@ -262,6 +269,7 @@ func SelectItemsByUserID(userID string, category, brand, color string) ([]model.
 			&code,
 			&url,
 			&material,
+			&careInstructions,
 		); err != nil {
 			return nil, errors.Annotate(err, "scanning items failed")
 		}
@@ -276,6 +284,7 @@ func SelectItemsByUserID(userID string, category, brand, color string) ([]model.
 		item.Code = code.String
 		item.URL = url.String
 		item.Material = material.String
+		item.CareInstructions = careInstructions.String
 
 		items = append(items, item)
 	}
@@ -307,9 +316,10 @@ func UpdateItem(item model.Item) error {
 			starred = $12,
 			code = $13,
 			url = $14,
-			material = $15
+			material = $15,
+			care_instructions = $16
 		WHERE
-			id = $16
+			id = $17
 	`,
 		item.Name,
 		item.Description,
@@ -326,6 +336,7 @@ func UpdateItem(item model.Item) error {
 		item.Code,
 		item.URL,
 		item.Material,
+		item.CareInstructions,
 		item.ID,
 	)
 	if err != nil {
