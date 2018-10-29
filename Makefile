@@ -46,8 +46,8 @@ backup:
 
 lint: lint-go lint-js lint-css
 
-lint-go:
-	gometalinter.v2 ./... --config=.gometalinter
+lint-go: # https://github.com/golangci/golangci-lint
+	golangci-lint run
 
 lint-js:
 	jshint public/js/app.js
